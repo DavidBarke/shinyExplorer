@@ -13,6 +13,6 @@ Shiny.addCustomMessageHandler("show_contextmenu", function(message) {
      }, 1);
    });
   }
-  
+
   Shiny.renderContent($context_menu_wrapper, message.content);
 });

@@ -1,0 +1,39 @@
+.explorer-angle {
+  padding: 0 2px;
+}
+
+.explorer-text {
+  padding: 0 2px;
+  white-space: nowrap;
+}
+
+.explorer-vr {
+  display: inline-block;
+  width: 1px;
+  height: 100%;
+  background: white;
+}
+
+/*If li is hovered, span is not hovered, therefore this obscure selector*/
+.explorer-ancestor-list li:hover .explorer-vr {
+  background: rgb(153, 209, 255);
+}
+
+.explorer-ancestor-list {
+  list-style-type: none;
+  display: flex;
+  padding-left: 0;
+  overflow: auto;
+}
+
+.explorer-ancestor-list li {
+  /*Set white border so that blue border on hover does not change the size of
+  the element */
+  border: 1px solid white;
+  display: flex;
+}
+
+.explorer-ancestor-list li:hover {
+  background-color: rgb(204, 232, 255);
+  border: 1px solid rgb(153, 209, 255);
+}

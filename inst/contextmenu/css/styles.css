@@ -1,0 +1,33 @@
+.context-menu {
+  position: fixed;
+  z-index: 2000;
+  max-width: 250px;
+  width: 250px;
+  max-height: 300px;
+  overflow-y: scroll;
+  border: 1px solid #cccccc;
+  background-color: white;
+  box-sizing: border-box;
+}
+
+.context-menu hr {
+  border: 0.5px solid #cccccc;
+  margin: 3px 0;
+}
+
+.context-menu li:hover {
+  background-color: #b3b3b3;
+}
+
+.context-menu ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.context-menu-item a {
+  padding: 0 25px;
+  color: #444;
+  display: block;
+  width: 100%;
+}

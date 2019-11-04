@@ -1,41 +1,41 @@
 #' ExplorerNode
-#' 
-#' \code{\link[R6]{R6Class}} representing a node in an explorer tree which can 
-#' be traversed using the \code{explorer} module. Each node has an 
+#'
+#' \code{\link[R6]{R6Class}} representing a node in an explorer tree which can
+#' be traversed using the \code{explorer} module. Each node has an
 #' \code{\link{explorer_class}} attached representing the general behaviour of
-#' nodes with this \code{\link{explorer_class}} in the explorer. Furthermore an 
+#' nodes with this \code{\link{explorer_class}} in the explorer. Furthermore an
 #' object is attached representing the special behaviour and data associated with
 #' this particular node.
-#' 
+#'
 #' @section Methods:
 #' \describe{
-#'   \item{\code{new(id = NULL, parent = NULL, is_group_node = TRUE, 
+#'   \item{\code{new(id = NULL, parent = NULL, is_group_node = TRUE,
 #'   explorer_class = NULL, object = NULL)}}{
 #'   Initialize a new node object.
 #'     \tabular{ll}{
 #'       \code{id} \tab Unique identifier of the node. If \code{\link[base:NULL]{NULL}},
 #'       this identifier is created internally. \cr
-#'       \code{parent} \tab The parent node of this node, or 
+#'       \code{parent} \tab The parent node of this node, or
 #'       \code{\link[base:NULL]{NULL}}, if node is root node. \cr
 #'       \code{is_group_node} \tab \code{\link[base:logical]{Logical}} indicating
 #'       whether this node is a group node or not. Only group nodes can have
 #'       child nodes. \cr
-#'       \code{explorer_class} \tab Object of class \code{\link{ExplorerClass}}, 
-#'       which defines the behaviour of this node in the \code{\link{explorer}}. 
+#'       \code{explorer_class} \tab Object of class \code{\link{ExplorerClass}},
+#'       which defines the behaviour of this node in the \code{\link{explorer}}.
 #'       \cr
 #'       \code{object} \tab An arbitrary object for storing information about the
 #'       node.
 #'     }
 #'   }
-#'   \item{\code{add_child(id = NULL, is_group_node = TRUE, explorer_class = NULL, 
-#'   object = NULL, return = c("self", "child")}}{Initialize a 
+#'   \item{\code{add_child(id = NULL, is_group_node = TRUE, explorer_class = NULL,
+#'   object = NULL, return = c("self", "child")}}{Initialize a
 #'   new node object which is attached to the current node object as a child, but
 #'   only if this node is a group node.
 #'     \tabular{ll}{
 #'       \code{group_node} \tab \code{\link[base:logical]{Logical}} indicating,
 #'       whether the child node will be a group node or not. \cr
-#'       \code{explorer_class} \tab Object of class \code{\link{ExplorerClass}}, 
-#'       which defines the behaviour of the child node in the 
+#'       \code{explorer_class} \tab Object of class \code{\link{ExplorerClass}},
+#'       which defines the behaviour of the child node in the
 #'       \code{\link{explorer}}.\cr
 #'       \code{object} \tab An arbitrary object for storing information about the
 #'       child node.\cr
@@ -58,20 +58,20 @@
 #'   }
 #'   \item{\code{get_nth_child(n)}}{Get the nth child of this node object. The
 #'   first added child is returned for code{n = 1}}.
-#'   \item{\code{get_object}}{Get the object associated with this node object.
+#'   \item{\code{get_object()}}{Get the object associated with this node object.
 #'   }
 #'   \item{\code{is_group_node()}}{Returns a \code{\link[base:logical]{logical}}
 #'   indicating whether this node is a group node or not.
 #'   }
 #'   \item{\code{remove_child(id)}}{Remove the child with \code{id == id}.
 #'   }
-#'   \item{\code{set_explorer_class(explorer_class)}}{Set the 
+#'   \item{\code{set_explorer_class(explorer_class)}}{Set the
 #'   \code{\link{explorer_class}} associated with this node object.
 #'   }
 #'   \item{\code{set_object(object)}}{Set an arbitrary object associated with
 #'   this node object.}
 #' }
-#' 
+#'
 #' @name ExplorerNode
 
 
@@ -88,36 +88,37 @@ ExplorerNode <- R6::R6Class(
       } else {
         private$static$count <- private$static$count + 1
       }
-      
+
       # Store ids in static variable
       if (purrr::is_null(private$static$ids)) {
         private$static$ids <- character()
       }
-      
+
       # Handle id
       if (purrr::is_null(id)) {
         private$id <- ".__id" %_% as.character(private$static$count) %_% "__"
       } else {
         private$id <- as.character(id)
       }
+
       if (private$id %in% private$static$ids) {
         stop("ExplorerNode: id must be unique.")
       } else {
         private$static$ids <- c(private$static$ids, private$id)
       }
-      
+
       private$parent <- parent
-      
+
       private$rvs <- shiny::reactiveValues(
         children = list()
       )
-      
+
       private$.is_group_node <- is_group_node
-      
+
       private$explorer_class <- QWUtils::reactive_member(explorer_class)
-      
+
       private$object <- QWUtils::reactive_member(object)
-      
+
       # All nodes are stored in an ObjectStorage, so that they can be retrieved
       # fast by their id. Otherwise you would have to map over children and
       # their children to check if a node has an descendent with a certain id
@@ -126,93 +127,93 @@ ExplorerNode <- R6::R6Class(
           allowed_classes = "ExplorerNode"
         )
       }
-      
+
       private$static$node_storage$add_object(self)
-      
+
       invisible(self)
     },
-    
+
     add_child = function(
-      id = NULL, is_group_node = TRUE, explorer_class = NULL, object = NULL, 
+      id = NULL, is_group_node = TRUE, explorer_class = NULL, object = NULL,
       return = c("self", "child")
     ) {
       return <- match.arg(return)
-      
+
       if (!private$.is_group_node) {
         stop(
           "Error in ExplorerNode: add_child was called, but node is not a group node."
         )
       }
-      
+
       # Create new explorer node
       node <- ExplorerNode$new(
         id = id,
-        parent = self, 
-        is_group_node = is_group_node, 
-        explorer_class = explorer_class, 
+        parent = self,
+        is_group_node = is_group_node,
+        explorer_class = explorer_class,
         object = object
       )
-      
+
       # Add node to children of this node
       id <- node$get_id()
       private$rvs$children[[id]] <- node
-      
+
       if (return == "self") {
         return(self)
       }
-      
+
       if (return == "child") {
         return(node)
       }
     },
-    
+
     children = function() {
       private$rvs$children
     },
-    
+
     get_child = function(id) {
       private$rvs$children[[id]]
     },
-    
+
     get_child_ids = function() {
       names(private$rvs$children)
     },
-    
+
     get_explorer_class = function() {
       private$explorer_class()
     },
-    
+
     get_id = function() {
       private$id
     },
-    
+
     get_name = function() {
       private$id
     },
-    
+
     # Returns a node of the node tree with id = id, even parent nodes. It could be useful
     # to implement get_descendent, which checks whether this node is a descendent
     # of the current node.
     get_node = function(id) {
       private$static$node_storage$get_object(id)
     },
-    
+
     get_nth_child = function(n) {
       private$rvs$children[[n]]
     },
-    
+
     get_object = function() {
       private$object()
     },
-    
+
     get_parent_node = function() {
       private$parent
     },
-    
+
     is_group_node = function() {
       private$.is_group_node
     },
-    
+
     siblings = function() {
       if (purrr::is_null(private$parent)) {
         return(list(self))
@@ -222,15 +223,15 @@ ExplorerNode <- R6::R6Class(
         )
       }
     },
-    
+
     remove_child = function(id) {
       private$rvs$children[[id]] <- NULL
     },
-    
+
     set_explorer_class = function(explorer_class) {
       private$explorer_class(explorer_class)
     },
-    
+
     set_object = function(object) {
       private$object(object)
     }
