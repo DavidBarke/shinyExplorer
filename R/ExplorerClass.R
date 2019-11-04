@@ -1,0 +1,51 @@
+#' Explorer Class
+#' 
+#' R6Class, whose instantiations represent an  class inside the 
+#' \code{\link{explorer}} module. The following list describes the arguments
+#' of \code{ExplorerClass$new}.
+#' 
+#' @param id A \code{\link[base:character]{character}}. See 'Details' for use of
+#' the id.
+#' @param ui A list of functions with argument \code{id} returning a
+#' \code{\link{contextmenu_item}}, which is displayed if the current node of
+#' the \code{\link{explorer}} has a child node, whose object is from 
+#' \code{id = id} inside of the \code{\link{contextmenu}}. Clicking on it will 
+#' make this child node the current node.
+#' @param server Module server function. See 'Server function' for return list 
+#' elements that get handled by \code{\link{explorer}} and \code{\link{explorer_body}}.
+#' 
+#' @section Server function
+#' The following (and only these) return list elements are handled by 
+#' \code{\link{explorer}} and \code{\link{explorer_body}}:
+#' \tabular{ll}{
+#'   \code{selectable_classes_r} \tab \code{\link[shiny:reactive]{Reactive}}
+#'   returning a character vector containing the \code{id}s of \code{explorer_classes}
+#'   who can be added to the \code{explorer}, if the current \code{explorer_class}
+#'   has \code{id = id}. Returning \code{\link[base:NULL]{NULL}} results in no 
+#'   possible selection. Returning of \code{""} results in possible selection of 
+#'   all \code{explorer_classes}. If the server function does not return this
+#'   reactive, all \code{explorer_classes} are selectable. \cr
+#'   \code{icon_r} \tab \code{\link[shiny:reactive]{Reactive}} returning a
+#'   \code{\link[shiny:icon]{icon}}, which is displayed in the \code{explorer_body}.
+#' }
+#' 
+#' @export
+ExplorerClass <- R6::R6Class(
+  classname = "ExplorerClass",
+  public = list(
+    initialize = function(id, ui = list(), server) {
+      assertive.properties::assert_is_of_length(id, 1)
+      assertive.types::assert_is_list(ui)
+      assertive.types::assert_is_function(server)
+      
+      self$id <- id
+      self$ui <- ui
+      self$server <- server
+    },
+    id = character(),
+    module_id = character(),
+    server = NULL,
+    server_return = list(),
+    ui = list()
+  )
+)
