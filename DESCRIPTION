@@ -16,7 +16,10 @@ Imports:
     DT,
     tibble,
     purrr,
-    glue
+    glue,
+    QWUtils
 Suggests: 
     testthat,
     covr
+Remotes:
+    gitlab::coasdavid/QWUtils
