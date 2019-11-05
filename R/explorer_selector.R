@@ -18,7 +18,7 @@ explorer_selector_ui <- function(id) {
 #'
 #' @param input,output,session Called by \code{\link[shiny:callModule]{callModule}}.
 #' @param .values The .values list.
-#' @param .parent The parent \code{\link{Node}} object.
+#' @param .parent The parent \code{Node} object.
 #' @param .root_node_r A \code{\link[shiny:reactive]{reactive}} returning an
 #' object of class \code{\link{ExplorerNode}}.
 #' @param .group_nodes_selectable \code{\link[base:logical]{Logical}} indicating

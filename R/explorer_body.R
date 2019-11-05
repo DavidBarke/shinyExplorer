@@ -1,3 +1,4 @@
+#' @name explorer_body
 explorer_body_ui <- function(id) {
   ns <- shiny::NS(id)
 
@@ -8,6 +9,7 @@ explorer_body_ui <- function(id) {
   )
 }
 
+#' Explorer Body
 explorer_body <- function(
   input, output, session, .values, .parent, .children_r, .root_node_r,
   .explorer_rvs, .addable_explorer_classes_r, .visible_explorer_classes_r
