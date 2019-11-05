@@ -7,6 +7,14 @@
 show_contextmenu(contextmenu,
   session = shiny::getDefaultReactiveDomain())
 }
+\arguments{
+\item{contextmenu}{A \code{\link{contextmenu}}.}
+
+\item{session}{The \code{session} object passed fo function given to
+\code{shinyServer}.}
+}
 \description{
-Show Contextmenu
+This causes a contextmenu to be displayed in the client browser, and is
+typically used with \code{\link{contextmenu}}. \code{\link{use_contextmenu}}
+must be called somewhere in your UI, prior to calling this function.
 }

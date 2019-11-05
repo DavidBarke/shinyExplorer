@@ -1,3 +1,10 @@
+#' Positional Input
+#'
+#' A Shiny input behaving similarly to \code{\link[shiny]{actionButton}}. In
+#' addition to \code{input$<inputId>} you may use \code{input$<inputId>_position},
+#' which returns a list
+#'
+#' @export
 positional_input <- function(inputId, label, icon = NULL) {
   htmltools::tagList(
     htmltools::htmlDependency(

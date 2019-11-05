@@ -6,6 +6,19 @@
 \usage{
 contextmenu_item(inputId, label, icon = NULL, ...)
 }
+\arguments{
+\item{inputId}{The \code{input} slot that will be used to access the value.}
+
+\item{label}{The content of the button or link - usually a text label, but you
+could also use any other HTML, like an image.}
+
+\item{icon}{An optional \code{\link[shiny:icon]{icon}} to appear on the
+contextmenu_item.}
+
+\item{...}{Named attributes to be applied to the
+\code{\link[shiny:actionButton]{actionLink}}.}
+}
 \description{
-Contextmenu item
+A \code{\link{contextmenu}} consists of multiple \code{contextmenu_item}. These
+are in fact \code{\link[shiny:actionButton]{actionLinks}} with special styling.
 }

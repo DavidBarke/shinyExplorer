@@ -10,14 +10,7 @@ explorer_ui <- function(id) {
       src = "explorer",
       stylesheet = "css/styles.css"
     ),
-    htmltools::htmlDependency(
-      name = "contextmenu",
-      package = "shinyExplorer",
-      version = packageVersion("shinyExplorer"),
-      src = "contextmenu",
-      script = "js/contextmenu.js",
-      stylesheet = "css/styles.css"
-    ),
+    use_contextmenu(),
     # Header contains links to all ancestor nodes of the current node
     shiny::uiOutput(
       outputId = ns("header")

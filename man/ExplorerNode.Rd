@@ -9,43 +9,43 @@
 ExplorerNode
 }
 \description{
-\code{\link[R6]{R6Class}} representing a node in an explorer tree which can 
-be traversed using the \code{explorer} module. Each node has an 
+\code{\link[R6]{R6Class}} representing a node in an explorer tree which can
+be traversed using the \code{explorer} module. Each node has an
 \code{\link{explorer_class}} attached representing the general behaviour of
-nodes with this \code{\link{explorer_class}} in the explorer. Furthermore an 
+nodes with this \code{\link{explorer_class}} in the explorer. Furthermore an
 object is attached representing the special behaviour and data associated with
 this particular node.
 }
 \section{Methods}{
 
 \describe{
-  \item{\code{new(id = NULL, parent = NULL, is_group_node = TRUE, 
+  \item{\code{new(id = NULL, parent = NULL, is_group_node = TRUE,
   explorer_class = NULL, object = NULL)}}{
   Initialize a new node object.
     \tabular{ll}{
       \code{id} \tab Unique identifier of the node. If \code{\link[base:NULL]{NULL}},
       this identifier is created internally. \cr
-      \code{parent} \tab The parent node of this node, or 
+      \code{parent} \tab The parent node of this node, or
       \code{\link[base:NULL]{NULL}}, if node is root node. \cr
       \code{is_group_node} \tab \code{\link[base:logical]{Logical}} indicating
       whether this node is a group node or not. Only group nodes can have
       child nodes. \cr
-      \code{explorer_class} \tab Object of class \code{\link{ExplorerClass}}, 
-      which defines the behaviour of this node in the \code{\link{explorer}}. 
+      \code{explorer_class} \tab Object of class \code{\link{ExplorerClass}},
+      which defines the behaviour of this node in the \code{\link{explorer}}.
       \cr
       \code{object} \tab An arbitrary object for storing information about the
       node.
     }
   }
-  \item{\code{add_child(id = NULL, is_group_node = TRUE, explorer_class = NULL, 
-  object = NULL, return = c("self", "child")}}{Initialize a 
+  \item{\code{add_child(id = NULL, is_group_node = TRUE, explorer_class = NULL,
+  object = NULL, return = c("self", "child")}}{Initialize a
   new node object which is attached to the current node object as a child, but
   only if this node is a group node.
     \tabular{ll}{
       \code{group_node} \tab \code{\link[base:logical]{Logical}} indicating,
       whether the child node will be a group node or not. \cr
-      \code{explorer_class} \tab Object of class \code{\link{ExplorerClass}}, 
-      which defines the behaviour of the child node in the 
+      \code{explorer_class} \tab Object of class \code{\link{ExplorerClass}},
+      which defines the behaviour of the child node in the
       \code{\link{explorer}}.\cr
       \code{object} \tab An arbitrary object for storing information about the
       child node.\cr
@@ -68,14 +68,14 @@ this particular node.
   }
   \item{\code{get_nth_child(n)}}{Get the nth child of this node object. The
   first added child is returned for code{n = 1}}.
-  \item{\code{get_object}}{Get the object associated with this node object.
+  \item{\code{get_object()}}{Get the object associated with this node object.
   }
   \item{\code{is_group_node()}}{Returns a \code{\link[base:logical]{logical}}
   indicating whether this node is a group node or not.
   }
   \item{\code{remove_child(id)}}{Remove the child with \code{id == id}.
   }
-  \item{\code{set_explorer_class(explorer_class)}}{Set the 
+  \item{\code{set_explorer_class(explorer_class)}}{Set the
   \code{\link{explorer_class}} associated with this node object.
   }
   \item{\code{set_object(object)}}{Set an arbitrary object associated with

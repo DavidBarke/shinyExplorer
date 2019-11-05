@@ -2,10 +2,20 @@
 % Please edit documentation in R/contextmenu.R
 \name{contextmenu}
 \alias{contextmenu}
-\title{Context Menu}
+\title{Contextmenu}
 \usage{
 contextmenu(x, y, ...)
 }
+\arguments{
+\item{x, y}{\code{\link[base:integer]{Integer}}. Contextmenus upper left corner
+is displayed at (\code{x}px, \code{y}px).}
+
+\item{...}{UI elements to include in the contextmenu, typically \code{contextmenu_item}
+and \code{contextmenu_hr}.}
+}
 \description{
-Context Menu
+This creates the UI representing a contextmenu at absolute position
+(\code{x}, \code{y}). Contextmenus are typically displayed after the user
+clicked UI using the right mouse button. Contextmenus consist of
+\code{\link{contextmenu_item}} and \code{\link{contextmenu_hr}}.
 }
