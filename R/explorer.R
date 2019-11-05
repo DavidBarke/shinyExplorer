@@ -1,3 +1,7 @@
+#' @param id Module id.
+#'
+#' @name explorer
+#'
 #' @export
 explorer_ui <- function(id) {
   ns <- shiny::NS(id)

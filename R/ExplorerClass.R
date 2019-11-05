@@ -4,16 +4,6 @@
 #' \code{\link{explorer}} module. The following list describes the arguments
 #' of \code{ExplorerClass$new}.
 #'
-#' @param id A \code{\link[base:character]{character}}. See 'Details' for use of
-#' the id.
-#' @param ui A list of functions with argument \code{id} returning a
-#' \code{\link{contextmenu_item}}, which is displayed if the current node of
-#' the \code{\link{explorer}} has a child node, whose object is from
-#' \code{id = id} inside of the \code{\link{contextmenu}}. Clicking on it will
-#' make this child node the current node.
-#' @param server Module server function. See 'Server function' for return list
-#' elements that get handled by \code{\link{explorer}} and \code{\link{explorer_body}}.
-#'
 #' @section Server function:
 #' The following (and only these) return list elements are handled by
 #' \code{\link{explorer}} and \code{\link{explorer_body}}:
@@ -51,3 +41,13 @@ ExplorerClass <- R6::R6Class(
     ui = list()
   )
 )
+
+# @param id A \code{\link[base:character]{character}}. See 'Details' for use of
+# the id.
+# @param ui A list of functions with argument \code{id} returning a
+# \code{\link{contextmenu_item}}, which is displayed if the current node of
+# the \code{\link{explorer}} has a child node, whose object is from
+# \code{id = id} inside of the \code{\link{contextmenu}}. Clicking on it will
+# make this child node the current node.
+# @param server Module server function. See 'Server function' for return list
+# elements that get handled by \code{\link{explorer}} and \code{\link{explorer_body}}.

@@ -2,8 +2,11 @@
 % Please edit documentation in R/explorer_selector.R
 \name{explorer_selector}
 \alias{explorer_selector}
+\alias{explorer_selector_ui}
 \title{Explorer Selector}
 \usage{
+explorer_selector_ui(id)
+
 explorer_selector(input, output, session, .values, .parent, .root_node_r,
   .group_nodes_selectable = FALSE,
   .selectable_explorer_classes_r = shiny::reactive(character()),
@@ -11,9 +14,11 @@ explorer_selector(input, output, session, .values, .parent, .root_node_r,
   .visible_explorer_classes_r = .selectable_explorer_classes_r)
 }
 \arguments{
+\item{id}{Module id.}
+
 \item{input, output, session}{Called by \code{\link[shiny:callModule]{callModule}}.}
 
-\item{.values}{The .values list.}
+\item{.values}{The \code{.values} list.}
 
 \item{.parent}{The parent \code{Node} object.}
 
@@ -26,7 +31,7 @@ whether group nodes are selectable or not.}
 \item{.selectable_explorer_classes_r}{A \code{\link[shiny:reactive]{reactive}}
 returning a \code{\link[base:character]{character}} vector containing the ids
 of selectable explorer_classes. If \code{character()}, only group nodes are
-selectible (if \code{.group_nodes_selectable = TRUE}).}
+selectible (if \code{.group_nodes_selectable = TRUE})}
 
 \item{.addable_explorer_classes_r}{A \code{\link[shiny:reactive]{reactive}}
 returning a \code{\link[base:character]{character}} vector containing the ids
@@ -34,7 +39,7 @@ of explorer classes that are addable to the explorer.}
 
 \item{.visible_explorer_classes_r}{A \code{\link[shiny:reactive]{reactive}}
 returning a \code{\link[base:character]{character}} vector containing the ids
-of explorer classes, that are displayed to the user. Group nodes are always
+of explorer classes that are displayed to the user. Group nodes are always
 displayed.}
 }
 \description{

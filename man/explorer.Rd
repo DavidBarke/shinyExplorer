@@ -2,8 +2,11 @@
 % Please edit documentation in R/explorer.R
 \name{explorer}
 \alias{explorer}
+\alias{explorer_ui}
 \title{Explorer}
 \usage{
+explorer_ui(id)
+
 explorer(input, output, session, .values, .parent, .root_node_r,
   .group_nodes_addable = TRUE,
   .addable_explorer_classes_r = shiny::reactive(NULL),
@@ -11,6 +14,8 @@ explorer(input, output, session, .values, .parent, .root_node_r,
   .display_header = TRUE)
 }
 \arguments{
+\item{id}{Module id.}
+
 \item{input, output, session}{Called by \code{\link[shiny:callModule]{callModule}}.}
 
 \item{.values}{The \code{.values} list.}

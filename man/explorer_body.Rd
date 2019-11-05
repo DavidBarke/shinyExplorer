@@ -11,6 +11,32 @@ explorer_body(input, output, session, .values, .parent, .children_r,
   .root_node_r, .explorer_rvs, .addable_explorer_classes_r,
   .visible_explorer_classes_r)
 }
+\arguments{
+\item{id}{Module id.}
+
+\item{input, output, session}{Called by \code{\link[shiny]{callModule}}.}
+
+\item{.values}{The \code{.values} list.}
+
+\item{.parent}{The parent \code{Node} object.}
+
+\item{.children_r}{\code{\link[shiny]{reactive}} containing the child nodes of
+the current node.}
+
+\item{.root_node_r}{A \code{\link[shiny:reactive]{reactive}} returning an
+object of class \code{\link{ExplorerNode}}.}
+
+\item{.explorer_rvs}{\code{\link[shiny:reactiveValues]{ReactiveValues}}.}
+
+\item{.addable_explorer_classes_r}{A \code{\link[shiny:reactive]{reactive}}
+returning a \code{\link[base:character]{character}} vector containing the ids
+of explorer classes that are addable to the explorer.}
+
+\item{.visible_explorer_classes_r}{A \code{\link[shiny:reactive]{reactive}}
+returning a \code{\link[base:character]{character}} vector containing the ids
+of explorer classes that are displayed to the user. Group nodes are always
+displayed.}
+}
 \description{
 Explorer Body
 }

@@ -1,3 +1,5 @@
+#' @param id Module id.
+#'
 #' @name explorer_body
 explorer_body_ui <- function(id) {
   ns <- shiny::NS(id)
@@ -10,6 +12,12 @@ explorer_body_ui <- function(id) {
 }
 
 #' Explorer Body
+#'
+#' @param input,output,session Called by \code{\link[shiny]{callModule}}.
+#' @param .children_r \code{\link[shiny]{reactive}} containing the child nodes of
+#' the current node.
+#' @param .explorer_rvs \code{\link[shiny:reactiveValues]{ReactiveValues}}.
+#' @inheritParams explorer
 explorer_body <- function(
   input, output, session, .values, .parent, .children_r, .root_node_r,
   .explorer_rvs, .addable_explorer_classes_r, .visible_explorer_classes_r
@@ -151,7 +159,7 @@ explorer_body <- function(
       remove_contextmenu_item <- contextmenu_item(
         inputId = ns("remove_node"),
         label = QWUtils::label_lang(
-          de = "Löschen",
+          de = "Loeschen",
           en = "Delete"
         )
       )
@@ -205,13 +213,13 @@ explorer_body <- function(
   shiny::observeEvent(input$remove_node, {
     shiny::showModal(shiny::modalDialog(
       title = QWUtils::label_lang(
-        de = "Sind Sie sicher, dass Sie das gewählte Element entfernen möchten?",
+        de = "Sind Sie sicher, dass Sie das gewaehlte Element entfernen moechten?",
         en = "Are you sure you want to remove the selected item?"
       ),
       footer = QWUtils::actionButtonQW(
         inputId = ns("confirm_remove"),
         label = QWUtils::label_lang(
-          de = "Bestätigen",
+          de = "Bestaetigen",
           en = "Confirm"
         )
       )

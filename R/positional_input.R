@@ -4,6 +4,10 @@
 #' addition to \code{input$<inputId>} you may use \code{input$<inputId>_position},
 #' which returns a list
 #'
+#' @param label The contents of the positional input - usually a text label, but you could also use any other HTML, like
+#' an image.
+#' @inheritParams shiny::actionLink
+#'
 #' @export
 positional_input <- function(inputId, label, icon = NULL) {
   htmltools::tagList(

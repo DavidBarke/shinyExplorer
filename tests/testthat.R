@@ -1,4 +1,4 @@
 library(testthat)
 library(shinyExplorer)
 
-test_check("shinyExplorer")
+#test_check("shinyExplorer")

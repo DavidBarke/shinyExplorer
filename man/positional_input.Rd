@@ -6,6 +6,14 @@
 \usage{
 positional_input(inputId, label, icon = NULL)
 }
+\arguments{
+\item{inputId}{The \code{input} slot that will be used to access the value.}
+
+\item{label}{The contents of the positional input - usually a text label, but you could also use any other HTML, like
+an image.}
+
+\item{icon}{An optional \code{\link[=icon]{icon()}} to appear on the button.}
+}
 \description{
 A Shiny input behaving similarly to \code{\link[shiny]{actionButton}}. In
 addition to \code{input$<inputId>} you may use \code{input$<inputId>_position},

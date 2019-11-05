@@ -93,5 +93,5 @@ datatable_callback <- function(inputId) {
       return( false );
     }})
   ")
-  JS(code)
+  DT::JS(code)
 }

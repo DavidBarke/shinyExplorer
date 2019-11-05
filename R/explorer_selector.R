@@ -1,3 +1,7 @@
+#' @param id Module id.
+#'
+#' @name explorer_selector
+#'
 #' @export
 explorer_selector_ui <- function(id) {
   ns <- shiny::NS(id)
@@ -17,23 +21,13 @@ explorer_selector_ui <- function(id) {
 #' Use the \code{\link{explorer}} module to select a node.
 #'
 #' @param input,output,session Called by \code{\link[shiny:callModule]{callModule}}.
-#' @param .values The .values list.
-#' @param .parent The parent \code{Node} object.
-#' @param .root_node_r A \code{\link[shiny:reactive]{reactive}} returning an
-#' object of class \code{\link{ExplorerNode}}.
 #' @param .group_nodes_selectable \code{\link[base:logical]{Logical}} indicating
 #' whether group nodes are selectable or not.
 #' @param .selectable_explorer_classes_r A \code{\link[shiny:reactive]{reactive}}
 #' returning a \code{\link[base:character]{character}} vector containing the ids
 #' of selectable explorer_classes. If \code{character()}, only group nodes are
-#' selectible (if \code{.group_nodes_selectable = TRUE}).
-#' @param .addable_explorer_classes_r A \code{\link[shiny:reactive]{reactive}}
-#' returning a \code{\link[base:character]{character}} vector containing the ids
-#' of explorer classes that are addable to the explorer.
-#' @param .visible_explorer_classes_r A \code{\link[shiny:reactive]{reactive}}
-#' returning a \code{\link[base:character]{character}} vector containing the ids
-#' of explorer classes, that are displayed to the user. Group nodes are always
-#' displayed.
+#' selectible (if \code{.group_nodes_selectable = TRUE})
+#' @inheritParams explorer
 #'
 #' @export
 explorer_selector <- function(
@@ -88,12 +82,12 @@ explorer_selector <- function(
   output$caption <- shiny::renderUI({
     if (purrr::is_null(rvs$selected_node)) {
       text <- QWUtils::label_lang(
-        de = "Wähle ein Element",
+        de = "Waehle ein Element",
         en = "Select element"
       )
     } else {
       text <- QWUtils::label_lang(
-        de = "Ausgewähltes Element",
+        de = "Ausgewaehltes Element",
         en = "Selected element"
       )
     }
@@ -105,7 +99,7 @@ explorer_selector <- function(
         label = NULL,
         icon = shiny::icon("search"),
         tooltip = QWUtils::label_lang(
-          de = "Element auswählen",
+          de = "Element auswaehlen",
           en = "Select element"
         )
       )
@@ -217,7 +211,7 @@ explorer_selector <- function(
         QWUtils::actionButtonQW(
           inputId = ns("confirm_selection"),
           label = QWUtils::label_lang(
-            de = "Auswahl bestätigen",
+            de = "Auswahl bestaetigen",
             en = "Confirm selection"
           )
         )
