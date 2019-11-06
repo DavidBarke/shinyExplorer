@@ -8,7 +8,7 @@ contextmenu(x, y, ...)
 }
 \arguments{
 \item{x, y}{\code{\link[base:integer]{Integer}}. Contextmenus upper left corner
-is displayed at (\code{x}px, \code{y}px).}
+is displayed at (\code{x} px, \code{y} px).}
 
 \item{...}{UI elements to include in the contextmenu, typically \code{contextmenu_item}
 and \code{contextmenu_hr}.}

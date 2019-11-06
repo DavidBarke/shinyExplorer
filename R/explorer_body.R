@@ -1,3 +1,4 @@
+#' @name explorer_body
 explorer_body_ui <- function(id) {
   ns <- shiny::NS(id)
 
@@ -8,6 +9,29 @@ explorer_body_ui <- function(id) {
   )
 }
 
+#' Explorer Body
+#'
+#' You usually don't want to call this module explicity.
+#'
+#' Shiny module called by \code{\link{explorer}} representing a
+#' \code{\link[DT]{datatable}} displaying the elements of the node tree with
+#' root node \code{.root_node_r()}.
+#'
+#' @param input,output,session Called by \code{\link[shiny]{callModule}}.
+#' @inheritParams explorer
+#' @param .explorer_rvs An object of class \code{\link[shiny]{reactiveValues}}.
+#' See 'Details' for list of needed elements.
+#'
+#' @details
+#' \code{.explorer_rvs} must provide the following elements:
+#' \tabular{ll}{
+#'   \code{current_node} \tab \code{\link{ExplorerNode}}, which is currently
+#'   selected in \code{\link{explorer}}. \cr
+#'   \code{contextmenued_node} \tab \code{\link{ExplorerNode}}, which has been
+#'   last contextmenued. \cr
+#'   \code{module_ids} \tab \code{\link[base:list]{List}} with one entry per
+#'   unique explorer class.
+#' }
 explorer_body <- function(
   input, output, session, .values, .parent, .children_r, .root_node_r,
   .explorer_rvs, .addable_explorer_classes_r, .visible_explorer_classes_r
