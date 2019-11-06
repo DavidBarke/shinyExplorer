@@ -40,8 +40,6 @@ explorer_selector <- function(
 
   ns <- session$ns
 
-  self <- QWUtils::Node$new(ns("node_name"), .parent, session)
-
   rvs <- shiny::reactiveValues(
     selected_node = NULL
   )
@@ -81,15 +79,9 @@ explorer_selector <- function(
 
   output$caption <- shiny::renderUI({
     if (purrr::is_null(rvs$selected_node)) {
-      text <- QWUtils::label_lang(
-        de = "Waehle ein Element",
-        en = "Select element"
-      )
+      text <- .label_list$select_element
     } else {
-      text <- QWUtils::label_lang(
-        de = "Ausgewaehltes Element",
-        en = "Selected element"
-      )
+      text <- .label_list$selected_element
     }
 
     ui <- htmltools::tagList(
@@ -98,10 +90,7 @@ explorer_selector <- function(
         inputId = ns("select_node"),
         label = NULL,
         icon = shiny::icon("search"),
-        tooltip = QWUtils::label_lang(
-          de = "Element auswaehlen",
-          en = "Select element"
-        )
+        tooltip = .label_list$select_element
       )
     )
   })
@@ -208,12 +197,9 @@ explorer_selector <- function(
   output$footer <- shiny::renderUI({
     if (is_selectable_r()) {
       ui <- htmltools::tagList(
-        QWUtils::actionButtonQW(
+        shiny::actionButton(
           inputId = ns("confirm_selection"),
-          label = QWUtils::label_lang(
-            de = "Auswahl bestaetigen",
-            en = "Confirm selection"
-          )
+          label = .label_list$confirm_selection
         )
       )
     } else {

@@ -4,6 +4,23 @@
 #' \code{\link{explorer}} module. The following list describes the arguments
 #' of \code{ExplorerClass$new}.
 #'
+#' @section Methods:
+#' \describe{
+#'   \item{\code{new(id, ui, server)}}{Create a new object of class \code{ExplorerClass}.
+#'     \tabular{ll}{
+#'       \code{id} \tab \cr Unique id.
+#'       \code{ui} \tab \cr A list of functions with argument \code{id} returning a
+#'          \code{\link{contextmenu_item}}, which is displayed if the current node of
+#'          the \code{\link{explorer}} has a child node, whose object is from
+#'          \code{id = id} inside of the \code{\link{contextmenu}}. Clicking on it will
+#'          make this child node the current node. \cr
+#'        \code{server} \tab Module server function. See 'Server function' for return list
+#'          elements that get handled by \code{\link{explorer}} and \code{\link{explorer_body}}.
+#'          \cr
+#'     }
+#'   }
+#' }
+#'
 #' @section Server function:
 #' The following (and only these) return list elements are handled by
 #' \code{\link{explorer}} and \code{\link{explorer_body}}:
@@ -25,10 +42,8 @@
 ExplorerClass <- R6::R6Class(
   classname = "ExplorerClass",
   public = list(
-    initialize = function(id, ui = list(), server) {
-      assertive.properties::assert_is_of_length(id, 1)
-      assertive.types::assert_is_list(ui)
-      assertive.types::assert_is_function(server)
+    initialize = function(id, ui, server) {
+      stopifnot(length(id) == 1, purrr::is_list(ui), purrr::is_function(server))
 
       self$id <- id
       self$ui <- ui
@@ -41,13 +56,3 @@ ExplorerClass <- R6::R6Class(
     ui = list()
   )
 )
-
-# @param id A \code{\link[base:character]{character}}. See 'Details' for use of
-# the id.
-# @param ui A list of functions with argument \code{id} returning a
-# \code{\link{contextmenu_item}}, which is displayed if the current node of
-# the \code{\link{explorer}} has a child node, whose object is from
-# \code{id = id} inside of the \code{\link{contextmenu}}. Clicking on it will
-# make this child node the current node.
-# @param server Module server function. See 'Server function' for return list
-# elements that get handled by \code{\link{explorer}} and \code{\link{explorer_body}}.

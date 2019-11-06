@@ -1,39 +1,28 @@
-group_node_specific_contextmenu_items_ui <- function(id) {
+group_node_specific_contextmenu_items_ui <- function(id, .label_list = label_group_node()) {
   ns <- shiny::NS(id)
 
   htmltools::tagList(
     contextmenu_item(
       inputId = ns("open"),
-      label = QWUtils::label_lang(
-        de = "Oeffnen",
-        en = "Open"
-      )
+      label = .label_list$open
     ),
     contextmenu_item(
       inputId = ns("rename"),
-      label = QWUtils::label_lang(
-        de = "Umbenennen",
-        en = "Rename"
-      )
+      label = .label_list$rename
     )
   )
 }
 
 group_node <- function(
-  input, output, session, .values, .parent, .explorer_rvs
+  input, output, session, .values, .explorer_rvs, .label_list = label_group_node()
 ) {
 
   ns <- session$ns
 
-  self <- QWUtils::Node$new(ns("group_node"), .parent, session)
-
   shiny::observeEvent(input$rename, {
     shiny::showModal(shiny::modalDialog(
       easyClose = TRUE,
-      title = QWUtils::label_lang(
-        de = "Umbenennen",
-        en = "Rename"
-      ),
+      title = .label_list$rename,
       shiny::textInput(
         inputId = ns("new_name"),
         label = NULL,
@@ -50,12 +39,9 @@ group_node <- function(
     if (length(input$new_name) == 0 || nchar(input$new_name) == 0) {
       ui <- NULL
     } else {
-      ui <- QWUtils::actionButtonQW(
+      ui <- shiny::actionButton(
         inputId = ns("confirm_rename"),
-        label = QWUtils::label_lang(
-          de = "Umbenennen",
-          en = "Rename"
-        )
+        label = .label_list$confirm_rename
       )
     }
 

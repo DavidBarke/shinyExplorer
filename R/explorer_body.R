@@ -149,7 +149,8 @@ explorer_body <- function(
     } else if (node$is_group_node()) {
       # Display group specific contextmenu_items
       class_specific_contextmenu_items <- group_node_specific_contextmenu_items_ui(
-        id = ns("id_group_node")
+        id = ns("id_group_node"),
+        .label_list = .label_list$label_group_node
       )
     } else {
       explorer_class <- node$get_explorer_class()
@@ -264,8 +265,8 @@ explorer_body <- function(
     module = group_node,
     id = "id_group_node",
     .values = .values,
-    .parent = self,
-    .explorer_rvs = .explorer_rvs
+    .explorer_rvs = .explorer_rvs,
+    .label_list = .label_list$label_group_node
   )
 
   return_list <- list(

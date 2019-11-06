@@ -32,7 +32,6 @@ explorer_ui <- function(id) {
 #' kinds and invoking actions on them.
 #'
 #' @param input,output,session Called by \code{\link[shiny:callModule]{callModule}}.
-#' @param .parent This argument might be used in the future.
 #' @param .root_node_r A \code{\link[shiny:reactive]{reactive}} returning an
 #' object of class \code{\link{ExplorerNode}}.
 #' @param .explorer_classes A \code{\link[base]{list}} of objects of class
@@ -144,7 +143,8 @@ explorer <- function(
     .explorer_classes = .explorer_classes,
     .explorer_rvs = rvs,
     .addable_explorer_classes_r = .addable_explorer_classes_r,
-    .visible_explorer_classes_r = .visible_explorer_classes_r
+    .visible_explorer_classes_r = .visible_explorer_classes_r,
+    .label_list = .label_list
   )
 
   return_list <- list(

@@ -16,7 +16,7 @@ get_ancestor_node <- function(node, generation) {
   # If generation equals NULL, while loop will be skipped
   while(generation > 0) {
     generation <- generation - 1
-    node <- QWUtils::fallback(node$get_parent_node(), NULL)
+    node <- node$get_parent_node()
   }
 
   node
