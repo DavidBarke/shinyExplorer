@@ -32,10 +32,11 @@ explorer_ui <- function(id) {
 #' kinds and invoking actions on them.
 #'
 #' @param input,output,session Called by \code{\link[shiny:callModule]{callModule}}.
-#' @param .values The \code{.values} list.
-#' @param .parent The parent \code{Node} object.
+#' @param .parent This argument might be used in the future.
 #' @param .root_node_r A \code{\link[shiny:reactive]{reactive}} returning an
 #' object of class \code{\link{ExplorerNode}}.
+#' @param .explorer_classes A \code{\link[base]{list}} of objects of class
+#' \code{\link{ExplorerClass}}.
 #' @param .group_nodes_addable \code{\link[base:logical]{Logical}} indicating
 #' whether group nodes are addable or not.
 #' @param .addable_explorer_classes_r A \code{\link[shiny:reactive]{reactive}}
@@ -47,23 +48,24 @@ explorer_ui <- function(id) {
 #' displayed.
 #' @param .display_header If \code{\link[base:logical]{TRUE}}, the navigation
 #' header is displayed, otherwise it is not.
+#' @param .label_list A \code{\link[base]{list}} created with \code{\link{label_explorer}}
+#' containing labels for all buttons used inside the explorer module.
 #'
 #' @export
 explorer <- function(
-  input, output, session, .values, .parent, .root_node_r,
+  input, output, session, .root_node_r, .explorer_classes,
   .group_nodes_addable = TRUE, .addable_explorer_classes_r = shiny::reactive(NULL),
-  .visible_explorer_classes_r = shiny::reactive(NULL), .display_header = TRUE
+  .visible_explorer_classes_r = shiny::reactive(NULL), .display_header = TRUE,
+  .label_list = label_explorer()
 ) {
 
   ns <- session$ns
-
-  self <- QWUtils::Node$new(ns("explorer"), .parent, session)
 
   rvs <- shiny::reactiveValues(
     current_node = NULL,
     contextmenued_node = NULL,
     # named character vector storing the ids of the server functions of all
-    # explorer classes in .values$explorer_classes
+    # explorer classes in .explorer_classes
     module_ids = character()
   )
 
@@ -92,7 +94,7 @@ explorer <- function(
 
   # HANDLE EXPLORER CLASSES ----------------------------------------------------
 
-  purrr::walk(.values$explorer_classes, function(explorer_class) {
+  purrr::walk(.explorer_classes, function(explorer_class) {
     # Call explorer_classes' server functions and store their return list in the
     # explorer_class as well as the namespaced module id, so that the UI functions
     # may be called in nested modules
@@ -102,7 +104,6 @@ explorer <- function(
       module = explorer_class$server,
       id = module_id,
       .values = .values,
-      .parent = self,
       .explorer_rvs = rvs,
       # Call server function with reference to own explorer class, so that inside
       # of the server function an element with this explorer class can be added
@@ -130,7 +131,6 @@ explorer <- function(
     module = explorer_header,
     id = "id_explorer_header",
     .values = .values,
-    .parent = self,
     .explorer_rvs = rvs,
     .root_node_r = .root_node_r
   )
@@ -139,9 +139,9 @@ explorer <- function(
     module = explorer_body,
     id = "id_explorer_body",
     .values = .values,
-    .parent = self,
     .children_r = children_r,
     .root_node_r = .root_node_r,
+    .explorer_classes = .explorer_classes,
     .explorer_rvs = rvs,
     .addable_explorer_classes_r = .addable_explorer_classes_r,
     .visible_explorer_classes_r = .visible_explorer_classes_r

@@ -13,11 +13,14 @@ explorer_body_ui <- function(id) {
 
 #' Explorer Body
 #'
+#' You usually don't want to call this module explicitly.
+#'
 #' @param input,output,session Called by \code{\link[shiny]{callModule}}.
 #' @param .children_r \code{\link[shiny]{reactive}} containing the child nodes of
 #' the current node.
 #' @param .explorer_rvs \code{\link[shiny:reactiveValues]{ReactiveValues}}.
 #' @inheritParams explorer
+#'
 #' @details#' \code{.explorer_rvs} must provide the following elements:
 #' \tabular{ll}{
 #'   \code{current_node} \tab \code{\link{ExplorerNode}}, which is currently
@@ -28,13 +31,12 @@ explorer_body_ui <- function(id) {
 #'   unique explorer class.
 #' }
 explorer_body <- function(
-  input, output, session, .values, .parent, .children_r, .root_node_r,
-  .explorer_rvs, .addable_explorer_classes_r, .visible_explorer_classes_r
+  input, output, session, .values, .children_r, .root_node_r, .explorer_classes,
+  .explorer_rvs, .addable_explorer_classes_r, .visible_explorer_classes_r,
+  .label_list
 ) {
 
   ns <- session$ns
-
-  self <- QWUtils::Node$new(ns("explorer_body"), .parent, session)
 
   rvs <- shiny::reactiveValues(
     show_contextmenu = FALSE,
@@ -90,10 +92,7 @@ explorer_body <- function(
       name = name_col
     )
 
-    names(data) <- QWUtils::label_lang(
-      de = c("id", "", "Name"),
-      en = c("id", "", "Name")
-    )
+    names(data) <- c("id", "", "Name")
 
     data
   })
@@ -167,26 +166,20 @@ explorer_body <- function(
     } else {
       remove_contextmenu_item <- contextmenu_item(
         inputId = ns("remove_node"),
-        label = QWUtils::label_lang(
-          de = "Loeschen",
-          en = "Delete"
-        )
+        label = .label_list$delete_node
       )
     }
 
     add_group_contextmenu_item <- contextmenu_item(
       inputId = ns("add_group"),
-      label = QWUtils::label_lang(
-        de = "Neue Gruppe",
-        en = "New group"
-      ),
+      label = .label_list$add_group,
       icon = shiny::icon("folder")
     )
 
     add_explorer_class_contextmenu_items <- purrr::map(
       .addable_explorer_classes_r(),
       function(explorer_class_id) {
-        explorer_class <- .values$explorer_classes[[explorer_class_id]]
+        explorer_class <- .explorer_classes[[explorer_class_id]]
         explorer_class$ui$contextmenu_item_ui(
           id = .explorer_rvs$module_ids[explorer_class$id]
         )
@@ -211,26 +204,17 @@ explorer_body <- function(
       is_group_node = TRUE,
       explorer_class = NULL,
       object = GroupObject$new(
-        name = QWUtils::label_lang(
-          de = "Neue Gruppe",
-          en = "New group"
-        )
+        name = .label_list$new_group_name
       )
     )
   })
 
   shiny::observeEvent(input$remove_node, {
     shiny::showModal(shiny::modalDialog(
-      title = QWUtils::label_lang(
-        de = "Sind Sie sicher, dass Sie das gewaehlte Element entfernen moechten?",
-        en = "Are you sure you want to remove the selected item?"
-      ),
-      footer = QWUtils::actionButtonQW(
+      title = .label_list$confirm_delete,
+      footer = shiny::actionButton(
         inputId = ns("confirm_remove"),
-        label = QWUtils::label_lang(
-          de = "Bestaetigen",
-          en = "Confirm"
-        )
+        label = .label_list$confirm_delete
       )
     ))
   })

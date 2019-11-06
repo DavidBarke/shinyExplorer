@@ -9,12 +9,10 @@ explorer_header_ui <- function(id) {
 }
 
 explorer_header <- function(
-  input, output, session, .values, .parent, .explorer_rvs, .root_node_r
+  input, output, session, .values, .explorer_rvs, .root_node_r
 ) {
 
   ns <- session$ns
-
-  self <- QWUtils::Node$new(ns("explorer_header"), .parent, session)
 
   rvs <- shiny::reactiveValues(
     ancestor_counter = -1,
