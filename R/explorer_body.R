@@ -1,3 +1,5 @@
+#' @param id Module id.
+#'
 #' @name explorer_body
 explorer_body_ui <- function(id) {
   ns <- shiny::NS(id)
@@ -11,19 +13,12 @@ explorer_body_ui <- function(id) {
 
 #' Explorer Body
 #'
-#' You usually don't want to call this module explicity.
-#'
-#' Shiny module called by \code{\link{explorer}} representing a
-#' \code{\link[DT]{datatable}} displaying the elements of the node tree with
-#' root node \code{.root_node_r()}.
-#'
 #' @param input,output,session Called by \code{\link[shiny]{callModule}}.
+#' @param .children_r \code{\link[shiny]{reactive}} containing the child nodes of
+#' the current node.
+#' @param .explorer_rvs \code{\link[shiny:reactiveValues]{ReactiveValues}}.
 #' @inheritParams explorer
-#' @param .explorer_rvs An object of class \code{\link[shiny]{reactiveValues}}.
-#' See 'Details' for list of needed elements.
-#'
-#' @details
-#' \code{.explorer_rvs} must provide the following elements:
+#' @details#' \code{.explorer_rvs} must provide the following elements:
 #' \tabular{ll}{
 #'   \code{current_node} \tab \code{\link{ExplorerNode}}, which is currently
 #'   selected in \code{\link{explorer}}. \cr
@@ -173,7 +168,7 @@ explorer_body <- function(
       remove_contextmenu_item <- contextmenu_item(
         inputId = ns("remove_node"),
         label = QWUtils::label_lang(
-          de = "Löschen",
+          de = "Loeschen",
           en = "Delete"
         )
       )
@@ -227,13 +222,13 @@ explorer_body <- function(
   shiny::observeEvent(input$remove_node, {
     shiny::showModal(shiny::modalDialog(
       title = QWUtils::label_lang(
-        de = "Sind Sie sicher, dass Sie das gewählte Element entfernen möchten?",
+        de = "Sind Sie sicher, dass Sie das gewaehlte Element entfernen moechten?",
         en = "Are you sure you want to remove the selected item?"
       ),
       footer = QWUtils::actionButtonQW(
         inputId = ns("confirm_remove"),
         label = QWUtils::label_lang(
-          de = "Bestätigen",
+          de = "Bestaetigen",
           en = "Confirm"
         )
       )

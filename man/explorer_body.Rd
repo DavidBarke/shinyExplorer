@@ -12,19 +12,21 @@ explorer_body(input, output, session, .values, .parent, .children_r,
   .visible_explorer_classes_r)
 }
 \arguments{
-\item{id}{The module's id.}
+\item{id}{Module id.}
 
 \item{input, output, session}{Called by \code{\link[shiny]{callModule}}.}
 
 \item{.values}{The \code{.values} list.}
 
-\item{.parent}{The parent \code{\link{Node}} object.}
+\item{.parent}{The parent \code{Node} object.}
+
+\item{.children_r}{\code{\link[shiny]{reactive}} containing the child nodes of
+the current node.}
 
 \item{.root_node_r}{A \code{\link[shiny:reactive]{reactive}} returning an
 object of class \code{\link{ExplorerNode}}.}
 
-\item{.explorer_rvs}{An object of class \code{\link[shiny]{reactiveValues}}.
-See 'Details' for list of needed elements.}
+\item{.explorer_rvs}{\code{\link[shiny:reactiveValues]{ReactiveValues}}.}
 
 \item{.addable_explorer_classes_r}{A \code{\link[shiny:reactive]{reactive}}
 returning a \code{\link[base:character]{character}} vector containing the ids
@@ -36,15 +38,10 @@ of explorer classes that are displayed to the user. Group nodes are always
 displayed.}
 }
 \description{
-You usually don't want to call this module explicity.
+Explorer Body
 }
 \details{
-Shiny module called by \code{\link{explorer}} representing a
-\code{\link[DT]{datatable}} displaying the elements of the node tree with
-root node \code{.root_node_r()}.
-
-
-\code{.explorer_rvs} must provide the following elements:
+#' \code{.explorer_rvs} must provide the following elements:
 \tabular{ll}{
   \code{current_node} \tab \code{\link{ExplorerNode}}, which is currently
   selected in \code{\link{explorer}}. \cr

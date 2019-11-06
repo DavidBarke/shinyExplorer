@@ -7,6 +7,6 @@
 contextmenu_hr()
 }
 \description{
-This is just a wrapper for \code{\link[htmltools:hr]{htmltools::hr}}. Use
+This is just a wrapper for \code{\link[htmltools:builder]{htmltools::hr}}. Use
 horizontal rules to structure a \code{\link{contextmenu}}.
 }

@@ -8,19 +8,6 @@
 \usage{
 ExplorerClass
 }
-\arguments{
-\item{id}{A \code{\link[base:character]{character}}. See 'Details' for use of
-the id.}
-
-\item{ui}{A list of functions with argument \code{id} returning a
-\code{\link{contextmenu_item}}, which is displayed if the current node of
-the \code{\link{explorer}} has a child node, whose object is from
-\code{id = id} inside of the \code{\link{contextmenu}}. Clicking on it will
-make this child node the current node.}
-
-\item{server}{Module server function. See 'Server function' for return list
-elements that get handled by \code{\link{explorer}} and \code{\link{explorer_body}}.}
-}
 \description{
 R6Class, whose instantiations represent an  class inside the
 \code{\link{explorer}} module. The following list describes the arguments

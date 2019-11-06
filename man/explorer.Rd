@@ -20,7 +20,7 @@ explorer(input, output, session, .values, .parent, .root_node_r,
 
 \item{.values}{The \code{.values} list.}
 
-\item{.parent}{The parent \code{\link{Node}} object.}
+\item{.parent}{The parent \code{Node} object.}
 
 \item{.root_node_r}{A \code{\link[shiny:reactive]{reactive}} returning an
 object of class \code{\link{ExplorerNode}}.}

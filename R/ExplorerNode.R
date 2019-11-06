@@ -2,8 +2,8 @@
 #'
 #' \code{\link[R6]{R6Class}} representing a node in an explorer tree which can
 #' be traversed using the \code{explorer} module. Each node has an
-#' \code{\link{explorer_class}} attached representing the general behaviour of
-#' nodes with this \code{\link{explorer_class}} in the explorer. Furthermore an
+#' \code{explorer_class} attached representing the general behaviour of
+#' nodes with this \code{explorer_class} in the explorer. Furthermore an
 #' object is attached representing the special behaviour and data associated with
 #' this particular node.
 #'
@@ -51,7 +51,7 @@
 #'   \item{\code{get_child_ids()}}{Get the ids of all child nodes of this
 #'   node object.
 #'   }
-#'   \item{\code{get_explorer_class()}}{Get the \code{\link{explorer_class}}
+#'   \item{\code{get_explorer_class()}}{Get the \code{explorer_class}
 #'   associated with this node object.
 #'   }
 #'   \item{\code{get_id()}}{Get the id of the node object.
@@ -66,7 +66,7 @@
 #'   \item{\code{remove_child(id)}}{Remove the child with \code{id == id}.
 #'   }
 #'   \item{\code{set_explorer_class(explorer_class)}}{Set the
-#'   \code{\link{explorer_class}} associated with this node object.
+#'   \code{explorer_class} associated with this node object.
 #'   }
 #'   \item{\code{set_object(object)}}{Set an arbitrary object associated with
 #'   this node object.}
