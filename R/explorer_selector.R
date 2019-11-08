@@ -224,7 +224,8 @@ explorer_selector <- function(
     .root_node_r = .root_node_r,
     .explorer_classes = .explorer_classes,
     .addable_explorer_classes_r = .addable_explorer_classes_r,
-    .visible_explorer_classes_r = .visible_explorer_classes_r
+    .visible_explorer_classes_r = .visible_explorer_classes_r,
+    .label_list = .label_list$explorer_label
   )
 
   return_list <- list(

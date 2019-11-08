@@ -268,7 +268,7 @@ explorer_body <- function(
     id = "id_group_node",
     .values = .values,
     .explorer_rvs = .explorer_rvs,
-    .label_list = .label_list$label_group_node
+    .label_list = .label_list$group_node_label
   )
 
   return_list <- list(
