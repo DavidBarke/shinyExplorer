@@ -18,7 +18,7 @@
 #'   }
 #' }
 #'
-#' @section UI list
+#' @section UI list:
 #' The argument \code{ui} receives a named list of ui functions - these are
 #' functions taking at least an argument \code{id} and returning pseudo-HTML.
 #' The following names are handled by \code{\link{explorer}}:
@@ -29,7 +29,7 @@
 #'   contextmenu_item usually adds a new node of this explorer class as a child
 #'   node to the contextmenued node. \cr
 #'   \code{specific_contextmenu_items_ui} \tab Function returning a
-#'   \code{\link[htmltools]{tagList}} of \code{\link[contextmenu_item]{contextmenu_items}}.
+#'   \code{\link[htmltools]{tagList}} of \code{\link[shinyExplorer:contextmenu_item]{contextmenu_items}}.
 #'   These contextmenu items are part of the contextmenu which is displayed upon
 #'   contextmenuing a node of this explorer class.
 #' }
@@ -52,7 +52,8 @@
 #' }
 #'
 #' @name ExplorerClass
-#'
+NULL
+
 #' @export
 ExplorerClass <- R6::R6Class(
   classname = "ExplorerClass",

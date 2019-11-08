@@ -27,7 +27,7 @@ The explorer tree consists of nodes. Every explorer tree starts with a root node
 Because `ExplorerNode` is an R6-Class we must call `ExplorerNode$new()` to instantiate 
 a new node:
 
-```{r}
+```{r, eval=FALSE}
 tree <- ExplorerNode$new(
   id = "root",
   parent = NULL,

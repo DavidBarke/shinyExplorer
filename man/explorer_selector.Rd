@@ -22,7 +22,8 @@ explorer_selector(input, output, session, .values, .root_node_r,
 \item{.values}{The \code{.values} list.}
 
 \item{.root_node_r}{A \code{\link[shiny:reactive]{reactive}} returning an
-object of class \code{\link{ExplorerNode}}.}
+object of class \code{\link{ExplorerNode}}. This needs not necessarily to be the
+root node of an object of class \code{\link{ExplorerTree}}.}
 
 \item{.explorer_classes}{A \code{\link[base]{list}} of objects of class
 \code{\link{ExplorerClass}}.}

@@ -36,7 +36,8 @@ explorer_ui <- function(id) {
 #' @param input,output,session Called by \code{\link[shiny:callModule]{callModule}}.
 #' @param .values The \code{.values} list.
 #' @param .root_node_r A \code{\link[shiny:reactive]{reactive}} returning an
-#' object of class \code{\link{ExplorerNode}}.
+#' object of class \code{\link{ExplorerNode}}. This needs not necessarily to be the
+#' root node of an object of class \code{\link{ExplorerTree}}.
 #' @param .explorer_classes A \code{\link[base]{list}} of objects of class
 #' \code{\link{ExplorerClass}}.
 #' @param .group_nodes_addable \code{\link[base:logical]{Logical}} indicating
