@@ -184,7 +184,7 @@ ExplorerNode <- R6::R6Class(
     },
 
     get_explorer_class = function() {
-      private$explorer_class()
+      private$explorer_class
     },
 
     get_id = function() {
@@ -207,7 +207,7 @@ ExplorerNode <- R6::R6Class(
     },
 
     get_object = function() {
-      private$object()
+      private$object
     },
 
     get_parent_node = function() {
