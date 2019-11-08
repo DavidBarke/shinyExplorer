@@ -55,7 +55,7 @@ ExplorerTree <- R6::R6Class(
 
       private$node_storage$add_object(private$root)
 
-      return(private$root)
+      return(self)
     },
 
     get_id = function() {

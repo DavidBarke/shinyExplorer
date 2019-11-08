@@ -9,7 +9,7 @@
 #'
 #' @section Important:
 #' You usually don't want to call explicitly \code{ExplorerNode$new}.
-#' Instead you should create a new explorer tree with \code{link{ExplorerTree}},
+#' Instead you should create a new explorer tree with \code{\link{ExplorerTree}},
 #' take its root node with \code{root <- explorer_tree$get_root_node()} and
 #' afterwards call \code{root$add_child()}.
 #'
@@ -65,7 +65,8 @@
 #'   \item{\code{get_id()}}{Get the id of the node object.
 #'   }
 #'   \item{\code{get_nth_child(n)}}{Get the nth child of this node object. The
-#'   first added child is returned for code{n = 1}}.
+#'   first added child is returned for code{n = 1}.
+#'   }
 #'   \item{\code{get_object()}}{Get the object associated with this node object.
 #'   }
 #'   \item{\code{is_group_node()}}{Returns a \code{\link[base:logical]{logical}}
