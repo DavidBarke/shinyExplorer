@@ -7,9 +7,9 @@
 \usage{
 explorer_body_ui(id)
 
-explorer_body(input, output, session, .values, .parent, .children_r,
-  .root_node_r, .explorer_rvs, .addable_explorer_classes_r,
-  .visible_explorer_classes_r)
+explorer_body(input, output, session, .values, .children_r, .root_node_r,
+  .explorer_classes, .explorer_rvs, .addable_explorer_classes_r,
+  .visible_explorer_classes_r, .label_list)
 }
 \arguments{
 \item{id}{Module id.}
@@ -18,13 +18,14 @@ explorer_body(input, output, session, .values, .parent, .children_r,
 
 \item{.values}{The \code{.values} list.}
 
-\item{.parent}{The parent \code{Node} object.}
-
 \item{.children_r}{\code{\link[shiny]{reactive}} containing the child nodes of
 the current node.}
 
 \item{.root_node_r}{A \code{\link[shiny:reactive]{reactive}} returning an
 object of class \code{\link{ExplorerNode}}.}
+
+\item{.explorer_classes}{A \code{\link[base]{list}} of objects of class
+\code{\link{ExplorerClass}}.}
 
 \item{.explorer_rvs}{\code{\link[shiny:reactiveValues]{ReactiveValues}}.}
 
@@ -36,9 +37,12 @@ of explorer classes that are addable to the explorer.}
 returning a \code{\link[base:character]{character}} vector containing the ids
 of explorer classes that are displayed to the user. Group nodes are always
 displayed.}
+
+\item{.label_list}{A \code{\link[base]{list}} created with \code{\link{label_explorer}}
+containing labels for all buttons used inside the explorer module.}
 }
 \description{
-Explorer Body
+You usually don't want to call this module explicitly.
 }
 \details{
 #' \code{.explorer_rvs} must provide the following elements:

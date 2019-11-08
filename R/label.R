@@ -1,5 +1,6 @@
 #' Create Labels for Explorer
 #'
+#' @param label_group_node Output of \code{\link{label_group_node}}.
 #' @param add_group,ask_delete,confirm_delete,delete_node \code{\link[base:character]{Character}}
 #' string that will appear on the corresponding labels.
 #'
@@ -24,7 +25,8 @@ label_explorer <- function(
 #'
 #' @param label_explorer Output of \code{\link{label_explorer}}. \code{\link{explorer}} is used
 #' internally by \code{explorer_selector}.
-#' @param \code{\link[base:character]{Character}} string, that will appear on the corresponding
+#' @param confirm_selection,select_element,selected_element
+#' \code{\link[base:character]{Character}} string, that will appear on the corresponding
 #' labels.
 #'
 #' @export
@@ -45,7 +47,8 @@ label_explorer_selector <- function(
 
 #' Create Labels for Group Node Explorer Class
 #'
-#'
+#' @param confirm_rename,open,rename \code{\link[base:character]{Character}}
+#' string that will appear on the corresponding labels.
 label_group_node <- function(
   confirm_rename = "Rename",
   open = "Open",

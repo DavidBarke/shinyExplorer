@@ -14,7 +14,7 @@ positional_input <- function(inputId, label, icon = NULL) {
     htmltools::htmlDependency(
       name = "positionalInput",
       package = "shinyExplorer",
-      version = packageVersion("shinyExplorer"),
+      version = utils::packageVersion("shinyExplorer"),
       src = "positionalInput",
       script = "js/positionalInput.js",
       stylesheet = "css/styles.css"

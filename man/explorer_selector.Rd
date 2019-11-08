@@ -7,11 +7,12 @@
 \usage{
 explorer_selector_ui(id)
 
-explorer_selector(input, output, session, .values, .parent, .root_node_r,
+explorer_selector(input, output, session, .values, .root_node_r,
   .group_nodes_selectable = FALSE,
   .selectable_explorer_classes_r = shiny::reactive(character()),
   .addable_explorer_classes_r = .selectable_explorer_classes_r,
-  .visible_explorer_classes_r = .selectable_explorer_classes_r)
+  .visible_explorer_classes_r = .selectable_explorer_classes_r,
+  .label_list = label_explorer_selector())
 }
 \arguments{
 \item{id}{Module id.}
@@ -19,8 +20,6 @@ explorer_selector(input, output, session, .values, .parent, .root_node_r,
 \item{input, output, session}{Called by \code{\link[shiny:callModule]{callModule}}.}
 
 \item{.values}{The \code{.values} list.}
-
-\item{.parent}{The parent \code{Node} object.}
 
 \item{.root_node_r}{A \code{\link[shiny:reactive]{reactive}} returning an
 object of class \code{\link{ExplorerNode}}.}
@@ -41,6 +40,9 @@ of explorer classes that are addable to the explorer.}
 returning a \code{\link[base:character]{character}} vector containing the ids
 of explorer classes that are displayed to the user. Group nodes are always
 displayed.}
+
+\item{.label_list}{A \code{\link[base]{list}} created with \code{\link{label_explorer}}
+containing labels for all buttons used inside the explorer module.}
 }
 \description{
 Use the \code{\link{explorer}} module to select a node.

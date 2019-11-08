@@ -45,3 +45,7 @@ get_node_distance <- function(node, ancestor_node) {
 
   distance
 }
+
+`%_%` <- function(x, y) {
+  paste0(x, "_", y)
+}

@@ -7,11 +7,11 @@
 \usage{
 explorer_ui(id)
 
-explorer(input, output, session, .values, .parent, .root_node_r,
+explorer(input, output, session, .values, .root_node_r, .explorer_classes,
   .group_nodes_addable = TRUE,
   .addable_explorer_classes_r = shiny::reactive(NULL),
   .visible_explorer_classes_r = shiny::reactive(NULL),
-  .display_header = TRUE)
+  .display_header = TRUE, .label_list = label_explorer())
 }
 \arguments{
 \item{id}{The module's id.}
@@ -20,10 +20,11 @@ explorer(input, output, session, .values, .parent, .root_node_r,
 
 \item{.values}{The \code{.values} list.}
 
-\item{.parent}{The parent \code{Node} object.}
-
 \item{.root_node_r}{A \code{\link[shiny:reactive]{reactive}} returning an
 object of class \code{\link{ExplorerNode}}.}
+
+\item{.explorer_classes}{A \code{\link[base]{list}} of objects of class
+\code{\link{ExplorerClass}}.}
 
 \item{.group_nodes_addable}{\code{\link[base:logical]{Logical}} indicating
 whether group nodes are addable or not.}
@@ -39,6 +40,9 @@ displayed.}
 
 \item{.display_header}{If \code{\link[base:logical]{TRUE}}, the navigation
 header is displayed, otherwise it is not.}
+
+\item{.label_list}{A \code{\link[base]{list}} created with \code{\link{label_explorer}}
+containing labels for all buttons used inside the explorer module.}
 }
 \description{
 Shiny module representing an explorer usable for selecting elements of different

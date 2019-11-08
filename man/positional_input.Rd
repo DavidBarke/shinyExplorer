@@ -12,7 +12,7 @@ positional_input(inputId, label, icon = NULL)
 \item{label}{The contents of the positional input - usually a text label, but you could also use any other HTML, like
 an image.}
 
-\item{icon}{An optional \code{\link[=icon]{icon()}} to appear on the button.}
+\item{icon}{An optional \code{\link{icon}} to appear on the button.}
 }
 \description{
 A Shiny input behaving similarly to \code{\link[shiny]{actionButton}}. In

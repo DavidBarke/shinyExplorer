@@ -30,6 +30,8 @@ explorer_body_ui <- function(id) {
 #'   \code{module_ids} \tab \code{\link[base:list]{List}} with one entry per
 #'   unique explorer class.
 #' }
+#'
+#' @importFrom stats runif
 explorer_body <- function(
   input, output, session, .values, .children_r, .root_node_r, .explorer_classes,
   .explorer_rvs, .addable_explorer_classes_r, .visible_explorer_classes_r,
@@ -228,9 +230,9 @@ explorer_body <- function(
   })
 
   shiny::observeEvent(input$selector_table_row_dblclicked, {
-    req(length(input$selector_table_row_dblclicked) > 0)
+    shiny::req(length(input$selector_table_row_dblclicked) > 0)
     # If "No data available in table", nothing shall happen
-    id <- req(input$selector_table_row_dblclicked$data[[1]])
+    id <- shiny::req(input$selector_table_row_dblclicked$data[[1]])
 
     # Only group nodes can have children
     if (.root_node_r()$get_node(id)$is_group_node()) {
@@ -239,15 +241,15 @@ explorer_body <- function(
         node = .explorer_rvs$current_node$get_child(id),
         # Also trigger, if data[[1]] did not change (same row is dblclicked twice
         # in a row)
-        rnd = runif(1)
+        rnd = stats::runif(1)
       )
     }
   })
 
   shiny::observeEvent(group_node_return$open_group_r(), {
-    req(length(input$selector_table_row_contextmenued) > 0)
+    shiny::req(length(input$selector_table_row_contextmenued) > 0)
     # If "No data available in table", nothing shall happen
-    id <- req(input$selector_table_row_contextmenued$data[[1]])
+    id <- shiny::req(input$selector_table_row_contextmenued$data[[1]])
 
     # Only group nodes can have children
     if (.root_node_r()$get_node(id)$is_group_node()) {
@@ -274,7 +276,7 @@ explorer_body <- function(
       rvs$node_open
     }),
     selected_node_r = shiny::reactive({
-      row_index <- req(input$selector_table_cell_clicked$row)
+      row_index <- shiny::req(input$selector_table_cell_clicked$row)
 
       id <- selector_table_r()[row_index, 1, drop = TRUE]
 

@@ -25,7 +25,7 @@ use_contextmenu <- function() {
   htmltools::htmlDependency(
     name = "contextmenu",
     package = "shinyExplorer",
-    version = packageVersion("shinyExplorer"),
+    version = utils::packageVersion("shinyExplorer"),
     src = "contextmenu",
     script = "js/contextmenu.js",
     stylesheet = "css/styles.css"

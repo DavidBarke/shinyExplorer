@@ -31,11 +31,12 @@ explorer_selector_ui <- function(id) {
 #'
 #' @export
 explorer_selector <- function(
-  input, output, session, .values, .parent, .root_node_r,
+  input, output, session, .values, .root_node_r,
   .group_nodes_selectable = FALSE,
   .selectable_explorer_classes_r = shiny::reactive(character()),
   .addable_explorer_classes_r = .selectable_explorer_classes_r,
-  .visible_explorer_classes_r = .selectable_explorer_classes_r
+  .visible_explorer_classes_r = .selectable_explorer_classes_r,
+  .label_list = label_explorer_selector()
 ) {
 
   ns <- session$ns
@@ -48,7 +49,7 @@ explorer_selector <- function(
 
   selected_node_datatable <- shiny::reactive({
     if (purrr::is_null(rvs$selected_node)) {
-      data <- tibble(id = character(), icon = character(), name = character())
+      data <- tibble::tibble(id = character(), icon = character(), name = character())
       names(data) <- c("id", "", "Name")
       return(data)
     }
@@ -220,7 +221,6 @@ explorer_selector <- function(
     module = explorer,
     id = "id_explorer",
     .values = .values,
-    .parent = self,
     .root_node_r = .root_node_r,
     .addable_explorer_classes_r = .addable_explorer_classes_r,
     .visible_explorer_classes_r = .visible_explorer_classes_r

@@ -13,6 +13,25 @@ R6Class, whose instantiations represent an  class inside the
 \code{\link{explorer}} module. The following list describes the arguments
 of \code{ExplorerClass$new}.
 }
+\section{Methods}{
+
+\describe{
+  \item{\code{new(id, ui, server)}}{Create a new object of class \code{ExplorerClass}.
+    \tabular{ll}{
+      \code{id} \tab \cr Unique id.
+      \code{ui} \tab \cr A list of functions with argument \code{id} returning a
+         \code{\link{contextmenu_item}}, which is displayed if the current node of
+         the \code{\link{explorer}} has a child node, whose object is from
+         \code{id = id} inside of the \code{\link{contextmenu}}. Clicking on it will
+         make this child node the current node. \cr
+       \code{server} \tab Module server function. See 'Server function' for return list
+         elements that get handled by \code{\link{explorer}} and \code{\link{explorer_body}}.
+         \cr
+    }
+  }
+}
+}
+
 \section{Server function}{
 
 The following (and only these) return list elements are handled by

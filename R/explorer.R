@@ -2,6 +2,8 @@
 #'
 #' @param id The module's id.
 #'
+#' @importFrom utils packageVersion
+#'
 #' @export
 explorer_ui <- function(id) {
   ns <- shiny::NS(id)
@@ -10,7 +12,7 @@ explorer_ui <- function(id) {
     htmltools::htmlDependency(
       name = "explorer",
       package = "shinyExplorer",
-      version = packageVersion("shinyExplorer"),
+      version = utils::packageVersion("shinyExplorer"),
       src = "explorer",
       stylesheet = "css/styles.css"
     ),
@@ -32,6 +34,7 @@ explorer_ui <- function(id) {
 #' kinds and invoking actions on them.
 #'
 #' @param input,output,session Called by \code{\link[shiny:callModule]{callModule}}.
+#' @param .values The \code{.values} list.
 #' @param .root_node_r A \code{\link[shiny:reactive]{reactive}} returning an
 #' object of class \code{\link{ExplorerNode}}.
 #' @param .explorer_classes A \code{\link[base]{list}} of objects of class
@@ -52,7 +55,7 @@ explorer_ui <- function(id) {
 #'
 #' @export
 explorer <- function(
-  input, output, session, .root_node_r, .explorer_classes,
+  input, output, session, .values, .root_node_r, .explorer_classes,
   .group_nodes_addable = TRUE, .addable_explorer_classes_r = shiny::reactive(NULL),
   .visible_explorer_classes_r = shiny::reactive(NULL), .display_header = TRUE,
   .label_list = label_explorer()

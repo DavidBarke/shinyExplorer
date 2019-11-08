@@ -50,7 +50,7 @@ explorer_header <- function(
         })
 
         shiny::observeEvent(input[["siblings_link" %_% i]], {
-          req(input[["siblings_link" %_% i]] > 0)
+          shiny::req(input[["siblings_link" %_% i]] > 0)
 
           node <- get_ancestor_node(.explorer_rvs$current_node, i)
 
