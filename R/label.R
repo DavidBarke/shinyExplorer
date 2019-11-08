@@ -1,7 +1,8 @@
 #' Create Labels for Explorer
 #'
 #' @param label_group_node Output of \code{\link{label_group_node}}.
-#' @param add_group,ask_delete,confirm_delete,delete_node \code{\link[base:character]{Character}}
+#' @param add_group,ask_delete,confirm_delete,delete_node,new_group_name
+#' \code{\link[base:character]{Character}}
 #' string that will appear on the corresponding labels.
 #'
 #' @export
@@ -10,14 +11,16 @@ label_explorer <- function(
   add_group = "New group",
   ask_delete = "Are you sure you want to delete the selected item?",
   confirm_delete = "Confirm",
-  delete_node = "Delete"
+  delete_node = "Delete",
+  new_group_name = "Neue Gruppe"
 ) {
   list(
     label_group_node = label_group_node,
     add_group = add_group,
     ask_delete = ask_delete,
     confirm_delete = confirm_delete,
-    delete_node = delete_node
+    delete_node = delete_node,
+    new_group_name = new_group_name
   )
 }
 
@@ -49,6 +52,8 @@ label_explorer_selector <- function(
 #'
 #' @param confirm_rename,open,rename \code{\link[base:character]{Character}}
 #' string that will appear on the corresponding labels.
+#'
+#' @export
 label_group_node <- function(
   confirm_rename = "Rename",
   open = "Open",

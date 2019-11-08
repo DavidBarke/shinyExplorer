@@ -31,7 +31,7 @@ explorer_selector_ui <- function(id) {
 #'
 #' @export
 explorer_selector <- function(
-  input, output, session, .values, .root_node_r,
+  input, output, session, .values, .root_node_r, .explorer_classes,
   .group_nodes_selectable = FALSE,
   .selectable_explorer_classes_r = shiny::reactive(character()),
   .addable_explorer_classes_r = .selectable_explorer_classes_r,
@@ -222,6 +222,7 @@ explorer_selector <- function(
     id = "id_explorer",
     .values = .values,
     .root_node_r = .root_node_r,
+    .explorer_classes = .explorer_classes,
     .addable_explorer_classes_r = .addable_explorer_classes_r,
     .visible_explorer_classes_r = .visible_explorer_classes_r
   )
