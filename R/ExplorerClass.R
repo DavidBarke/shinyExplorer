@@ -1,25 +1,40 @@
 #' Explorer Class
 #'
-#' R6Class, whose instantiations represent an  class inside the
-#' \code{\link{explorer}} module. The following list describes the arguments
-#' of \code{ExplorerClass$new}.
+#' \code{\link[R6]{R6Class}}, whose instantiations represent individual behaviour
+#' of a specific group of elements inside the \code{\link{explorer}} module. For
+#' creating your own explorer class see the explorer class vignette:
+#' \code{vignette("explorer_class", package = "shinyExplorer")}.
 #'
 #' @section Methods:
 #' \describe{
 #'   \item{\code{new(id, ui, server)}}{Create a new object of class \code{ExplorerClass}.
 #'     \tabular{ll}{
 #'       \code{id} \tab \cr Unique id.
-#'       \code{ui} \tab \cr A list of functions with argument \code{id} returning a
-#'          \code{\link{contextmenu_item}}, which is displayed if the current node of
-#'          the \code{\link{explorer}} has a child node, whose object is from
-#'          \code{id = id} inside of the \code{\link{contextmenu}}. Clicking on it will
-#'          make this child node the current node. \cr
+#'       \code{ui} \tab \cr A list of UI functions. See 'UI list' for details. \cr
 #'        \code{server} \tab Module server function. See 'Server function' for return list
 #'          elements that get handled by \code{\link{explorer}} and \code{\link{explorer_body}}.
 #'          \cr
 #'     }
 #'   }
 #' }
+#'
+#' @section UI list
+#' The argument \code{ui} receives a named list of ui functions - these are
+#' functions taking at least an argument \code{id} and returning pseudo-HTML.
+#' The following names are handled by \code{\link{explorer}}:
+#' \tabular{ll}{
+#'   \code{contextmenu_item_ui} \tab Function returning a \code{\link{contextmenu_item}},
+#'   which is displayed in the contextmenu, if this explorer_class is addable
+#'   in the \code{explorer} or \code{explorer_selector}. Clicking on this
+#'   contextmenu_item usually adds a new node of this explorer class as a child
+#'   node to the contextmenued node. \cr
+#'   \code{specific_contextmenu_items_ui} \tab Function returning a
+#'   \code{\link[htmltools]{tagList}} of \code{\link[contextmenu_item]{contextmenu_items}}.
+#'   These contextmenu items are part of the contextmenu which is displayed upon
+#'   contextmenuing a node of this explorer class.
+#' }
+#' These functions only provide the layout of the items. The functionality must
+#' be implemented in the server function.
 #'
 #' @section Server function:
 #' The following (and only these) return list elements are handled by

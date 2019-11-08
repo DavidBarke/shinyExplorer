@@ -80,7 +80,7 @@ ExplorerNode <- R6::R6Class(
   classname = "ExplorerNode",
   public = list(
     initialize = function(
-      id = NULL, parent = NULL, is_group_node = TRUE, explorer_class = NULL, object = NULL
+      id = NULL, parent = NULL, is_group_node = TRUE, explorer_class = NULL, object = GroupObject$new("Group")
     ) {
       # Count instances of this class
       if (purrr::is_null(private$static$count)) {

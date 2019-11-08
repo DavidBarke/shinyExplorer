@@ -20,6 +20,9 @@ Imports:
     QWUtils
 Suggests: 
     testthat,
-    covr
+    covr,
+    knitr,
+    rmarkdown
 Remotes:
     github::DavidBarke/QWUtils
+VignetteBuilder: knitr
