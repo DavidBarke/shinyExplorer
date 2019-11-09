@@ -1,0 +1,19 @@
+---
+title: "Create your own explorer class"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Create your own explorer class}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(shinyExplorer)
+```

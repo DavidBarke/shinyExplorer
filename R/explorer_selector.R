@@ -29,9 +29,16 @@ explorer_selector_ui <- function(id) {
 #' selectible (if \code{.group_nodes_selectable = TRUE})
 #' @inheritParams explorer
 #'
+#' @return The \code{explorer_selector} module returns a list containing the following
+#' reactives:
+#' \tabular{ll}{
+#'   \code{selected_node_r} \tab An object of class \code{\link{ExplorerNode}}, which
+#'   has been selected by the user.
+#' }
+#'
 #' @export
 explorer_selector <- function(
-  input, output, session, .values, .root_node_r, .explorer_classes,
+  input, output, session, .values, .root_node_r, .explorer_classes = list(),
   .group_nodes_selectable = FALSE,
   .selectable_explorer_classes_r = shiny::reactive(character()),
   .addable_explorer_classes_r = .selectable_explorer_classes_r,

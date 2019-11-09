@@ -8,7 +8,7 @@
 explorer_selector_ui(id)
 
 explorer_selector(input, output, session, .values, .root_node_r,
-  .explorer_classes, .group_nodes_selectable = FALSE,
+  .explorer_classes = list(), .group_nodes_selectable = FALSE,
   .selectable_explorer_classes_r = shiny::reactive(character()),
   .addable_explorer_classes_r = .selectable_explorer_classes_r,
   .visible_explorer_classes_r = .selectable_explorer_classes_r,
@@ -47,6 +47,14 @@ displayed.}
 
 \item{.label_list}{A \code{\link[base]{list}} created with \code{\link{label_explorer}}
 containing labels for all buttons used inside the explorer module.}
+}
+\value{
+The \code{explorer_selector} module returns a list containing the following
+reactives:
+\tabular{ll}{
+  \code{selected_node_r} \tab An object of class \code{\link{ExplorerNode}}, which
+  has been selected by the user.
+}
 }
 \description{
 Use the \code{\link{explorer}} module to select a node.

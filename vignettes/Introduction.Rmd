@@ -1,0 +1,103 @@
+---
+title: "Introduction"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(shinyExplorer)
+library(shiny)
+```
+
+This vignette provides you with all information you need to create your first explorer tree and add it to your Shiny app. We will deal with R6-Classes, so some basic understanding as provided by the [introduction vignette](https://r6.r-lib.org/articles/Introduction.html) of the R6 package might be helpful, but is not mandatory. shinyExplorer exports three R6-classes: `ExplorerTree`, `ExplorerNode` and `ExplorerClass`. For convenience we will denote objects of these classes with lower letter abbreviations, i.e. tree, node and explorer_class.
+
+Since the classes implement some methods showing reactive behaviour, we need to call `shiny::isolate`, if using them without a reactive context. Inside your app's server function, of course, you don't need to do this. Throughout this vignette, we avoid using it by not evaluating the code chunks.
+
+## Create a new tree
+
+We begin by creating a new tree:
+
+```{r, eval=FALSE}
+explorer_tree <- ExplorerTree$new(
+  id = "tree",
+  root_id = "root"
+)
+```
+
+The argument `id` is used to distinguish different trees. By calling `ExplorerTree$new` the root node with id `"root"` is created internally by calling `ExplorerNode$new`. The tree stores the ids of all its nodes and therefore guarantees that all its ids are unique. You should never call `ExplorerNode$new` explicitly as otherwise the integrity of the ids cannot be guaranteed.
+
+## Add a new node to the tree
+
+Right now we have a tree consisting of only one node, the root node. We want to add another node to the tree. To do that, we need to take the root node and add a child to it. We achieve that by calling `get_root_node` on our tree, which returns - as you would suspect - the root node. Every node has the method `add_child`, which creates a new node and adds it as a child to the calling node. Note that even here, there is no need to call `ExplorerNode$new` as this is done inside of the `add_child` method.
+
+```{r, eval=FALSE}
+explorer_tree$get_root_node()$add_child(
+  id = "first_child",
+  is_group_node = TRUE,
+  explorer_class = NULL,
+  object = NULL,
+  return = "self"
+)
+```
+
+Let's look a little bit closer at the `add_child` method. We add a new node with id `"first_child"`. This node is a group node. Only group nodes can have children. Inside the `explorer` visualisation, which we will talk about later, group nodes behave like folders. You can click on them and get a view of all their child nodes. Non-group nodes constitute an end of one branch of the tree. 
+
+Every node may have an explorer_class. Nodes, that share the same explorer_class behave similar inside of the `explorer` visualisation. The shinyExplorer package provides you with some basic explorer classes, but you are free to create your own explorer_classes using `ExplorerClass$new` as described in the vignette [Create your own explorer class](../articles/explorer_classes.html). Every node may also have an object attached to it. This object can be of an arbitrary data type. One explorer_class is usually designed to work well with one data type and operate on it. Take for example the `dataset_explorer_class`: it is designed to work with objects of class `DatasetObject` and knows how to access the dataset stored in such an object and for example visualize it inside your app.
+
+The last argument to the `add_child` method decides whether this method returns the calling node (`"self"`, the default) or the new child node (`"child"`). 
+
+```{r, eval=FALSE}
+# Compare the following two cases
+# A: Add two children to the tree
+explorer_tree$get_root_node()$add_child(
+  id = "child1"
+)$add_child(
+  id = "child2" 
+)
+
+# B: Add child and grandchild to the tree
+explorer_tree$get_root_node()$add_child(
+  id = "child",
+  return = "child"
+)$add_child(
+  id = "grandchild"
+)
+```
+
+## Visualize the tree
+
+Now that you created your first tree, you may visualize it inside your Shiny app using the `explorer` module. In case that you've never used a module before - it is very simple yet powerful. Modules can be understood as apps inside of your app. They as well consist of a server function for the functionality and a UI function for the layout. For more details about modularizing your Shiny app see [this](https://shiny.rstudio.com/articles/modules.html) article on the Shiny website.
+
+```{r, eval=FALSE}
+# UI function:
+ui <- function(id) {
+  ns <- shiny::NS(id)
+  shiny::tagList(
+    # some UI
+    explorer_ui(id = ns("id_explorer"))
+    # some more UI
+  )
+}
+
+# Inside your server function call:
+shiny::callModule(
+  module = explorer,
+  id = "id_explorer",
+  .root_node_r = shiny::reactive(tree$get_root_node()),
+  # Further arguments to explorer
+  ...
+)
+```
+
+If you consult the documentation using e.g. `?explorer` you'll see that the first three arguments to that function are `input`, `output` and `session`. These arguments are called by `shiny::callModule`. All other arguments can be passed to `shiny::callModule` in addition to the mandatory arguments `module` and `id`. `explorer` takes an argument named `.explorer_classes`, which is a list of explorer_classes either created by yourself or taken from the explorer_classes that are included in shinyExplorer. You should define this list as a global variable and pass it to every `explorer` you use, regardless of if a particular explorer_class is used in this tree or not.  
+

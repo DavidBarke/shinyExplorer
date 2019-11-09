@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Use Contextmenu — use_contextmenu • shinyExplorer</title>
+<title>Positional Input — positional_input • shinyExplorer</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,10 +32,11 @@
 
 
 
-<meta property="og:title" content="Use Contextmenu — use_contextmenu" />
+<meta property="og:title" content="Positional Input — positional_input" />
 
-<meta property="og:description" content="Call this function in your UI to enable the functionality of
-show_contextmenu." />
+<meta property="og:description" content="A Shiny input behaving similarly to actionButton. In
+addition to input$&amp;lt;inputId&amp;gt; you may use input$&amp;lt;inputId&amp;gt;_position,
+which returns a list" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,25 +115,45 @@ show_contextmenu." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Use Contextmenu</h1>
+    <h1>Positional Input</h1>
     
-    <div class="hidden name"><code>use_contextmenu.Rd</code></div>
+    <div class="hidden name"><code>positional_input.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Call this function in your UI to enable the functionality of
-<code><a href='show_contextmenu.html'>show_contextmenu</a></code>.</p>
+    <p>A Shiny input behaving similarly to <code><a href='https://rdrr.io/pkg/shiny/man/actionButton.html'>actionButton</a></code>. In
+addition to <code>input$&lt;inputId&gt;</code> you may use <code>input$&lt;inputId&gt;_position</code>,
+which returns a list</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>use_contextmenu</span>()</pre>
-        
+    <pre class="usage"><span class='fu'>positional_input</span>(<span class='no'>inputId</span>, <span class='no'>label</span>, <span class='kw'>icon</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>inputId</th>
+      <td><p>The <code>input</code> slot that will be used to access the value.</p></td>
+    </tr>
+    <tr>
+      <th>label</th>
+      <td><p>The contents of the positional input - usually a text label, but you could also use any other HTML, like
+an image.</p></td>
+    </tr>
+    <tr>
+      <th>icon</th>
+      <td><p>An optional <code>icon()</code> to appear on the button.</p></td>
+    </tr>
+    </table>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
                 </ul>
 
   </div>

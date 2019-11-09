@@ -82,6 +82,21 @@ kinds and invoking actions on them." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Introduction.html">Introduction</a>
+    </li>
+    <li>
+      <a href="../articles/explorer_classes.html">Create your own explorer class</a>
+    </li>
+  </ul>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -111,15 +126,21 @@ kinds and invoking actions on them.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>explorer</span>(<span class='no'>input</span>, <span class='no'>output</span>, <span class='no'>session</span>, <span class='no'>.values</span>, <span class='no'>.parent</span>, <span class='no'>.root_node_r</span>,
-  <span class='kw'>.group_nodes_addable</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <pre class="usage"><span class='fu'>explorer_ui</span>(<span class='no'>id</span>)
+
+<span class='fu'>explorer</span>(<span class='no'>input</span>, <span class='no'>output</span>, <span class='no'>session</span>, <span class='no'>.values</span>, <span class='no'>.root_node_r</span>,
+  <span class='kw'>.explorer_classes</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>.group_nodes_addable</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>.addable_explorer_classes_r</span> <span class='kw'>=</span> <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/reactive.html'>reactive</a></span>(<span class='kw'>NULL</span>),
   <span class='kw'>.visible_explorer_classes_r</span> <span class='kw'>=</span> <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/reactive.html'>reactive</a></span>(<span class='kw'>NULL</span>),
-  <span class='kw'>.display_header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>.display_header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>.label_list</span> <span class='kw'>=</span> <span class='fu'><a href='label_explorer.html'>label_explorer</a></span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>id</th>
+      <td><p>The module's id.</p></td>
+    </tr>
     <tr>
       <th>input, output, session</th>
       <td><p>Called by <code><a href='https://rdrr.io/pkg/shiny/man/callModule.html'>callModule</a></code>.</p></td>
@@ -129,13 +150,15 @@ kinds and invoking actions on them.</p>
       <td><p>The <code>.values</code> list.</p></td>
     </tr>
     <tr>
-      <th>.parent</th>
-      <td><p>The parent <code>Node</code> object.</p></td>
-    </tr>
-    <tr>
       <th>.root_node_r</th>
       <td><p>A <code><a href='https://rdrr.io/pkg/shiny/man/reactive.html'>reactive</a></code> returning an
-object of class <code>ExplorerNode</code>.</p></td>
+object of class <code><a href='ExplorerNode.html'>ExplorerNode</a></code>. This needs not necessarily to be the
+root node of an object of class <code><a href='ExplorerTree.html'>ExplorerTree</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>.explorer_classes</th>
+      <td><p>A <code><a href='https://rdrr.io/r/base/list.html'>list</a></code> of objects of class
+<code><a href='ExplorerClass.html'>ExplorerClass</a></code>.</p></td>
     </tr>
     <tr>
       <th>.group_nodes_addable</th>
@@ -160,7 +183,26 @@ displayed.</p></td>
       <td><p>If <code><a href='https://rdrr.io/r/base/logical.html'>TRUE</a></code>, the navigation
 header is displayed, otherwise it is not.</p></td>
     </tr>
+    <tr>
+      <th>.label_list</th>
+      <td><p>A <code><a href='https://rdrr.io/r/base/list.html'>list</a></code> created with <code><a href='label_explorer.html'>label_explorer</a></code>
+containing labels for all buttons used inside the explorer module.</p></td>
+    </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>The <code>explorer</code> module returns a list containing the following reactives, that
+you may access in the calling server function.</p><table class='table'>
+<tr><td><code>contextmenued_node_r</code></td><td>An object of class <code><a href='ExplorerNode.html'>ExplorerNode</a></code>. This is
+  the node, which has been last contextmenued.</td></tr>
+<tr><td><code>current_node_r</code></td><td>An object of class <code><a href='ExplorerNode.html'>ExplorerNode</a></code>. This is the node,
+  whose children are currently displayed in the explorer's datatable.
+  <code>selected_child_node_r</code> An object of class <code><a href='ExplorerNode.html'>ExplorerNode</a></code>. This is the
+  node, which has been last clicked.</td></tr>
+</table>
+
+
     
 
   </div>
@@ -168,7 +210,9 @@ header is displayed, otherwise it is not.</p></td>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+          </ul>
 
   </div>
 </div>

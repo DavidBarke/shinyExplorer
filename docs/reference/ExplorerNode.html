@@ -86,6 +86,21 @@ this particular node." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Introduction.html">Introduction</a>
+    </li>
+    <li>
+      <a href="../articles/explorer_classes.html">Create your own explorer class</a>
+    </li>
+  </ul>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -119,46 +134,53 @@ this particular node.</p>
     
     </div>
 
-    <pre class="usage"><span class='no'>ExplorerNode</span></pre>
         
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="important"><a class="anchor" href="#important"></a>Important</h2>
 
-    <p>An object of class <code>R6ClassGenerator</code> of length 24.</p>
+    
+
+<p>You usually don't want to call explicitly <code>ExplorerNode$new</code>.
+Instead you should create a new explorer tree with <code><a href='ExplorerTree.html'>ExplorerTree</a></code>,
+take its root node with <code>root &lt;- explorer_tree$get_root_node()</code> and
+afterwards call <code>root$add_child()</code>.</p>
     
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
 
 <dl class='dl-horizontal'>
-  <dt><code>new(id = NULL, parent = NULL, is_group_node = TRUE,
+  <dt><code>new(id = NULL, node_storage = NULL, parent = NULL, is_group_node = TRUE,
   explorer_class = NULL, object = NULL)</code></dt><dd><p>Initialize a new node object.
     <table class='table'>
 <tr><td><code>id</code></td><td>Unique identifier of the node. If <code><a href='https://rdrr.io/r/base/NULL.html'>NULL</a></code>,
-      this identifier is created internally.</td></tr>
+        this identifier is created internally.</td></tr>
+<tr><td><code>node_storage</code></td><td>Node storage of an object of class <code><a href='ExplorerTree.html'>ExplorerTree</a></code>.
+        This argument is the reason, you should not call <code>ExplorerNode$new</code> explicitly.</td></tr>
 <tr><td><code>parent</code></td><td>The parent node of this node, or
-      <code><a href='https://rdrr.io/r/base/NULL.html'>NULL</a></code>, if node is root node.</td></tr>
+        <code><a href='https://rdrr.io/r/base/NULL.html'>NULL</a></code>, if node is root node.</td></tr>
 <tr><td><code>is_group_node</code></td><td><code><a href='https://rdrr.io/r/base/logical.html'>Logical</a></code> indicating
-      whether this node is a group node or not. Only group nodes can have
-      child nodes.</td></tr>
-<tr><td><code>explorer_class</code></td><td>Object of class <code>ExplorerClass</code>,
-      which defines the behaviour of this node in the <code>explorer</code>.</td></tr>
+        whether this node is a group node or not. Only group nodes can have
+        child nodes.</td></tr>
+<tr><td><code>explorer_class</code></td><td>Object of class <code><a href='ExplorerClass.html'>ExplorerClass</a></code>,
+        which defines the behaviour of this node in the <code><a href='explorer.html'>explorer</a></code>.</td></tr>
 <tr><td><code>object</code></td><td>An arbitrary object for storing information about the
-      node.</td></tr>
+        node.</td></tr>
 </table></p></dd>
   <dt><code>add_child(id = NULL, is_group_node = TRUE, explorer_class = NULL,
   object = NULL, return = c("self", "child")</code></dt><dd><p>Initialize a
   new node object which is attached to the current node object as a child, but
   only if this node is a group node.
     <table class='table'>
-<tr><td><code>group_node</code></td><td><code><a href='https://rdrr.io/r/base/logical.html'>Logical</a></code> indicating,
-      whether the child node will be a group node or not.</td></tr>
-<tr><td><code>explorer_class</code></td><td>Object of class <code>ExplorerClass</code>,
-      which defines the behaviour of the child node in the
-      <code>explorer</code>.</td></tr>
-<tr><td><code>object</code></td><td>An arbitrary object for storing information about the
-      child node.</td></tr>
-<tr><td><code>return</code></td><td>If <code>"self"</code>, this method returns the node, which
-      adds a child; If <code>"child"</code>, the added node is returned.</td></tr>
+<tr><td><code>id</code></td><td>Unique identifier of the node. If <code><a href='https://rdrr.io/r/base/NULL.html'>NULL</a></code>,
+        this identifier is created internally.
+      <code>is_group_node</code></td></tr>
+<tr><td><code><a href='https://rdrr.io/r/base/logical.html'>Logical</a></code> indicating,
+        whether the child node will be a group node or not.</td><td><code>explorer_class</code></td></tr>
+<tr><td>Object of class <code><a href='ExplorerClass.html'>ExplorerClass</a></code>,
+        which defines the behaviour of the child node in the
+        <code><a href='explorer.html'>explorer</a></code>.</td><td><code>object</code></td></tr>
+<tr><td>An arbitrary object for storing information about the
+        child node.</td><td><code>return</code></td></tr>
 </table></p></dd>
   <dt><code>children()</code></dt><dd><p>Get a list of all child nodes of this node
   object.</p></dd>
@@ -169,7 +191,7 @@ this particular node.</p>
   associated with this node object.</p></dd>
   <dt><code>get_id()</code></dt><dd><p>Get the id of the node object.</p></dd>
   <dt><code>get_nth_child(n)</code></dt><dd><p>Get the nth child of this node object. The
-  first added child is returned for coden = 1</p></dd>.
+  first added child is returned for coden = 1.</p></dd>
   <dt><code>get_object()</code></dt><dd><p>Get the object associated with this node object.</p></dd>
   <dt><code>is_group_node()</code></dt><dd><p>Returns a <code><a href='https://rdrr.io/r/base/logical.html'>logical</a></code>
   indicating whether this node is a group node or not.</p></dd>
@@ -188,7 +210,7 @@ this particular node.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
-      <li><a href="#format">Format</a></li>
+      <li><a href="#important">Important</a></li>
 
       <li><a href="#methods">Methods</a></li>
           </ul>

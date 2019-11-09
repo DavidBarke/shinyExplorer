@@ -46,6 +46,21 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/Introduction.html">Introduction</a>
+    </li>
+    <li>
+      <a href="articles/explorer_classes.html">Create your own explorer class</a>
+    </li>
+  </ul>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right"></ul>
 </div>
@@ -64,31 +79,24 @@
 <div id="shinyexplorer" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#shinyexplorer" class="anchor"></a>shinyExplorer</h1></div>
-<p>The goal of shinyExplorer is to …</p>
+<p>shinyExplorer uses <code><a href="https://rdrr.io/pkg/DT/man/datatable.html">DT::datatable</a></code> for visualizing a tree of nodes, in which each node behaves according to its class and can store arbitrary data.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the released version of shinyExplorer from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"shinyExplorer"</span>)</code></pre></div>
+<!-- You can install the released version of shinyExplorer from [CRAN](https://CRAN.R-project.org) with: -->
+<p>Currently shinyExplorer is only available on Github. You can install the latest version with:</p>
+<!--
+``` r
+install.packages("shinyExplorer")
+```
+-->
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  remotes<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/remotes/man/install_github.html">install_github</a></span>(<span class="st">"DavidBarke/shinyExplorer"</span>)</code></pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>This is a basic example which shows you how to solve a common problem:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## basic example code</code></pre></div>
-<p>What is special about using <code>README.Rmd</code> instead of just <code>README.md</code>? You can include R chunks like so:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(cars)
-<span class="co">#&gt;      speed           dist       </span>
-<span class="co">#&gt;  Min.   : 4.0   Min.   :  2.00  </span>
-<span class="co">#&gt;  1st Qu.:12.0   1st Qu.: 26.00  </span>
-<span class="co">#&gt;  Median :15.0   Median : 36.00  </span>
-<span class="co">#&gt;  Mean   :15.4   Mean   : 42.98  </span>
-<span class="co">#&gt;  3rd Qu.:19.0   3rd Qu.: 56.00  </span>
-<span class="co">#&gt;  Max.   :25.0   Max.   :120.00</span></code></pre></div>
-<p>You’ll still need to render <code>README.Rmd</code> regularly, to keep <code>README.md</code> up-to-date.</p>
-<p>You can also embed plots, for example:</p>
-<p><img src="reference/figures/README-pressure-1.png" width="100%"></p>
-<p>In that case, don’t forget to commit and push the resulting figure files, so they display on GitHub!</p>
 </div>
 </div>
 

@@ -40,7 +40,9 @@
 #'   new node object which is attached to the current node object as a child, but
 #'   only if this node is a group node.
 #'     \tabular{ll}{
-#'       \code{group_node} \tab \code{\link[base:logical]{Logical}} indicating,
+#'       \code{id} \tab Unique identifier of the node. If \code{\link[base:NULL]{NULL}},
+#'         this identifier is created internally.
+#'       \code{is_group_node} \tab \code{\link[base:logical]{Logical}} indicating,
 #'         whether the child node will be a group node or not. \cr
 #'       \code{explorer_class} \tab Object of class \code{\link{ExplorerClass}},
 #'         which defines the behaviour of the child node in the

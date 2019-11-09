@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Use Contextmenu — use_contextmenu • shinyExplorer</title>
+<title>Object — Object • shinyExplorer</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,10 +32,10 @@
 
 
 
-<meta property="og:title" content="Use Contextmenu — use_contextmenu" />
+<meta property="og:title" content="Object — Object" />
 
-<meta property="og:description" content="Call this function in your UI to enable the functionality of
-show_contextmenu." />
+<meta property="og:description" content="R6Class representing the most primitive object having only
+an id and a name." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,26 +114,41 @@ show_contextmenu." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Use Contextmenu</h1>
+    <h1>Object</h1>
     
-    <div class="hidden name"><code>use_contextmenu.Rd</code></div>
+    <div class="hidden name"><code>Object.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Call this function in your UI to enable the functionality of
-<code><a href='show_contextmenu.html'>show_contextmenu</a></code>.</p>
+    <p><code><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6Class</a></code> representing the most primitive object having only
+an id and a name.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>use_contextmenu</span>()</pre>
         
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+
+<dl class='dl-horizontal'>
+  <dt><code>new(name = "")</code></dt><dd><p>Initialize a new object with name <code>name</code>.</p></dd>
+  <dt><code>get_id()</code></dt><dd><p>Get the object's id.</p></dd>
+  <dt><code>get_name()</code></dt><dd><p>Get the object's name.</p></dd>
+  <dt><code>set_name(name)</code></dt><dd><p>Set the object's name. Only applicable if
+    <code>name</code> is not a <code><a href='https://rdrr.io/pkg/shiny/man/reactive.html'>reactive</a></code>.</p></dd>
+
+</dl>
+
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      
+      <li><a href="#methods">Methods</a></li>
+          </ul>
 
   </div>
 </div>

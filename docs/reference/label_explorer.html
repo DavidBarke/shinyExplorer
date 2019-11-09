@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Use Contextmenu — use_contextmenu • shinyExplorer</title>
+<title>Create Labels for Explorer — label_explorer • shinyExplorer</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,10 +32,9 @@
 
 
 
-<meta property="og:title" content="Use Contextmenu — use_contextmenu" />
+<meta property="og:title" content="Create Labels for Explorer — label_explorer" />
 
-<meta property="og:description" content="Call this function in your UI to enable the functionality of
-show_contextmenu." />
+<meta property="og:description" content="Create Labels for Explorer" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,25 +113,43 @@ show_contextmenu." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Use Contextmenu</h1>
+    <h1>Create Labels for Explorer</h1>
     
-    <div class="hidden name"><code>use_contextmenu.Rd</code></div>
+    <div class="hidden name"><code>label_explorer.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Call this function in your UI to enable the functionality of
-<code><a href='show_contextmenu.html'>show_contextmenu</a></code>.</p>
+    <p>Create Labels for Explorer</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>use_contextmenu</span>()</pre>
-        
+    <pre class="usage"><span class='fu'>label_explorer</span>(<span class='kw'>group_node_label</span> <span class='kw'>=</span> <span class='fu'><a href='label_group_node.html'>label_group_node</a></span>(),
+  <span class='kw'>add_group</span> <span class='kw'>=</span> <span class='st'>"New group"</span>,
+  <span class='kw'>ask_delete</span> <span class='kw'>=</span> <span class='st'>"Are you sure you want to delete the selected item?"</span>,
+  <span class='kw'>confirm_delete</span> <span class='kw'>=</span> <span class='st'>"Confirm"</span>, <span class='kw'>delete_node</span> <span class='kw'>=</span> <span class='st'>"Delete"</span>,
+  <span class='kw'>new_group_name</span> <span class='kw'>=</span> <span class='st'>"Neue Gruppe"</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>group_node_label</th>
+      <td><p>Output of <code><a href='label_group_node.html'>label_group_node</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>add_group, ask_delete, confirm_delete, delete_node, new_group_name</th>
+      <td><p><code><a href='https://rdrr.io/r/base/character.html'>Character</a></code>
+string that will appear on the corresponding labels.</p></td>
+    </tr>
+    </table>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
                 </ul>
 
   </div>

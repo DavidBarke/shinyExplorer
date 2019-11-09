@@ -54,9 +54,20 @@ explorer_ui <- function(id) {
 #' @param .label_list A \code{\link[base]{list}} created with \code{\link{label_explorer}}
 #' containing labels for all buttons used inside the explorer module.
 #'
+#' @return The \code{explorer} module returns a list containing the following reactives, that
+#' you may access in the calling server function.
+#' \tabular{ll}{
+#'   \code{contextmenued_node_r} \tab An object of class \code{\link{ExplorerNode}}. This is
+#'   the node, which has been last contextmenued. \cr
+#'   \code{current_node_r} \tab An object of class \code{\link{ExplorerNode}}. This is the node,
+#'   whose children are currently displayed in the explorer's datatable.
+#'   \code{selected_child_node_r} An object of class \code{\link{ExplorerNode}}. This is the
+#'   node, which has been last clicked.
+#' }
+#'
 #' @export
 explorer <- function(
-  input, output, session, .values, .root_node_r, .explorer_classes,
+  input, output, session, .values, .root_node_r, .explorer_classes = list(),
   .group_nodes_addable = TRUE, .addable_explorer_classes_r = shiny::reactive(NULL),
   .visible_explorer_classes_r = shiny::reactive(NULL), .display_header = TRUE,
   .label_list = label_explorer()
@@ -153,7 +164,8 @@ explorer <- function(
 
   return_list <- list(
     rvs = rvs,
-    current_node_r = shiny::reactive({rvs$current_node}),
+    contextmenued_node_r = shiny::reactive(rvs$contextmenued_node),
+    current_node_r = shiny::reactive(rvs$current_node),
     # Selected means, that user clicked this node, but didn't dblclick it, to be
     # the new current node
     selected_child_node_r = explorer_body_return$selected_node_r

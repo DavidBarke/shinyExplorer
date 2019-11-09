@@ -34,9 +34,10 @@
 
 <meta property="og:title" content="Explorer Class — ExplorerClass" />
 
-<meta property="og:description" content="R6Class, whose instantiations represent an  class inside the
-explorer module. The following list describes the arguments
-of ExplorerClass$new." />
+<meta property="og:description" content="R6Class, whose instantiations represent individual behaviour
+of a specific group of elements inside the explorer module. For
+creating your own explorer class see the explorer class vignette:
+vignette(&quot;explorer_class&quot;, package = &quot;shinyExplorer&quot;)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -83,6 +84,21 @@ of ExplorerClass$new." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Introduction.html">Introduction</a>
+    </li>
+    <li>
+      <a href="../articles/explorer_classes.html">Create your own explorer class</a>
+    </li>
+  </ul>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -107,47 +123,58 @@ of ExplorerClass$new." />
 
     <div class="ref-description">
     
-    <p>R6Class, whose instantiations represent an  class inside the
-<code>explorer</code> module. The following list describes the arguments
-of <code>ExplorerClass$new</code>.</p>
+    <p><code><a href='https://rdrr.io/pkg/R6/man/R6Class.html'>R6Class</a></code>, whose instantiations represent individual behaviour
+of a specific group of elements inside the <code><a href='explorer.html'>explorer</a></code> module. For
+creating your own explorer class see the explorer class vignette:
+<code>vignette("explorer_class", package = "shinyExplorer")</code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='no'>ExplorerClass</span></pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>id</th>
-      <td><p>A <code><a href='https://rdrr.io/r/base/character.html'>character</a></code>. See 'Details' for use of
-the id.</p></td>
-    </tr>
-    <tr>
-      <th>ui</th>
-      <td><p>A list of functions with argument <code>id</code> returning a
-<code>contextmenu_item</code>, which is displayed if the current node of
-the <code>explorer</code> has a child node, whose object is from
-<code>id = id</code> inside of the <code>contextmenu</code>. Clicking on it will
-make this child node the current node.</p></td>
-    </tr>
-    <tr>
-      <th>server</th>
-      <td><p>Module server function. See 'Server function' for return list
-elements that get handled by <code>explorer</code> and <code>explorer_body</code>.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+        
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
-    <p>An object of class <code>R6ClassGenerator</code> of length 24.</p>
+    
+
+<dl class='dl-horizontal'>
+  <dt><code>new(id, ui, server)</code></dt><dd><p>Create a new object of class <code>ExplorerClass</code>.
+    <table class='table'>
+<tr><td><code>id</code></td><td></td></tr>
+<tr><td>Unique id.
+      <code>ui</code></td><td></td></tr>
+<tr><td>A list of UI functions. See 'UI list' for details.</td><td><code>server</code></td></tr>
+<tr><td>Module server function. See 'Server function' for return list
+         elements that get handled by <code><a href='explorer.html'>explorer</a></code> and <code><a href='explorer_body.html'>explorer_body</a></code>.</td><td></td></tr>
+</table></p></dd>
+
+</dl>
+
+    
+    <h2 class="hasAnchor" id="ui-list"><a class="anchor" href="#ui-list"></a>UI list</h2>
+
+    
+
+<p>The argument <code>ui</code> receives a named list of ui functions - these are
+functions taking at least an argument <code>id</code> and returning pseudo-HTML.
+The following names are handled by <code><a href='explorer.html'>explorer</a></code>:</p><table class='table'>
+<tr><td><code>contextmenu_item_ui</code></td><td>Function returning a <code><a href='contextmenu_item.html'>contextmenu_item</a></code>,
+  which is displayed in the contextmenu, if this explorer_class is addable
+  in the <code>explorer</code> or <code>explorer_selector</code>. Clicking on this
+  contextmenu_item usually adds a new node of this explorer class as a child
+  node to the contextmenued node.</td></tr>
+<tr><td><code>specific_contextmenu_items_ui</code></td><td>Function returning a
+  <code><a href='https://rdrr.io/pkg/htmltools/man/tag.html'>tagList</a></code> of <code><a href='contextmenu_item.html'>contextmenu_items</a></code>.
+  These contextmenu items are part of the contextmenu which is displayed upon
+  contextmenuing a node of this explorer class.</td></tr>
+</table>
+<p>These functions only provide the layout of the items. The functionality must
+be implemented in the server function.</p>
     
     <h2 class="hasAnchor" id="server-function"><a class="anchor" href="#server-function"></a>Server function</h2>
 
     
 
 <p>The following (and only these) return list elements are handled by
-<code>explorer</code> and <code>explorer_body</code>:</p><table class='table'>
+<code><a href='explorer.html'>explorer</a></code> and <code><a href='explorer_body.html'>explorer_body</a></code>:</p><table class='table'>
 <tr><td><code>selectable_classes_r</code></td><td><code><a href='https://rdrr.io/pkg/shiny/man/reactive.html'>Reactive</a></code>
   returning a character vector containing the <code>id</code>s of <code>explorer_classes</code>
   who can be added to the <code>explorer</code>, if the current <code>explorer_class</code>
@@ -166,9 +193,10 @@ elements that get handled by <code>explorer</code> and <code>explorer_body</code
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#format">Format</a></li>
+      <li><a href="#methods">Methods</a></li>
+
+      <li><a href="#ui-list">UI list</a></li>
 
       <li><a href="#server-function">Server function</a></li>
           </ul>

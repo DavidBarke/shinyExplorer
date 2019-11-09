@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Use Contextmenu — use_contextmenu • shinyExplorer</title>
+<title>ObjectStorage — ObjectStorage • shinyExplorer</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,10 +32,10 @@
 
 
 
-<meta property="og:title" content="Use Contextmenu — use_contextmenu" />
+<meta property="og:title" content="ObjectStorage — ObjectStorage" />
 
-<meta property="og:description" content="Call this function in your UI to enable the functionality of
-show_contextmenu." />
+<meta property="og:description" content="R6Class for storing similar R6 objects. These objects all need to implement
+the method get_id(). The id of an object is unique in a storage." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,26 +114,77 @@ show_contextmenu." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Use Contextmenu</h1>
+    <h1>ObjectStorage</h1>
     
-    <div class="hidden name"><code>use_contextmenu.Rd</code></div>
+    <div class="hidden name"><code>ObjectStorage.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Call this function in your UI to enable the functionality of
-<code><a href='show_contextmenu.html'>show_contextmenu</a></code>.</p>
+    <p>R6Class for storing similar R6 objects. These objects all need to implement
+the method get_id(). The id of an object is unique in a storage.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>use_contextmenu</span>()</pre>
         
+    <h2 class="hasAnchor" id="usage"><a class="anchor" href="#usage"></a>Usage</h2>
+
+    
+
+<pre>storage = ObjectStorage$new(allowed_classes = NULL)
+
+storage$add_object(object)
+
+storage$get_object(id)
+</pre>
+
+    
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+
+<dl class='dl-horizontal'>
+  <dt><code>new(allowed_classes = NULL)</code></dt><dd><p>Initialize the storage.
+    <table class='table'>
+<tr><td><code>allowed_classes</code></td><td>Character vector. <code><a href='https://rdrr.io/r/base/class.html'>class(object)</a></code> has to
+      return at least one of these classes for being added to the storage.</td></tr>
+</table></p></dd>
+  <dt><code>add_object(object)</code></dt><dd><p>Add an object to the storage:
+    <table class='table'>
+<tr><td><code>object</code></td><td>R6 object with public methods <code>get_id()</code>,
+        and <code>get_name()</code>.</td></tr>
+</table></p></dd>
+  <dt><code>get_ids()</code></dt><dd><p>Get the ids of the stored objects as a character
+    vector named with the object's names.</p></dd>
+  <dt><code>get_length()</code></dt><dd><p>Get the length of the storage.</p></dd>
+  <dt><code>get_nth_object(n)</code></dt><dd><p>Get the object with index <code>n</code> going
+  from <code>1</code> to <code>this$get_length()</code>.</p></dd>
+  <dt><code>get_object(id)</code></dt><dd><p>Get an object from the storage
+    with <code>object$get_id() == id</code>.
+    <table class='table'>
+<tr><td><code>id</code></td><td>id of an R6 object.</td></tr>
+</table></p></dd>
+  <dt><code>get_objects(ids)</code></dt><dd><p>Get a list of objects from the storage
+    with <code>object$get_id() %in% ids</code>. If <code>ids</code> is missing get
+    a list with all objects.
+    <table class='table'>
+<tr><td><code>ids</code></td><td><code><a href='https://rdrr.io/r/base/character.html'>Character</a></code> vector. Each
+      element has to be a id of an object in the storage.</td></tr>
+</table></p></dd>
+
+</dl>
+
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      
+      <li><a href="#usage">Usage</a></li>
+
+      <li><a href="#methods">Methods</a></li>
+          </ul>
 
   </div>
 </div>

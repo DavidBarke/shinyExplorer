@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Use Contextmenu — use_contextmenu • shinyExplorer</title>
+<title>Explorer Body — explorer_body • shinyExplorer</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,10 +32,9 @@
 
 
 
-<meta property="og:title" content="Use Contextmenu — use_contextmenu" />
+<meta property="og:title" content="Explorer Body — explorer_body" />
 
-<meta property="og:description" content="Call this function in your UI to enable the functionality of
-show_contextmenu." />
+<meta property="og:description" content="You usually don't want to call this module explicitly." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,26 +113,100 @@ show_contextmenu." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Use Contextmenu</h1>
+    <h1>Explorer Body</h1>
     
-    <div class="hidden name"><code>use_contextmenu.Rd</code></div>
+    <div class="hidden name"><code>explorer_body.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Call this function in your UI to enable the functionality of
-<code><a href='show_contextmenu.html'>show_contextmenu</a></code>.</p>
+    <p>You usually don't want to call this module explicitly.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>use_contextmenu</span>()</pre>
-        
+    <pre class="usage"><span class='fu'>explorer_body_ui</span>(<span class='no'>id</span>)
+
+<span class='fu'>explorer_body</span>(<span class='no'>input</span>, <span class='no'>output</span>, <span class='no'>session</span>, <span class='no'>.values</span>, <span class='no'>.children_r</span>, <span class='no'>.root_node_r</span>,
+  <span class='no'>.explorer_classes</span>, <span class='no'>.explorer_rvs</span>, <span class='no'>.addable_explorer_classes_r</span>,
+  <span class='no'>.visible_explorer_classes_r</span>, <span class='no'>.label_list</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>id</th>
+      <td><p>Module id.</p></td>
+    </tr>
+    <tr>
+      <th>input, output, session</th>
+      <td><p>Called by <code><a href='https://rdrr.io/pkg/shiny/man/callModule.html'>callModule</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>.values</th>
+      <td><p>The <code>.values</code> list.</p></td>
+    </tr>
+    <tr>
+      <th>.children_r</th>
+      <td><p><code><a href='https://rdrr.io/pkg/shiny/man/reactive.html'>reactive</a></code> containing the child nodes of
+the current node.</p></td>
+    </tr>
+    <tr>
+      <th>.root_node_r</th>
+      <td><p>A <code><a href='https://rdrr.io/pkg/shiny/man/reactive.html'>reactive</a></code> returning an
+object of class <code><a href='ExplorerNode.html'>ExplorerNode</a></code>. This needs not necessarily to be the
+root node of an object of class <code><a href='ExplorerTree.html'>ExplorerTree</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>.explorer_classes</th>
+      <td><p>A <code><a href='https://rdrr.io/r/base/list.html'>list</a></code> of objects of class
+<code><a href='ExplorerClass.html'>ExplorerClass</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>.explorer_rvs</th>
+      <td><p><code><a href='https://rdrr.io/pkg/shiny/man/reactiveValues.html'>ReactiveValues</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>.addable_explorer_classes_r</th>
+      <td><p>A <code><a href='https://rdrr.io/pkg/shiny/man/reactive.html'>reactive</a></code>
+returning a <code><a href='https://rdrr.io/r/base/character.html'>character</a></code> vector containing the ids
+of explorer classes that are addable to the explorer.</p></td>
+    </tr>
+    <tr>
+      <th>.visible_explorer_classes_r</th>
+      <td><p>A <code><a href='https://rdrr.io/pkg/shiny/man/reactive.html'>reactive</a></code>
+returning a <code><a href='https://rdrr.io/r/base/character.html'>character</a></code> vector containing the ids
+of explorer classes that are displayed to the user. Group nodes are always
+displayed.</p></td>
+    </tr>
+    <tr>
+      <th>.label_list</th>
+      <td><p>A <code><a href='https://rdrr.io/r/base/list.html'>list</a></code> created with <code><a href='label_explorer.html'>label_explorer</a></code>
+containing labels for all buttons used inside the explorer module.</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>#' <code>.explorer_rvs</code> must provide the following elements:</p><table class='table'>
+<tr><td><code>current_node</code></td><td><code><a href='ExplorerNode.html'>ExplorerNode</a></code>, which is currently
+  selected in <code><a href='explorer.html'>explorer</a></code>.</td></tr>
+<tr><td><code>contextmenued_node</code></td><td><code><a href='ExplorerNode.html'>ExplorerNode</a></code>, which has been
+  last contextmenued.</td></tr>
+<tr><td><code>module_ids</code></td><td><code><a href='https://rdrr.io/r/base/list.html'>List</a></code> with one entry per
+  unique explorer class.</td></tr>
+</table>
+
+
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#details">Details</a></li>
+          </ul>
 
   </div>
 </div>

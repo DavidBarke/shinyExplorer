@@ -29,7 +29,7 @@
 #'   contextmenu_item usually adds a new node of this explorer class as a child
 #'   node to the contextmenued node. \cr
 #'   \code{specific_contextmenu_items_ui} \tab Function returning a
-#'   \code{\link[htmltools]{tagList}} of \code{\link[shinyExplorer:contextmenu_item]{contextmenu_items}}.
+#'   \code{\link[htmltools:tag]{tagList}} of \code{\link[shinyExplorer:contextmenu_item]{contextmenu_items}}.
 #'   These contextmenu items are part of the contextmenu which is displayed upon
 #'   contextmenuing a node of this explorer class.
 #' }

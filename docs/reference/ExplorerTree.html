@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Use Contextmenu — use_contextmenu • shinyExplorer</title>
+<title>Explorer Tree — ExplorerTree • shinyExplorer</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,10 +32,9 @@
 
 
 
-<meta property="og:title" content="Use Contextmenu — use_contextmenu" />
+<meta property="og:title" content="Explorer Tree — ExplorerTree" />
 
-<meta property="og:description" content="Call this function in your UI to enable the functionality of
-show_contextmenu." />
+<meta property="og:description" content="Explorer Tree" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,26 +113,50 @@ show_contextmenu." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Use Contextmenu</h1>
+    <h1>Explorer Tree</h1>
     
-    <div class="hidden name"><code>use_contextmenu.Rd</code></div>
+    <div class="hidden name"><code>ExplorerTree.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Call this function in your UI to enable the functionality of
-<code><a href='show_contextmenu.html'>show_contextmenu</a></code>.</p>
+    <p>Explorer Tree</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>use_contextmenu</span>()</pre>
         
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+
+<dl class='dl-horizontal'>
+  <dt><code>new(id, root_id = NULL)</code></dt><dd><p>Initialize a new explorer tree object.
+    <table class='table'>
+<tr><td><code>id</code></td><td>Unique <code><a href='https://rdrr.io/r/base/character.html'>character</a></code> string.</td></tr>
+<tr><td><code>root_id</code></td><td>Either unique <code><a href='https://rdrr.io/r/base/character.html'>character</a></code> string within this
+      explorer tree or <code><a href='https://rdrr.io/r/base/NULL.html'>NULL</a></code> for the root node of the explorer tree.
+      If <code>NULL</code> an id is chosen internally. You don't need to worry about the uniqueness
+      of <code>root_id</code> since you are just creating the first node of the tree.</td></tr>
+</table>    Return: <code><a href='ExplorerNode.html'>root node</a></code> of the explorer tree.</p></dd>
+  <dt><code>get_id()</code></dt><dd><p>Get the explorer tree's id.</p></dd>
+  <dt><code>get_node(id)</code></dt><dd><p>Get the node of the explorer tree with <code>id == id</code>.</p></dd>
+  <dt><code>get_node_ids()</code></dt><dd><p>Get the ids of all nodes of the explorer tree as a
+    <code><a href='https://rdrr.io/r/base/character.html'>character</a></code> vector.</p></dd>
+  <dt><code>get_root_node()</code></dt><dd><p>Get the root node of the explorer tree, which is equivalent
+    to calling <code>this$get_node(root_id)</code>, where <code>root_id</code> is the id, which was
+    passed to <code>this$new</code>.</p></dd>
+
+</dl>
+
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      
+      <li><a href="#methods">Methods</a></li>
+          </ul>
 
   </div>
 </div>
