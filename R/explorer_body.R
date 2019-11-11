@@ -70,7 +70,7 @@ explorer_body <- function(
       child_explorer_class <- .explorer_classes[[child_node$get_explorer_class_id()]]
 
       # If child node is group, the node has explorer_class NULL
-      if (child_node$is_group_node()) {
+      if (child_explorer_class$is_group) {
         return(as.character(shiny::icon("folder")))
       }
 
@@ -153,7 +153,7 @@ explorer_body <- function(
       )
     }
 
-    if (purrr::is_null(node)) {
+    if (purrr::is_null(node) || !node$is_removable()) {
       remove_contextmenu_item <- NULL
     } else {
       remove_contextmenu_item <- contextmenu_item(
@@ -212,12 +212,7 @@ explorer_body <- function(
     # Only nodes of group explorer class may have children
     if (explorer_class$is_group) {
       # First column of selector table contains child node's id
-      rvs$node_open <- list(
-        node = .explorer_rvs$current_node$get_child(id),
-        # Also trigger, if data[[1]] did not change (same row is dblclicked twice
-        # in a row)
-        rnd = stats::runif(1)
-      )
+      .explorer_rvs$current_node <- .explorer_rvs$current_node$get_child(id)
     }
   })
 

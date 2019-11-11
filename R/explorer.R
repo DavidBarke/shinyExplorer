@@ -116,10 +116,7 @@ explorer <- function(
       module = explorer_class$server,
       id = module_id,
       .values = .values,
-      .explorer_rvs = rvs,
-      # Call server function with reference to own explorer class, so that inside
-      # of the server function an element with this explorer class can be added
-      .explorer_class = explorer_class
+      .explorer_rvs = rvs
     )
 
     # Store module_id in .explorer_rvs. .explorer_rvs is made available in all

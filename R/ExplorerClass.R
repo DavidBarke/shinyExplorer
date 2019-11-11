@@ -72,6 +72,7 @@ ExplorerClass <- R6::R6Class(
       self$is_group <- is_group
     },
     id = character(),
+    is_group = FALSE,
     module_id = character(),
     server = NULL,
     server_return = list(),

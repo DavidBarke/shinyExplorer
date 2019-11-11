@@ -38,6 +38,7 @@ ExplorerTree <- R6::R6Class(
         private$static$ids <- id
       } else {
         if (id %in% private$static$ids) {
+          print(private$static$ids)
           stop(paste("ExplorerTree: there is already an explorer tree with id", id))
         }
 

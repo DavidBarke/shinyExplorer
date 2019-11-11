@@ -16,7 +16,7 @@
 #' @section Methods:
 #' \describe{
 #'   \item{\code{new(id = NULL, node_storage = NULL, parent = NULL, is_group_node = TRUE,
-#'   explorer_class_id = "__group__", object = NULL)}}{
+#'   explorer_class_id = "__group__", object = NULL, removable = TRUE)}}{
 #'   Initialize a new node object.
 #'     \tabular{ll}{
 #'       \code{id} \tab Unique identifier of the node. If \code{\link[base:NULL]{NULL}},
@@ -35,12 +35,15 @@
 #'       \cr
 #'       \code{object} \tab An arbitrary object for storing information about the
 #'         node. \cr
+#'       \code{removable} \tab If \code{\link[base:logical]{TRUE}}, this node is
+#'        removable by the user, else not.
 #'     }
 #'   }
 #'   \item{\code{add_child(id = NULL, is_group_node = TRUE,
-#'     explorer_class_id = "__group__", object = NULL, return = c("self", "child")}}{
-#'     Initialize a new node object which is attached to the current node object
-#'     as a child, but only if this node is a group node.
+#'     explorer_class_id = "__group__", object = NULL, removable = TRUE,
+#'     return = c("self", "child")}}{Initialize a new node object which is
+#'     attached to the current node object as a child, but only if this node is
+#'     a group node.
 #'     \tabular{ll}{
 #'       \code{id} \tab Unique identifier of the node. If \code{\link[base:NULL]{NULL}},
 #'         this identifier is created internally. \cr
@@ -52,6 +55,8 @@
 #'         \code{explorer} as an element of the \code{.explorer_classes} list. \cr
 #'       \code{object} \tab An arbitrary object for storing information about the
 #'         child node.\cr
+#'       \code{removable} \tab If \code{\link[base:logical]{TRUE}}, this node is
+#'        removable by the user, else not. \cr
 #'       \code{return} \tab If \code{"self"}, this method returns the node, which
 #'         adds a child; If \code{"child"}, the added node is returned.
 #'     }
@@ -74,8 +79,8 @@
 #'   }
 #'   \item{\code{get_object()}}{Get the object associated with this node object.
 #'   }
-#'   \item{\code{is_group_node()}}{Returns a \code{\link[base:logical]{logical}}
-#'     indicating whether this node is a group node or not.
+#'   \item{\code{is_removable()}}{Returns a \code{\link[base:logical]{logical}}
+#'     indicating whether this node is removable or not.
 #'   }
 #'   \item{\code{remove_child(id)}}{Remove the child with \code{id == id}.
 #'   }
@@ -95,18 +100,13 @@ ExplorerNode <- R6::R6Class(
   public = list(
     initialize = function(
       id = NULL, node_storage = NULL, parent = NULL, explorer_class_id = "__group__",
-      object = GroupObject$new("Group")
+      object = GroupObject$new("Group"), removable = TRUE
     ) {
       # Count instances of this class
       if (purrr::is_null(private$static$count)) {
         private$static$count <- 0
       } else {
         private$static$count <- private$static$count + 1
-      }
-
-      # Store ids in static variable
-      if (purrr::is_null(private$static$ids)) {
-        private$static$ids <- character()
       }
 
       # Handle id
@@ -116,10 +116,10 @@ ExplorerNode <- R6::R6Class(
         private$id <- as.character(id)
       }
 
-      if (private$id %in% private$static$ids) {
+      private$node_storage <- node_storage
+
+      if (private$id %in% private$node_storage$get_ids()) {
         stop("ExplorerNode: id must be unique.")
-      } else {
-        private$static$ids <- c(private$static$ids, private$id)
       }
 
       private$parent <- parent
@@ -132,13 +132,13 @@ ExplorerNode <- R6::R6Class(
 
       private$object <- object
 
-      private$node_storage <- node_storage
+      private$removable <- removable
 
       invisible(self)
     },
 
     add_child = function(
-      id = NULL, explorer_class_id = "__group__", object = NULL,
+      id = NULL, explorer_class_id = "__group__", object = NULL, removable = TRUE,
       return = c("self", "child")
     ) {
       return <- match.arg(return)
@@ -149,7 +149,8 @@ ExplorerNode <- R6::R6Class(
         node_storage = private$node_storage,
         parent = self,
         explorer_class_id = explorer_class_id,
-        object = object
+        object = object,
+        removable = removable
       )
 
       private$node_storage$add_object(node)
@@ -210,6 +211,10 @@ ExplorerNode <- R6::R6Class(
       private$parent
     },
 
+    is_removable = function() {
+      private$removable
+    },
+
     siblings = function() {
       if (purrr::is_null(private$parent)) {
         return(list(self))
@@ -239,6 +244,7 @@ ExplorerNode <- R6::R6Class(
     node_storage = NULL,
     object = NULL,
     parent = NULL,
+    removable = TRUE,
     rvs = NULL,
     static = new.env()
   )
