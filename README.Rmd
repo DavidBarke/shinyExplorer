@@ -36,10 +36,34 @@ install.packages("shinyExplorer")
   remotes::install_github("DavidBarke/shinyExplorer")
 ```
 
-## Example
+## Explorer
 
-This is a basic example which shows you how to solve a common problem:
+Create an explorer tree:
 
-```{r example}
-## basic example code
+```{r, eval=FALSE}
+library(shinyExplorer)
+
+explorer_tree <- ExplorerTree$new(id = "tree", root_id = "root")
 ```
+
+Take the root node and add nodes to it:
+
+```{r, eval=FALSE}
+explorer_tree$get_root_node()$add_child("child1")$add_child("child2", return = "child")$add_child("grandchild")
+```
+
+Call the `explorer` module in your server function and add `explorer_ui` to your UI:
+
+```{r, eval=FALSE}
+# Inside the server function
+shiny::callModule(
+  module = explorer, id = "id_explorer",
+  .root_node_r = shiny::reactive(explorer_tree$get_root_node())
+)
+
+# Explorer UI
+explorer_ui(id = ns("id_explorer"))
+```
+
+## Contextmenu
+

@@ -93,11 +93,15 @@ ui <- function(id) {
 shiny::callModule(
   module = explorer,
   id = "id_explorer",
-  .root_node_r = shiny::reactive(tree$get_root_node()),
+  .root_node_r = shiny::reactive(explorer_tree$get_root_node()),
   # Further arguments to explorer
   ...
 )
 ```
 
-If you consult the documentation using e.g. `?explorer` you'll see that the first three arguments to that function are `input`, `output` and `session`. These arguments are called by `shiny::callModule`. All other arguments can be passed to `shiny::callModule` in addition to the mandatory arguments `module` and `id`. `explorer` takes an argument named `.explorer_classes`, which is a list of explorer_classes either created by yourself or taken from the explorer_classes that are included in shinyExplorer. You should define this list as a global variable and pass it to every `explorer` you use, regardless of if a particular explorer_class is used in this tree or not.  
+If you consult the documentation using e.g. `?explorer` you'll see that the first three arguments to that function are `input`, `output` and `session`. These arguments are called by `shiny::callModule`. All other arguments can be passed to `shiny::callModule` in addition to the mandatory arguments `module` and `id`. 
+
+Notice that we don't pass our tree to the `explorer` module, instead we take one node of the tree (in our example this is the tree's root node). The `explorer` module's visualisation will only show all nodes, that are descendents of the node you passed to it and none of its ancestors. Therefore you could create just one tree for your whole application and only visualize parts of it, where it is needed. For the same reason you are able to control nodes of which explorer classes are visible to or addable by the user. Imagine a tree containing some nodes representing datasets, other nodes representing linear models. In your master view all nodes are visible, whereas in more specific views only linear models are visible or vice versa.
+
+`explorer` takes an argument named `.explorer_classes`, which is a list of explorer_classes either created by yourself or taken from the explorer_classes that are included in shinyExplorer. You should define this list as a global variable and pass it to every `explorer` you use, regardless of if a particular explorer_class is used in this tree or not. Passing unused explorer_classes produces a minimal overhead when the module is initialised, whereas omitting an used explorer_class will result in an error. 
 

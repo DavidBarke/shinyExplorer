@@ -41,7 +41,7 @@
 #'   only if this node is a group node.
 #'     \tabular{ll}{
 #'       \code{id} \tab Unique identifier of the node. If \code{\link[base:NULL]{NULL}},
-#'         this identifier is created internally.
+#'         this identifier is created internally. \cr
 #'       \code{is_group_node} \tab \code{\link[base:logical]{Logical}} indicating,
 #'         whether the child node will be a group node or not. \cr
 #'       \code{explorer_class} \tab Object of class \code{\link{ExplorerClass}},
