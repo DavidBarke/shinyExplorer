@@ -152,7 +152,7 @@ explorer_body <- function(
       # Display group specific contextmenu_items
       class_specific_contextmenu_items <- group_node_specific_contextmenu_items_ui(
         id = ns("id_group_node"),
-        .label_list = .label_list$label_group_node
+        .label_list = .label_list$group_node_label
       )
     } else {
       explorer_class <- node$get_explorer_class()
