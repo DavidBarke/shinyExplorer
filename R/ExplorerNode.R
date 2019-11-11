@@ -15,7 +15,7 @@
 #'
 #' @section Methods:
 #' \describe{
-#'   \item{\code{new(id = NULL, node_storage = NULL, parent = NULL, is_group_node = TRUE,
+#'   \item{\code{new(id = NULL, node_storage = NULL, parent = NULL,
 #'   explorer_class_id = "__group__", object = NULL, removable = TRUE)}}{
 #'   Initialize a new node object.
 #'     \tabular{ll}{
@@ -25,9 +25,6 @@
 #'         This argument is the reason, you should not call \code{ExplorerNode$new} explicitly. \cr
 #'       \code{parent} \tab The parent node of this node, or
 #'         \code{\link[base:NULL]{NULL}}, if node is root node. \cr
-#'       \code{is_group_node} \tab \code{\link[base:logical]{Logical}} indicating
-#'         whether this node is a group node or not. Only group nodes can have
-#'         child nodes. \cr
 #'       \code{explorer_class_id} \tab Id of an object of class
 #'         \code{\link{ExplorerClass}}, which defines the behaviour of this node
 #'         in the \code{\link{explorer}}. This object must be passed to
@@ -47,8 +44,6 @@
 #'     \tabular{ll}{
 #'       \code{id} \tab Unique identifier of the node. If \code{\link[base:NULL]{NULL}},
 #'         this identifier is created internally. \cr
-#'       \code{is_group_node} \tab \code{\link[base:logical]{Logical}} indicating,
-#'         whether the child node will be a group node or not. \cr
 #'       \code{explorer_class_id} \tab Id of an object of class
 #'         \code{\link{ExplorerClass}}, which defines the behaviour of the child
 #'         node in the \code{\link{explorer}}. This object must be passed to
@@ -124,9 +119,7 @@ ExplorerNode <- R6::R6Class(
 
       private$parent <- parent
 
-      private$rvs <- shiny::reactiveValues(
-        children = list()
-      )
+      private$children <- ObjectStorage$new("ExplorerNode")
 
       private$explorer_class_id <- explorer_class_id
 
@@ -157,7 +150,7 @@ ExplorerNode <- R6::R6Class(
 
       # Add node to children of this node
       id <- node$get_id()
-      private$rvs$children[[id]] <- node
+      private$children$add_object(node)
 
       if (return == "self") {
         return(self)
@@ -168,16 +161,16 @@ ExplorerNode <- R6::R6Class(
       }
     },
 
-    children = function() {
-      private$rvs$children
+    get_children = function() {
+      private$children
     },
 
     get_child = function(id) {
-      private$rvs$children[[id]]
+      private$children$get_object(id)
     },
 
     get_child_ids = function() {
-      names(private$rvs$children)
+      private$children$get_ids()
     },
 
     get_explorer_class_id = function() {
@@ -200,7 +193,7 @@ ExplorerNode <- R6::R6Class(
     },
 
     get_nth_child = function(n) {
-      private$rvs$children[[n]]
+      private$children$get_nth_object(n)
     },
 
     get_object = function() {
@@ -226,7 +219,7 @@ ExplorerNode <- R6::R6Class(
     },
 
     remove_child = function(id) {
-      private$rvs$children[[id]] <- NULL
+      private$children$remove_object(id)
       private$node_storage$remove_object(id)
     },
 
@@ -239,13 +232,13 @@ ExplorerNode <- R6::R6Class(
     }
   ),
   private = list(
-    id = character(),
+    children = NULL,
     explorer_class_id = "__group__",
+    id = character(),
     node_storage = NULL,
     object = NULL,
     parent = NULL,
     removable = TRUE,
-    rvs = NULL,
     static = new.env()
   )
 )

@@ -12,7 +12,7 @@ group_explorer_class <- function(.label_list = label_group_explorer_class()) {
       contextmenu_item_ui = contextmenu_item_ui_factory(.label_list),
       specific_contextmenu_items_ui = group_node_specific_contextmenu_items_ui_factory(.label_list)
     ),
-    server = group_node,
+    server = group_node_factory(.label_list),
     is_group = TRUE
   )
 }

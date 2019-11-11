@@ -22,8 +22,8 @@ afterwards call \code{root$add_child()}.
 \section{Methods}{
 
 \describe{
-  \item{\code{new(id = NULL, node_storage = NULL, parent = NULL, is_group_node = TRUE,
-  explorer_class_id = "__group__", object = NULL)}}{
+  \item{\code{new(id = NULL, node_storage = NULL, parent = NULL,
+  explorer_class_id = "__group__", object = NULL, removable = TRUE)}}{
   Initialize a new node object.
     \tabular{ll}{
       \code{id} \tab Unique identifier of the node. If \code{\link[base:NULL]{NULL}},
@@ -32,9 +32,6 @@ afterwards call \code{root$add_child()}.
         This argument is the reason, you should not call \code{ExplorerNode$new} explicitly. \cr
       \code{parent} \tab The parent node of this node, or
         \code{\link[base:NULL]{NULL}}, if node is root node. \cr
-      \code{is_group_node} \tab \code{\link[base:logical]{Logical}} indicating
-        whether this node is a group node or not. Only group nodes can have
-        child nodes. \cr
       \code{explorer_class_id} \tab Id of an object of class
         \code{\link{ExplorerClass}}, which defines the behaviour of this node
         in the \code{\link{explorer}}. This object must be passed to
@@ -42,23 +39,26 @@ afterwards call \code{root$add_child()}.
       \cr
       \code{object} \tab An arbitrary object for storing information about the
         node. \cr
+      \code{removable} \tab If \code{\link[base:logical]{TRUE}}, this node is
+       removable by the user, else not.
     }
   }
   \item{\code{add_child(id = NULL, is_group_node = TRUE,
-    explorer_class_id = "__group__", object = NULL, return = c("self", "child")}}{
-    Initialize a new node object which is attached to the current node object
-    as a child, but only if this node is a group node.
+    explorer_class_id = "__group__", object = NULL, removable = TRUE,
+    return = c("self", "child")}}{Initialize a new node object which is
+    attached to the current node object as a child, but only if this node is
+    a group node.
     \tabular{ll}{
       \code{id} \tab Unique identifier of the node. If \code{\link[base:NULL]{NULL}},
         this identifier is created internally. \cr
-      \code{is_group_node} \tab \code{\link[base:logical]{Logical}} indicating,
-        whether the child node will be a group node or not. \cr
       \code{explorer_class_id} \tab Id of an object of class
         \code{\link{ExplorerClass}}, which defines the behaviour of the child
         node in the \code{\link{explorer}}. This object must be passed to
         \code{explorer} as an element of the \code{.explorer_classes} list. \cr
       \code{object} \tab An arbitrary object for storing information about the
         child node.\cr
+      \code{removable} \tab If \code{\link[base:logical]{TRUE}}, this node is
+       removable by the user, else not. \cr
       \code{return} \tab If \code{"self"}, this method returns the node, which
         adds a child; If \code{"child"}, the added node is returned.
     }
@@ -81,8 +81,8 @@ afterwards call \code{root$add_child()}.
   }
   \item{\code{get_object()}}{Get the object associated with this node object.
   }
-  \item{\code{is_group_node()}}{Returns a \code{\link[base:logical]{logical}}
-    indicating whether this node is a group node or not.
+  \item{\code{is_removable()}}{Returns a \code{\link[base:logical]{logical}}
+    indicating whether this node is removable or not.
   }
   \item{\code{remove_child(id)}}{Remove the child with \code{id == id}.
   }

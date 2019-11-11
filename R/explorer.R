@@ -89,7 +89,7 @@ explorer <- function(
   # MODULE CONTENT -------------------------------------------------------------
 
   children_r <- shiny::reactive({
-    rvs$current_node$children()
+    rvs$current_node$get_children()$get_objects()
   })
 
   output$header <- shiny::renderUI({
@@ -102,6 +102,30 @@ explorer <- function(
     }
 
     ui
+  })
+
+  # CHECK IF ALL NEEDED EXPLORER CLASSES ARE PRESENT
+  shiny::observeEvent(TRUE, {
+    needed_classes <- base::union(
+      .addable_explorer_classes_r(),
+      .visible_explorer_classes_r()
+    )
+
+    present_classes <- purrr::map_chr(.explorer_classes, function(class) {
+      class$id
+    })
+
+    missing_classes <- base::setdiff(needed_classes, present_classes)
+
+    if (length(missing_classes) > 0) {
+      msg <- paste(
+        "Explorer: explorer classes are requested to be addable or visible, but
+        .explorer_classes is missing explorer classes with the following ids:",
+        paste(missing_classes, collapse = ", ")
+      )
+
+      stop(msg)
+    }
   })
 
   # HANDLE EXPLORER CLASSES ----------------------------------------------------

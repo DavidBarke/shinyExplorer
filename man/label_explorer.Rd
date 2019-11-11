@@ -6,11 +6,10 @@
 \usage{
 label_explorer(add_group = "New group",
   ask_delete = "Are you sure you want to delete the selected item?",
-  confirm_delete = "Confirm", delete_node = "Delete",
-  new_group_name = "Neue Gruppe")
+  confirm_delete = "Confirm", delete_node = "Delete")
 }
 \arguments{
-\item{add_group, ask_delete, confirm_delete, delete_node, new_group_name}{\code{\link[base:character]{Character}}
+\item{add_group, ask_delete, confirm_delete, delete_node}{\code{\link[base:character]{Character}}
 string that will appear on the corresponding labels.}
 }
 \description{

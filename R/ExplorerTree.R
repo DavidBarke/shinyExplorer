@@ -32,7 +32,7 @@ NULL
 ExplorerTree <- R6::R6Class(
   classname = "ExplorerTree",
   public = list(
-    initialize = function(id, root_id = NULL) {
+    initialize = function(id, root_id = NULL, root_object = GroupObject$new("root")) {
       # private$static$ids holds the ids of all existing explorer trees
       if (purrr::is_null(private$static$ids)) {
         private$static$ids <- id
@@ -51,7 +51,8 @@ ExplorerTree <- R6::R6Class(
 
       private$root <- ExplorerNode$new(
         id = root_id,
-        node_storage = private$node_storage
+        node_storage = private$node_storage,
+        object = root_object
       )
 
       private$node_storage$add_object(private$root)
