@@ -41,19 +41,14 @@ explorer_body <- function(
   ns <- session$ns
 
   rvs <- shiny::reactiveValues(
-    show_contextmenu = FALSE,
-    node_open = NULL
+    show_contextmenu = FALSE
   )
 
   selector_table_r <- shiny::reactive({
     # Determine for every node whether it is visible defined by the rules written
     # in the documentation of explorer
     is_visible <- purrr::map_lgl(.children_r(), function(child_node) {
-      if (child_node$is_group_node()) {
-        return(TRUE)
-      }
-
-      if (child_node$get_explorer_class()$id %in% .visible_explorer_classes_r()) {
+      if (child_node$get_explorer_class_id() %in% .visible_explorer_classes_r()) {
         return(TRUE)
       }
 
@@ -72,7 +67,7 @@ explorer_body <- function(
     })
 
     icon_col <- purrr::map_chr(visible_children, function(child_node) {
-      child_explorer_class <- child_node$get_explorer_class()
+      child_explorer_class <- .explorer_classes[[child_node$get_explorer_class_id()]]
 
       # If child node is group, the node has explorer_class NULL
       if (child_node$is_group_node()) {
@@ -148,14 +143,8 @@ explorer_body <- function(
     if (purrr::is_null(node)) {
       # No specific contextmenu_items to display
       class_specific_contextmenu_items <- NULL
-    } else if (node$is_group_node()) {
-      # Display group specific contextmenu_items
-      class_specific_contextmenu_items <- group_node_specific_contextmenu_items_ui(
-        id = ns("id_group_node"),
-        .label_list = .label_list$group_node_label
-      )
     } else {
-      explorer_class <- node$get_explorer_class()
+      explorer_class <- .explorer_classes[[node$get_explorer_class_id()]]
 
       class_specific_contextmenu_items <- htmltools::tagList(
         explorer_class$ui$specific_contextmenu_items_ui(
@@ -172,12 +161,6 @@ explorer_body <- function(
         label = .label_list$delete_node
       )
     }
-
-    add_group_contextmenu_item <- contextmenu_item(
-      inputId = ns("add_group"),
-      label = .label_list$add_group,
-      icon = shiny::icon("folder")
-    )
 
     add_explorer_class_contextmenu_items <- purrr::map(
       .addable_explorer_classes_r(),
@@ -196,18 +179,7 @@ explorer_body <- function(
         class_specific_contextmenu_items,
         remove_contextmenu_item,
         contextmenu_hr(),
-        add_group_contextmenu_item,
         add_explorer_class_contextmenu_items
-      )
-    )
-  })
-
-  shiny::observeEvent(input$add_group, {
-    .explorer_rvs$current_node$add_child(
-      is_group_node = TRUE,
-      explorer_class = NULL,
-      object = GroupObject$new(
-        name = .label_list$new_group_name
       )
     )
   })
@@ -234,8 +206,11 @@ explorer_body <- function(
     # If "No data available in table", nothing shall happen
     id <- shiny::req(input$selector_table_row_dblclicked$data[[1]])
 
-    # Only group nodes can have children
-    if (.root_node_r()$get_node(id)$is_group_node()) {
+    explorer_class <- .explorer_classes[[
+      .root_node_r()$get_node(id)$get_explorer_class_id()
+    ]]
+    # Only nodes of group explorer class may have children
+    if (explorer_class$is_group) {
       # First column of selector table contains child node's id
       rvs$node_open <- list(
         node = .explorer_rvs$current_node$get_child(id),
@@ -246,35 +221,7 @@ explorer_body <- function(
     }
   })
 
-  shiny::observeEvent(group_node_return$open_group_r(), {
-    shiny::req(length(input$selector_table_row_contextmenued) > 0)
-    # If "No data available in table", nothing shall happen
-    id <- shiny::req(input$selector_table_row_contextmenued$data[[1]])
-
-    # Only group nodes can have children
-    if (.root_node_r()$get_node(id)$is_group_node()) {
-      # First column of selector table contains child node's id
-      rvs$node_open <- list(
-        node = .explorer_rvs$current_node$get_child(id),
-        # Also trigger, if data[[1]] did not change (same row is dblclicked twice
-        # in a row)
-        rnd = runif(1)
-      )
-    }
-  })
-
-  group_node_return <- shiny::callModule(
-    module = group_node,
-    id = "id_group_node",
-    .values = .values,
-    .explorer_rvs = .explorer_rvs,
-    .label_list = .label_list$group_node_label
-  )
-
   return_list <- list(
-    node_open_r = shiny::reactive({
-      rvs$node_open
-    }),
     selected_node_r = shiny::reactive({
       row_index <- shiny::req(input$selector_table_cell_clicked$row)
 

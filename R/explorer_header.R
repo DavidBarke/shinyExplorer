@@ -9,7 +9,7 @@ explorer_header_ui <- function(id) {
 }
 
 explorer_header <- function(
-  input, output, session, .values, .explorer_rvs, .root_node_r
+  input, output, session, .values, .explorer_classes, .explorer_rvs, .root_node_r
 ) {
 
   ns <- session$ns
@@ -57,7 +57,8 @@ explorer_header <- function(
           sibling_nodes <- node$siblings()
 
           is_group_node <- purrr::map_lgl(sibling_nodes, function(node) {
-            node$is_group_node()
+            explorer_class <- .explorer_classes[[node$get_explorer_class_id()]]
+            explorer_class$is_group
           })
 
           sibling_group_nodes <- sibling_nodes[is_group_node]

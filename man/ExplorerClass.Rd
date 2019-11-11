@@ -12,13 +12,18 @@ creating your own explorer class see the explorer class vignette:
 \section{Methods}{
 
 \describe{
-  \item{\code{new(id, ui, server)}}{Create a new object of class \code{ExplorerClass}.
+  \item{\code{new(id, ui, server, is_group = FALSE)}}{Initialise a new object
+    of class \code{ExplorerClass}.
     \tabular{ll}{
-      \code{id} \tab \cr Unique id.
-      \code{ui} \tab \cr A list of UI functions. See 'UI list' for details. \cr
-       \code{server} \tab Module server function. See 'Server function' for return list
-         elements that get handled by \code{\link{explorer}} and \code{\link{explorer_body}}.
-         \cr
+      \code{id} \tab Unique id. \cr
+      \code{ui} \tab A list of UI functions. See 'UI list' for details. \cr
+      \code{server} \tab Module server function. See 'Server function' for return list
+        elements that get handled by \code{\link{explorer}} and \code{\link{explorer_body}}.
+        \cr
+      \code{is_group} \tab \code{\link[base:logical]{Logical}} indicating
+      whether nodes of this class behave like folders or not. That means
+      they can have children, which are displayed in the \code{explorer}
+      after dblclick.
     }
   }
 }

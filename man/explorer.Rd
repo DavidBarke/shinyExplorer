@@ -8,9 +8,9 @@
 explorer_ui(id)
 
 explorer(input, output, session, .values, .root_node_r,
-  .explorer_classes = list(), .group_nodes_addable = TRUE,
-  .addable_explorer_classes_r = shiny::reactive(NULL),
-  .visible_explorer_classes_r = shiny::reactive(NULL),
+  .explorer_classes = list(),
+  .addable_explorer_classes_r = shiny::reactive("__group__"),
+  .visible_explorer_classes_r = shiny::reactive("__group__"),
   .display_header = TRUE, .label_list = label_explorer())
 }
 \arguments{
@@ -26,9 +26,6 @@ root node of an object of class \code{\link{ExplorerTree}}.}
 
 \item{.explorer_classes}{A \code{\link[base]{list}} of objects of class
 \code{\link{ExplorerClass}}.}
-
-\item{.group_nodes_addable}{\code{\link[base:logical]{Logical}} indicating
-whether group nodes are addable or not.}
 
 \item{.addable_explorer_classes_r}{A \code{\link[shiny:reactive]{reactive}}
 returning a \code{\link[base:character]{character}} vector containing the ids

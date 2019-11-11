@@ -8,7 +8,7 @@
 explorer_selector_ui(id)
 
 explorer_selector(input, output, session, .values, .root_node_r,
-  .explorer_classes = list(), .group_nodes_selectable = FALSE,
+  .explorer_classes = list(),
   .selectable_explorer_classes_r = shiny::reactive(character()),
   .addable_explorer_classes_r = .selectable_explorer_classes_r,
   .visible_explorer_classes_r = .selectable_explorer_classes_r,
@@ -27,9 +27,6 @@ root node of an object of class \code{\link{ExplorerTree}}.}
 
 \item{.explorer_classes}{A \code{\link[base]{list}} of objects of class
 \code{\link{ExplorerClass}}.}
-
-\item{.group_nodes_selectable}{\code{\link[base:logical]{Logical}} indicating
-whether group nodes are selectable or not.}
 
 \item{.selectable_explorer_classes_r}{A \code{\link[shiny:reactive]{reactive}}
 returning a \code{\link[base:character]{character}} vector containing the ids

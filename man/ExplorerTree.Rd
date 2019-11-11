@@ -17,7 +17,7 @@ Explorer Tree
       If \code{NULL} an id is chosen internally. You don't need to worry about the uniqueness
       of \code{root_id} since you are just creating the first node of the tree.
     }
-    Return: \code{\link[shinyExplorer:ExplorerNode]{root node}} of the explorer tree.
+    Return: Object of class \code{ExplorerTree}.
   }
   \item{\code{get_id()}}{Get the explorer tree's id.
   }

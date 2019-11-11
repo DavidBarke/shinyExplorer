@@ -40,8 +40,6 @@ explorer_ui <- function(id) {
 #' root node of an object of class \code{\link{ExplorerTree}}.
 #' @param .explorer_classes A \code{\link[base]{list}} of objects of class
 #' \code{\link{ExplorerClass}}.
-#' @param .group_nodes_addable \code{\link[base:logical]{Logical}} indicating
-#' whether group nodes are addable or not.
 #' @param .addable_explorer_classes_r A \code{\link[shiny:reactive]{reactive}}
 #' returning a \code{\link[base:character]{character}} vector containing the ids
 #' of explorer classes that are addable to the explorer.
@@ -68,9 +66,9 @@ explorer_ui <- function(id) {
 #' @export
 explorer <- function(
   input, output, session, .values, .root_node_r, .explorer_classes = list(),
-  .group_nodes_addable = TRUE, .addable_explorer_classes_r = shiny::reactive(NULL),
-  .visible_explorer_classes_r = shiny::reactive(NULL), .display_header = TRUE,
-  .label_list = label_explorer()
+  .addable_explorer_classes_r = shiny::reactive("__group__"),
+  .visible_explorer_classes_r = shiny::reactive("__group__"),
+  .display_header = TRUE, .label_list = label_explorer()
 ) {
 
   ns <- session$ns
@@ -132,19 +130,11 @@ explorer <- function(
   })
 
   # CALL MODULES AND HANDLING OF RETURNS ---------------------------------------
-
-  shiny::observeEvent(explorer_body_return$node_open_r(), {
-    # Explorer body node_open_r returns a list with two elements: node
-    # and rnd to guarantee that a node that shall be opened two times in a row
-    # will be opened (between these two events occurs a navigation one level up
-    # by the user by the explorer header)
-    rvs$current_node <- explorer_body_return$node_open_r()$node
-  })
-
   explorer_header_return <- shiny::callModule(
     module = explorer_header,
     id = "id_explorer_header",
     .values = .values,
+    .explorer_classes = .explorer_classes,
     .explorer_rvs = rvs,
     .root_node_r = .root_node_r
   )

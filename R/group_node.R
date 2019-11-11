@@ -1,23 +1,56 @@
-group_node_specific_contextmenu_items_ui <- function(id, .label_list = label_group_node()) {
-  ns <- shiny::NS(id)
+contextmenu_item_ui_factory <- function(
+  .label_list = label_group_explorer_class()
+) {
+  function(id) {
+    ns <- shiny::NS(id)
 
-  htmltools::tagList(
-    contextmenu_item(
-      inputId = ns("open"),
-      label = .label_list$open
-    ),
-    contextmenu_item(
-      inputId = ns("rename"),
-      label = .label_list$rename
+    htmltools::tagList(
+      contextmenu_item(
+        inputId = ns("add"),
+        label = .label_list$add
+      )
     )
-  )
+  }
+}
+
+group_node_specific_contextmenu_items_ui_factory <- function(
+  .label_list = label_group_explorer_class()
+) {
+  function(id) {
+    ns <- shiny::NS(id)
+
+    htmltools::tagList(
+      contextmenu_item(
+        inputId = ns("open"),
+        label = .label_list$open
+      ),
+      contextmenu_item(
+        inputId = ns("rename"),
+        label = .label_list$rename
+      )
+    )
+  }
 }
 
 group_node <- function(
-  input, output, session, .values, .explorer_rvs, .label_list = label_group_node()
+  input, output, session, .values, .explorer_rvs,
+  .label_list = label_group_explorer_class()
 ) {
 
   ns <- session$ns
+
+  shiny::observeEvent(input$add, {
+    .explorer_rvs$current_node$add_child(
+      explorer_class_id = "__group__",
+      object = GroupObject$new(
+        name = .label_list$new_group_name
+      )
+    )
+  })
+
+  shiny::observeEvent(input$open, {
+    .explorer_rvs$current_node <- .explorer_rvs$contextmenued_node
+  })
 
   shiny::observeEvent(input$rename, {
     shiny::showModal(shiny::modalDialog(
@@ -54,7 +87,6 @@ group_node <- function(
   })
 
   return_list <- list(
-    open_group_r = shiny::reactive({input$open})
   )
 
   return(return_list)

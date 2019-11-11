@@ -21,8 +21,6 @@ explorer_selector_ui <- function(id) {
 #' Use the \code{\link{explorer}} module to select a node.
 #'
 #' @param input,output,session Called by \code{\link[shiny:callModule]{callModule}}.
-#' @param .group_nodes_selectable \code{\link[base:logical]{Logical}} indicating
-#' whether group nodes are selectable or not.
 #' @param .selectable_explorer_classes_r A \code{\link[shiny:reactive]{reactive}}
 #' returning a \code{\link[base:character]{character}} vector containing the ids
 #' of selectable explorer_classes. If \code{character()}, only group nodes are
@@ -39,7 +37,6 @@ explorer_selector_ui <- function(id) {
 #' @export
 explorer_selector <- function(
   input, output, session, .values, .root_node_r, .explorer_classes = list(),
-  .group_nodes_selectable = FALSE,
   .selectable_explorer_classes_r = shiny::reactive(character()),
   .addable_explorer_classes_r = .selectable_explorer_classes_r,
   .visible_explorer_classes_r = .selectable_explorer_classes_r,
@@ -64,9 +61,9 @@ explorer_selector <- function(
     id_col <- rvs$selected_node$get_id()
     name_col <- rvs$selected_node$get_object()$get_name()
 
-    explorer_class <- rvs$selected_node$get_explorer_class()
+    explorer_class <- .explorer_classes[[rvs$selected_node$get_explorer_class_id()]]
 
-    icon_col <- if (rvs$selected_node$is_group_node()) {
+    icon_col <- if (explorer_class$is_group) {
       as.character(shiny::icon("folder"))
     } else if (purrr::is_null(explorer_class$server_return$icon_r)) {
       ""
@@ -136,20 +133,15 @@ explorer_selector <- function(
     }
 
     # Store reference to contextmenued node in .explorer_rvs, so that is readable
-    # in user submitted explorer_classes. If the table is empty, the contextmenued
-    # node is set to NULL
+    # in explorer_classes. If the table is empty, the contextmenued node is set
+    # to NULL
     explorer_return$rvs$contextmenued_node <- node
 
     if (purrr::is_null(node)) {
       # No specific contextmenu_items to display
       class_specific_contextmenu_items <- NULL
-    } else if (node$is_group_node()) {
-      # Display group specific contextmenu_items
-      class_specific_contextmenu_items <- group_node_specific_contextmenu_items_ui(
-        id = ns("id_group_node")
-      )
     } else {
-      explorer_class <- node$get_explorer_class()
+      explorer_class <- .explorer_classes[[node$get_explorer_class_id()]]
 
       class_specific_contextmenu_items <- htmltools::tagList(
         explorer_class$ui$specific_contextmenu_items_ui(
@@ -185,17 +177,9 @@ explorer_selector <- function(
   is_selectable_r <- shiny::reactive({
     selected_child_node <- shiny::req(explorer_return$selected_child_node_r())
 
-    if (selected_child_node$is_group_node()) {
-      if (.group_nodes_selectable) {
-        return(TRUE)
-      } else {
-        return(FALSE)
-      }
-    }
+    current_explorer_class_id <- selected_child_node$get_explorer_class_id()
 
-    current_explorer_class <- selected_child_node$get_explorer_class()$id
-
-    if (current_explorer_class %in% .selectable_explorer_classes_r()) {
+    if (current_explorer_class_id %in% .selectable_explorer_classes_r()) {
       return(TRUE)
     }
 
