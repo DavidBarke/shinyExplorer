@@ -22,7 +22,7 @@ NULL
 Object <- R6::R6Class(
   classname = "Object",
   public = list(
-    initialize = function(name = "") {
+    initialize = function(name = "Object") {
       QWUtils::handle_static_counter(private$static)
       # prefix an underscore to get a valid column name for lm
       private$id <- paste0("id_", as.character(private$static$counter))

@@ -56,13 +56,19 @@
 #'         adds a child; If \code{"child"}, the added node is returned.
 #'     }
 #'   }
-#'   \item{\code{children()}}{Get a list of all child nodes of this node
-#'     object.
+#'   \item{\code{get_children()}}{Get an object of class \code{\link{ObjectStorage}}
+#'     containing all children of this node. Each child is an object of class
+#'     \code{ExplorerNode}.
 #'   }
 #'   \item{\code{get_child(id)}}{Get the child node object with \code{id == id}.
 #'   }
 #'   \item{\code{get_child_ids()}}{Get the ids of all child nodes of this
 #'     node object.
+#'   }
+#'   \item{\code{get_child_objects}}{Get an object of class
+#'     \code{\link{ObjectStorage}} containing all objects associated with the
+#'     children of this node. These objects are usually heterogeneous, which means
+#'     they are instances of different classes.
 #'   }
 #'   \item{\code{get_explorer_class_id()}}{Get the id of the object of class
 #'     \code{explorer_class} associated with this node object.
@@ -121,6 +127,8 @@ ExplorerNode <- R6::R6Class(
 
       private$children <- ObjectStorage$new("ExplorerNode")
 
+      private$child_objects <- ObjectStorage$new(NULL)
+
       private$explorer_class_id <- explorer_class_id
 
       private$object <- object
@@ -131,7 +139,7 @@ ExplorerNode <- R6::R6Class(
     },
 
     add_child = function(
-      id = NULL, explorer_class_id = "__group__", object = NULL, removable = TRUE,
+      id = NULL, explorer_class_id = "__group__", object = Object$new(), removable = TRUE,
       return = c("self", "child")
     ) {
       return <- match.arg(return)
@@ -151,6 +159,8 @@ ExplorerNode <- R6::R6Class(
       # Add node to children of this node
       id <- node$get_id()
       private$children$add_object(node)
+      # Add child object tot child objes of this node
+      private$child_objects$add_object(node$get_object())
 
       if (return == "self") {
         return(self)
@@ -171,6 +181,10 @@ ExplorerNode <- R6::R6Class(
 
     get_child_ids = function() {
       private$children$get_ids()
+    },
+
+    get_child_objects = function() {
+      private$child_objects
     },
 
     get_explorer_class_id = function() {
@@ -219,6 +233,10 @@ ExplorerNode <- R6::R6Class(
     },
 
     remove_child = function(id) {
+      child_node <- private$children$get_object(id)
+      child_object_id <- child_node$get_object()$get_id()
+
+      private$child_objects$remove_object(child_object_id)
       private$children$remove_object(id)
       private$node_storage$remove_object(id)
     },
@@ -232,6 +250,7 @@ ExplorerNode <- R6::R6Class(
     }
   ),
   private = list(
+    child_objects = NULL,
     children = NULL,
     explorer_class_id = "__group__",
     id = character(),

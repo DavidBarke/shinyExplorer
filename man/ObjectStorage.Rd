@@ -5,7 +5,8 @@
 \title{ObjectStorage}
 \description{
 R6Class for storing similar R6 objects. These objects all need to implement
-the method get_id(). The id of an object is unique in a storage.
+the method get_id() and get_name(). The id of an object is
+unique in a storage whereas multiple objects can share the same name.
 }
 \section{Usage}{
 
@@ -37,6 +38,9 @@ storage$get_object(id)
   }
   \item{\code{get_length()}}{Get the length of the storage.
   }
+  \item{\code{get_names()}}{Get the objects' names, which aren't necessarily
+    unique. See also \code{this$get_ids()}.
+  }
   \item{\code{get_nth_object(n)}}{Get the object with index \code{n} going
   from \code{1} to \code{this$get_length()}.
   }
@@ -50,8 +54,8 @@ storage$get_object(id)
     with \code{object$get_id() \%in\% ids}. If \code{ids} is missing get
     a list with all objects.
     \tabular{ll}{
-      \code{ids} \tab \code{\link[base:character]{Character}} vector. Each
-      element has to be a id of an object in the storage.
+      \code{ids} \tab Character vector. Each element has to be a id of
+        an object in the storage.
     }
   }
 }

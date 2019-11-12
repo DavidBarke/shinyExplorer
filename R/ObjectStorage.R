@@ -1,7 +1,8 @@
 #' ObjectStorage
 #'
 #' R6Class for storing similar R6 objects. These objects all need to implement
-#' the method get_id(). The id of an object is unique in a storage.
+#' the method get_id() and get_name(). The id of an object is
+#' unique in a storage whereas multiple objects can share the same name.
 #'
 #' @section Usage:
 #' \preformatted{storage = ObjectStorage$new(allowed_classes = NULL)
@@ -30,6 +31,9 @@
 #'   }
 #'   \item{\code{get_length()}}{Get the length of the storage.
 #'   }
+#'   \item{\code{get_names()}}{Get the objects' names, which aren't necessarily
+#'     unique. See also \code{this$get_ids()}.
+#'   }
 #'   \item{\code{get_nth_object(n)}}{Get the object with index \code{n} going
 #'   from \code{1} to \code{this$get_length()}.
 #'   }
@@ -43,8 +47,8 @@
 #'     with \code{object$get_id() \%in\% ids}. If \code{ids} is missing get
 #'     a list with all objects.
 #'     \tabular{ll}{
-#'       \code{ids} \tab \code{\link[base:character]{Character}} vector. Each
-#'       element has to be a id of an object in the storage.
+#'       \code{ids} \tab Character vector. Each element has to be a id of
+#'         an object in the storage.
 #'     }
 #'   }
 #' }
@@ -65,6 +69,12 @@ ObjectStorage <- R6::R6Class(
         length(private$storage())
       })
 
+      private$storage_names <- shiny::reactive({
+        purrr::map_chr(private$storage(), function(object) {
+          object$get_name()
+        })
+      })
+
       private$allowed_classes <- allowed_classes
 
       invisible(self)
@@ -80,6 +90,15 @@ ObjectStorage <- R6::R6Class(
         )
       }
 
+      if (!exists(
+        x = "get_name",
+        where = object
+      )) {
+        stop(
+          "ObjectStorage: object has to have a method with name \"get_name\""
+        )
+      }
+
       if (!is.null(private$allowed_classes)) {
         stopifnot(any(private$allowed_classes %in% class(object)))
       }
@@ -92,12 +111,17 @@ ObjectStorage <- R6::R6Class(
     get_ids = function() {
       # The names of private$storage correspond to the ids of the stored objects
       ids <- names(private$storage())
-
+      # These are the object names
+      names(ids) <- private$storage_names()
       ids
     },
 
     get_length = function() {
       length(private$storage())
+    },
+
+    get_names = function() {
+      private$storage_names()
     },
 
     get_nth_object = function(n) {
@@ -125,6 +149,15 @@ ObjectStorage <- R6::R6Class(
       objects
     },
 
+    # # names of the ids are the current names
+    # get_object_ids = function() {
+    #   ids <- map_chr(private$storage(), function(object) {
+    #     object$get_id()
+    #   })
+    #   names(ids) <- private$storage_names()
+    #   unlist(ids)
+    # },
+
     remove_object = function(id) {
       storage <- private$storage()
       storage[[id]] <- NULL
@@ -142,6 +175,7 @@ ObjectStorage <- R6::R6Class(
   private = list(
     allowed_classes = NULL,
     length = NULL,
-    storage = NULL
+    storage = NULL,
+    storage_names = NULL
   )
 )

@@ -63,13 +63,19 @@ afterwards call \code{root$add_child()}.
         adds a child; If \code{"child"}, the added node is returned.
     }
   }
-  \item{\code{children()}}{Get a list of all child nodes of this node
-    object.
+  \item{\code{get_children()}}{Get an object of class \code{\link{ObjectStorage}}
+    containing all children of this node. Each child is an object of class
+    \code{ExplorerNode}.
   }
   \item{\code{get_child(id)}}{Get the child node object with \code{id == id}.
   }
   \item{\code{get_child_ids()}}{Get the ids of all child nodes of this
     node object.
+  }
+  \item{\code{get_child_objects}}{Get an object of class
+    \code{\link{ObjectStorage}} containing all objects associated with the
+    children of this node. These objects are usually heterogeneous, which means
+    they are instances of different classes.
   }
   \item{\code{get_explorer_class_id()}}{Get the id of the object of class
     \code{explorer_class} associated with this node object.
