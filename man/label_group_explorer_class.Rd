@@ -10,7 +10,7 @@ label_group_explorer_class(add = "New group",
 }
 \arguments{
 \item{add, confirm_rename, new_group_name, open, rename}{\code{\link[base:character]{Character}}
-string that will appear on the corresponding labels.}
+strings that will appear on the corresponding labels.}
 }
 \description{
 Create Labels for Group Node Explorer Class

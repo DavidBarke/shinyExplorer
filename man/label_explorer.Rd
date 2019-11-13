@@ -10,7 +10,7 @@ label_explorer(add_group = "New group",
 }
 \arguments{
 \item{add_group, ask_delete, confirm_delete, delete_node}{\code{\link[base:character]{Character}}
-string that will appear on the corresponding labels.}
+strings that will appear on the corresponding labels.}
 }
 \description{
 Create Labels for Explorer

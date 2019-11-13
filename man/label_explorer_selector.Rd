@@ -13,7 +13,7 @@ label_explorer_selector(explorer_label = label_explorer(),
 \item{explorer_label}{Output of \code{\link{label_explorer}}. \code{\link{explorer}} is used
 internally by \code{explorer_selector}.}
 
-\item{confirm_selection, select_element, selected_element}{\code{\link[base:character]{Character}} string, that will appear on the corresponding
+\item{confirm_selection, select_element, selected_element}{\code{\link[base:character]{Character}} strings that will appear on the corresponding
 labels.}
 }
 \description{

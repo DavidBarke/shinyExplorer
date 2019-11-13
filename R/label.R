@@ -2,7 +2,7 @@
 #'
 #' @param add_group,ask_delete,confirm_delete,delete_node
 #' \code{\link[base:character]{Character}}
-#' string that will appear on the corresponding labels.
+#' strings that will appear on the corresponding labels.
 #'
 #' @export
 label_explorer <- function(
@@ -24,7 +24,7 @@ label_explorer <- function(
 #' @param explorer_label Output of \code{\link{label_explorer}}. \code{\link{explorer}} is used
 #' internally by \code{explorer_selector}.
 #' @param confirm_selection,select_element,selected_element
-#' \code{\link[base:character]{Character}} string, that will appear on the corresponding
+#' \code{\link[base:character]{Character}} strings that will appear on the corresponding
 #' labels.
 #'
 #' @export
@@ -46,7 +46,7 @@ label_explorer_selector <- function(
 #' Create Labels for Group Node Explorer Class
 #'
 #' @param add,confirm_rename,new_group_name,open,rename \code{\link[base:character]{Character}}
-#' string that will appear on the corresponding labels.
+#' strings that will appear on the corresponding labels.
 #'
 #' @export
 label_group_explorer_class <- function(
@@ -64,5 +64,24 @@ label_group_explorer_class <- function(
     rename = rename
   )
 }
+
+#' Create Labels for the Rename Contextmenu Item
+#'
+#' @param confirm_rename,start_rename,title_rename \code{\link[base:character]{Character}}
+#' strings that will appear on the corresponding labels.
+#'
+#' @export
+label_rename_contextmenu_item <- function(
+  confirm_rename = "Confirm",
+  start_rename = "Rename",
+  title_rename = "Rename"
+) {
+  list(
+    confirm_rename = confirm_rename,
+    start_rename = start_rename,
+    title_rename = title_rename
+  )
+}
+
 
 
