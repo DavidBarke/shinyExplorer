@@ -26,7 +26,7 @@ use_contextmenu <- function() {
     name = "contextmenu",
     package = "shinyExplorer",
     version = utils::packageVersion("shinyExplorer"),
-    src = "contextmenu",
+    src = "srcjs/contextmenu",
     script = "js/contextmenu.js",
     stylesheet = "css/styles.css"
   )

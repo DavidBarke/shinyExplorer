@@ -5,10 +5,11 @@
 \alias{rename_contextmenu_item_ui}
 \title{Contextmenu item for renaming}
 \usage{
-rename_contextmenu_item_ui(id, .label_list)
+rename_contextmenu_item_ui(id,
+  .label_list = label_rename_contextmenu_item())
 
-rename_contextmenu_item(input, output, session, .values, .parent,
-  .explorer_rvs, .label_list)
+rename_contextmenu_item(input, output, session, .values, .explorer_rvs,
+  .label_list = label_rename_contextmenu_item())
 }
 \arguments{
 \item{id}{Module id.}

@@ -1,7 +1,7 @@
 #' @name rename_contextmenu_item
 #'
 #' @export
-rename_contextmenu_item_ui <- function(id, .label_list) {
+rename_contextmenu_item_ui <- function(id, .label_list = label_rename_contextmenu_item()) {
   ns <- shiny::NS(id)
 
   htmltools::tagList(
@@ -24,12 +24,10 @@ rename_contextmenu_item_ui <- function(id, .label_list) {
 #'
 #' @export
 rename_contextmenu_item <- function(
-  input, output, session, .values, .parent, .explorer_rvs, .label_list
+  input, output, session, .values, .explorer_rvs, .label_list = label_rename_contextmenu_item()
 ) {
 
   ns <- session$ns
-
-  self <- QWUtils::Node$new(ns("rename_contextmenu_item"), .parent, session)
 
   shiny::observeEvent(input$rename, {
     shiny::showModal(shiny::modalDialog(
@@ -49,7 +47,7 @@ rename_contextmenu_item <- function(
   })
 
   output$footer <- shiny::renderUI({
-    if (length(input$new_name) == 0 || nchar(input$new_name) == 0) {
+    if (length(input$new_name) == 0 || !nzchar(input$new_name)) {
       ui <- NULL
     } else {
       ui <- QWUtils::actionButtonQW(

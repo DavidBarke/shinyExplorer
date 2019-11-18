@@ -13,7 +13,7 @@ explorer_ui <- function(id) {
       name = "explorer",
       package = "shinyExplorer",
       version = utils::packageVersion("shinyExplorer"),
-      src = "explorer",
+      src = "srcjs/explorer",
       stylesheet = "css/styles.css"
     ),
     use_contextmenu(),
