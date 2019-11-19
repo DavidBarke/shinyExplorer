@@ -62,13 +62,15 @@ explorer_selector <- function(
     name_col <- rvs$selected_node$get_object()$get_name()
 
     explorer_class <- .explorer_classes[[rvs$selected_node$get_explorer_class_id()]]
+    id <- explorer_class$id
+    explorer_class_return <- explorer_return$explorer_class_returns[[id]]
 
-    icon_col <- if (explorer_class$is_group) {
+    icon_col <- if (explorer_class_return$is_group_r()) {
       as.character(shiny::icon("folder"))
-    } else if (purrr::is_null(explorer_class$server_return$icon_r)) {
+    } else if (purrr::is_null(explorer_class_return$icon_r)) {
       ""
     } else {
-      as.character(explorer_class$server_return$icon_r())
+      as.character(explorer_class_return$icon_r())
     }
 
     data <- tibble::tibble(

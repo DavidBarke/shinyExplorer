@@ -226,7 +226,7 @@ ExplorerNode <- R6::R6Class(
         return(list(self))
       } else {
         return(
-          private$parent$children()
+          private$parent$get_children()
         )
       }
     },

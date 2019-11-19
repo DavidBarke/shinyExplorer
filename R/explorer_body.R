@@ -34,8 +34,8 @@ explorer_body_ui <- function(id) {
 #' @importFrom stats runif
 explorer_body <- function(
   input, output, session, .values, .children_r, .root_node_r, .explorer_classes,
-  .explorer_rvs, .addable_explorer_classes_r, .visible_explorer_classes_r,
-  .label_list
+  .explorer_class_returns, .explorer_rvs, .addable_explorer_classes_r,
+  .visible_explorer_classes_r, .label_list
 ) {
 
   ns <- session$ns
@@ -67,19 +67,20 @@ explorer_body <- function(
     })
 
     icon_col <- purrr::map_chr(visible_children, function(child_node) {
-      child_explorer_class <- .explorer_classes[[child_node$get_explorer_class_id()]]
+      child_explorer_class_id <- child_node$get_explorer_class_id()
+      child_return <- .explorer_class_returns[[child_explorer_class_id]]
 
       # If child node is group, the node has explorer_class NULL
-      if (child_explorer_class$is_group) {
+      if (child_return$is_group_r()) {
         return(as.character(shiny::icon("folder")))
       }
 
       # Else the explorer_class' server function might return the reactive
       # icon_r, which returns an icon
-      if (purrr::is_null(child_explorer_class$server_return$icon_r)) {
+      if (purrr::is_null(child_return$icon_r)) {
         return("")
       } else {
-        return(as.character(child_explorer_class$server_return$icon_r()))
+        return(as.character(child_return$icon_r()))
       }
     })
 
@@ -215,11 +216,12 @@ explorer_body <- function(
     # If "No data available in table", nothing shall happen
     id <- shiny::req(input$selector_table_row_dblclicked$data[[1]])
 
-    explorer_class <- .explorer_classes[[
-      .root_node_r()$get_node(id)$get_explorer_class_id()
-    ]]
+    explorer_class_id <- .root_node_r()$get_node(id)$get_explorer_class_id()
+
+    explorer_class_return <- .explorer_class_returns[[explorer_class_id]]
+
     # Only nodes of group explorer class may have children
-    if (explorer_class$is_group) {
+    if (explorer_class_return$is_group_r()) {
       # First column of selector table contains child node's id
       .explorer_rvs$current_node <- .explorer_rvs$current_node$get_child(id)
     }
