@@ -130,7 +130,7 @@ ExplorerNode <- R6::R6Class(
 
       private$explorer_class_id <- explorer_class_id
 
-      private$object <- object
+      private$object <- shiny::reactiveVal(object)
 
       private$removable <- removable
 
@@ -210,7 +210,7 @@ ExplorerNode <- R6::R6Class(
     },
 
     get_object = function() {
-      private$object
+      private$object()
     },
 
     get_parent_node = function() {

@@ -55,6 +55,10 @@ explorer_header <- function(
 
           node <- get_ancestor_node(.explorer_rvs$current_node, i)
 
+          # Don't show siblings of root nodes, otherwise the user is able to
+          # leave the intended branch of the tree
+          if (node$get_id() == .root_node_r()$get_id()) return()
+
           siblings <- node$siblings()$get_objects()
 
           is_group_node <- purrr::map_lgl(siblings, function(node) {
