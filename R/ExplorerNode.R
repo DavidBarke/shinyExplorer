@@ -111,7 +111,7 @@ ExplorerNode <- R6::R6Class(
 
       # Handle id
       if (purrr::is_null(id)) {
-        private$id <- ".__id" %_% as.character(private$static$count) %_% "__"
+        private$id <- stringi::stri_rand_strings(1, 8)
       } else {
         private$id <- as.character(id)
       }
@@ -119,7 +119,10 @@ ExplorerNode <- R6::R6Class(
       private$node_storage <- node_storage
 
       if (private$id %in% private$node_storage$get_ids()) {
-        stop("ExplorerNode: id must be unique.")
+        stop(paste(
+          "ExplorerNode: There is already an object of class ExplorerNode with id:",
+          private$id
+        ))
       }
 
       private$parent <- parent
