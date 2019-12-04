@@ -102,13 +102,6 @@ ExplorerNode <- R6::R6Class(
       id = NULL, node_storage = NULL, parent = NULL, explorer_class_id = "__group__",
       object = GroupObject$new("Group"), removable = TRUE
     ) {
-      # Count instances of this class
-      if (purrr::is_null(private$static$count)) {
-        private$static$count <- 0
-      } else {
-        private$static$count <- private$static$count + 1
-      }
-
       # Handle id
       if (purrr::is_null(id)) {
         private$id <- stringi::stri_rand_strings(1, 8)
@@ -259,7 +252,6 @@ ExplorerNode <- R6::R6Class(
     node_storage = NULL,
     object = NULL,
     parent = NULL,
-    removable = TRUE,
-    static = new.env()
+    removable = TRUE
   )
 )
