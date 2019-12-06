@@ -11,7 +11,8 @@ explorer(input, output, session, .values, .root_node_r,
   .explorer_classes = list(),
   .addable_explorer_classes_r = shiny::reactive("__group__"),
   .visible_explorer_classes_r = shiny::reactive("__group__"),
-  .display_header = TRUE, .label_list = label_explorer())
+  .display_header = TRUE, .label_list = label_explorer(),
+  .state = list())
 }
 \arguments{
 \item{id}{The module's id.}
@@ -41,6 +42,10 @@ header is displayed, otherwise it is not.}
 
 \item{.label_list}{A \code{\link[base]{list}} created with \code{\link{label_explorer}}
 containing labels for all buttons used inside the explorer module.}
+
+\item{.state}{A \code{\link[base]{list}} which is passed to every explorer
+class server function. Use this list to implement special behaviour of an
+explorer class dependent on conditions outside of the explorer.}
 }
 \value{
 The \code{explorer} module returns a list containing the following reactives, that

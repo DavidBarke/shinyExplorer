@@ -43,11 +43,10 @@ afterwards call \code{root$add_child()}.
        removable by the user, else not.
     }
   }
-  \item{\code{add_child(id = NULL, is_group_node = TRUE,
-    explorer_class_id = "__group__", object = NULL, removable = TRUE,
-    return = c("self", "child")}}{Initialize a new node object which is
-    attached to the current node object as a child, but only if this node is
-    a group node.
+  \item{\code{add_child(id = NULL, explorer_class_id = "__group__",
+    object = NULL, removable = TRUE, return = c("self", "child")}}{Initialize
+    a new node object which is attached to the current node object as a child,
+    but only if this node is a group node.
     \tabular{ll}{
       \code{id} \tab Unique identifier of the node. If \code{\link[base:NULL]{NULL}},
         this identifier is created internally. \cr

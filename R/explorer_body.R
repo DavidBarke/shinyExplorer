@@ -233,7 +233,7 @@ explorer_body <- function(
 
       id <- selector_table_r()[row_index, 1, drop = TRUE]
 
-      .explorer_rvs$current_node$get_child(id)
+      .explorer_rvs$current_node$get_child(shiny::req(id))
     })
   )
 
