@@ -1,8 +1,27 @@
 library(shiny)
 library(shinyExplorer)
 
-ui <- fluidPage(
-
+ui <- shiny::fluidPage(
+  shiny::sidebarLayout(
+    shiny::sidebarPanel(
+      htmltools::p(
+        "Right-click an element to select an action."
+      ),
+      htmltools::p(
+        "Double-click an element to open it."
+      ),
+      shiny::checkboxInput(
+        inputId = "group_nodes_addable",
+        label = "Group Nodes Addable",
+        value = TRUE
+      )
+    ),
+    shiny::mainPanel(
+      explorer_ui(
+        id = "id_explorer"
+      )
+    )
+  )
 )
 
 server <- function(input, output, session) {
@@ -12,17 +31,31 @@ server <- function(input, output, session) {
   .values <- list(
     tree = shiny::isolate(ExplorerTree$new("tree", "root")),
     explorer_classes = list(
-      group
+      "__group__" = group
     )
   )
 
+  shiny::isolate(.values$tree$get_root_node()$add_child(
+    id = "Node"
+  ))
+
+  addable_explorer_classes_r <- shiny::reactive({
+    if (input$group_nodes_addable) {
+      return("__group__")
+    } else {
+      return(character())
+    }
+  })
+
   shiny::callModule(
     module = explorer,
+    id = "id_explorer",
     .values = .values,
     .root_node_r = shiny::reactive({
       .values$tree$get_root_node()
     }),
-    .explorer_classes =
+    .explorer_classes = .values$explorer_classes,
+    .addable_explorer_classes = addable_explorer_classes_r
   )
 }
 

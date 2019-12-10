@@ -32,21 +32,7 @@ NULL
 ExplorerTree <- R6::R6Class(
   classname = "ExplorerTree",
   public = list(
-    initialize = function(id, root_id = NULL, root_object = GroupObject$new("root")) {
-      # private$static$ids holds the ids of all existing explorer trees
-      if (purrr::is_null(private$static$ids)) {
-        private$static$ids <- id
-      } else {
-        if (id %in% private$static$ids) {
-          print(private$static$ids)
-          stop(paste("ExplorerTree: there is already an explorer tree with id", id))
-        }
-
-        private$static$ids <- c(private$static$ids, id)
-      }
-
-      private$id <- id
-
+    initialize = function(id = "defunct", root_id = NULL, root_object = GroupObject$new("root")) {
       private$node_storage <- ObjectStorage$new(allowed_classes = "ExplorerNode")
 
       private$root <- ExplorerNode$new(
@@ -58,10 +44,6 @@ ExplorerTree <- R6::R6Class(
       private$node_storage$add_object(private$root)
 
       return(self)
-    },
-
-    get_id = function() {
-      private$id
     },
 
     get_node = function(id) {
@@ -86,9 +68,7 @@ ExplorerTree <- R6::R6Class(
     }
   ),
   private = list(
-    id = character(),
     node_storage = NULL,
-    root = NULL,
-    static = new.env()
+    root = NULL
   )
 )
