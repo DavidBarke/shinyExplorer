@@ -173,25 +173,35 @@ explorer_body <- function(
       }
     )
 
-    # Only show hr if content is present before it
+    # Only show hr if content is present before it and after it
     possible_contextmenu_hr <- if (
-      length(c(class_specific_contextmenu_items, remove_contextmenu_item))
+      length(c(class_specific_contextmenu_items, remove_contextmenu_item)) &&
+      length(add_explorer_class_contextmenu_items)
     ) {
       contextmenu_hr()
     } else {
       NULL
     }
 
-    show_contextmenu(
-      contextmenu(
-        x = input$selector_table_row_contextmenued$mouse$x,
-        y = input$selector_table_row_contextmenued$mouse$y,
-        class_specific_contextmenu_items,
+    # Only show contextmenu if it contains any elements
+    if (
+      length(c(
         remove_contextmenu_item,
         possible_contextmenu_hr,
         add_explorer_class_contextmenu_items
+      ))
+    ) {
+      show_contextmenu(
+        contextmenu(
+          x = input$selector_table_row_contextmenued$mouse$x,
+          y = input$selector_table_row_contextmenued$mouse$y,
+          class_specific_contextmenu_items,
+          remove_contextmenu_item,
+          possible_contextmenu_hr,
+          add_explorer_class_contextmenu_items
+        )
       )
-    )
+    }
   })
 
   shiny::observeEvent(input$remove_node, {
