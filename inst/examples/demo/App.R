@@ -29,14 +29,15 @@ server <- function(input, output, session) {
   group <- group_explorer_class()
 
   .values <- list(
-    tree = shiny::isolate(ExplorerTree$new("tree", "root")),
+    tree = shiny::isolate(ExplorerTree$new("root")),
     explorer_classes = list(
       "__group__" = group
     )
   )
 
   shiny::isolate(.values$tree$get_root_node()$add_child(
-    id = "Node"
+    id = "Node",
+    object = Object$new("New group")
   ))
 
   addable_explorer_classes_r <- shiny::reactive({

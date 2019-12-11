@@ -37,7 +37,7 @@
 #'     }
 #'   }
 #'   \item{\code{add_child(id = NULL, explorer_class_id = "__group__",
-#'     object = NULL, removable = TRUE, return = c("self", "child")}}{Initialize
+#'     object = Object$new(), removable = TRUE, return = c("self", "child")}}{Initialize
 #'     a new node object which is attached to the current node object as a child,
 #'     but only if this node is a group node.
 #'     \tabular{ll}{
@@ -79,6 +79,10 @@
 #'   }
 #'   \item{\code{get_object()}}{Get the object associated with this node object.
 #'   }
+#'   \item{\code{get_siblings()}}{Get an object of class \code{\link{ObjectStorage}}
+#'     containing all siblings of this node. Each sibling is an object of class
+#'     \code{ExplorerNode}.
+#'   }
 #'   \item{\code{is_removable()}}{Returns a \code{\link[base:logical]{logical}}
 #'     indicating whether this node is removable or not.
 #'   }
@@ -100,7 +104,7 @@ ExplorerNode <- R6::R6Class(
   public = list(
     initialize = function(
       id = NULL, node_storage = NULL, parent = NULL, explorer_class_id = "__group__",
-      object = GroupObject$new("Group"), removable = TRUE
+      object = Object$new("Group"), removable = TRUE
     ) {
       # Handle id
       if (purrr::is_null(id)) {
@@ -134,7 +138,7 @@ ExplorerNode <- R6::R6Class(
     },
 
     add_child = function(
-      id = NULL, explorer_class_id = "__group__", object = Object$new(), removable = TRUE,
+      id = NULL, explorer_class_id = "__group__", object = Object$new("Group"), removable = TRUE,
       return = c("self", "child")
     ) {
       return <- match.arg(return)
@@ -213,11 +217,7 @@ ExplorerNode <- R6::R6Class(
       private$parent
     },
 
-    is_removable = function() {
-      private$removable
-    },
-
-    siblings = function() {
+    get_siblings = function() {
       if (purrr::is_null(private$parent)) {
         return(list(self))
       } else {
@@ -225,6 +225,10 @@ ExplorerNode <- R6::R6Class(
           private$parent$get_children()
         )
       }
+    },
+
+    is_removable = function() {
+      private$removable
     },
 
     remove_child = function(id) {

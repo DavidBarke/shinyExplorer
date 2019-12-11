@@ -44,7 +44,7 @@ afterwards call \code{root$add_child()}.
     }
   }
   \item{\code{add_child(id = NULL, explorer_class_id = "__group__",
-    object = NULL, removable = TRUE, return = c("self", "child")}}{Initialize
+    object = Object$new(), removable = TRUE, return = c("self", "child")}}{Initialize
     a new node object which is attached to the current node object as a child,
     but only if this node is a group node.
     \tabular{ll}{

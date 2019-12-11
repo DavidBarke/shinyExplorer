@@ -9,17 +9,12 @@ Explorer Tree
 \section{Methods}{
 
 \describe{
-  \item{\code{new(id, root_id = NULL)}}{Initialize a new explorer tree object.
+  \item{\code{new(root_id = NULL, root_object = Object$new("/"))}}{Initialize a new explorer tree object.
     \tabular{ll}{
-      \code{id} \tab Unique \code{\link[base]{character}} string. \cr
-      \code{root_id} \tab Either unique \code{\link[base]{character}} string within this
-      explorer tree or \code{\link[base]{NULL}} for the root node of the explorer tree.
-      If \code{NULL} an id is chosen internally. You don't need to worry about the uniqueness
-      of \code{root_id} since you are just creating the first node of the tree.
+      \code{root_id} \tab Identifier of the root node. If \code{\link[base]{NULL}},
+      this identifier is created internally.
     }
     Return: Object of class \code{ExplorerTree}.
-  }
-  \item{\code{get_id()}}{Get the explorer tree's id.
   }
   \item{\code{get_node(id)}}{Get the node of the explorer tree with \code{id == id}.
   }

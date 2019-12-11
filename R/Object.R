@@ -1,7 +1,7 @@
 #' Object
 #'
-#' \code{\link[R6]{R6Class}} representing the most primitive object having only
-#' an id and a name.
+#' \code{\link[R6]{R6Class}} representing the most primitive object possessing
+#' only an id and a name.
 #'
 #' @section Methods:
 #' \describe{
@@ -19,6 +19,7 @@
 #' @name Object
 NULL
 
+#' @export
 Object <- R6::R6Class(
   classname = "Object",
   public = list(
@@ -45,9 +46,4 @@ Object <- R6::R6Class(
     name = NULL,
     static = new.env()
   )
-)
-
-GroupObject <- R6::R6Class(
-  classname = "GroupObject",
-  inherit = Object
 )
