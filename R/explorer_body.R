@@ -186,6 +186,7 @@ explorer_body <- function(
     # Only show contextmenu if it contains any elements
     if (
       length(c(
+        class_specific_contextmenu_items,
         remove_contextmenu_item,
         possible_contextmenu_hr,
         add_explorer_class_contextmenu_items

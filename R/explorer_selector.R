@@ -29,8 +29,12 @@ explorer_selector_ui <- function(id) {
 #' @return The \code{explorer_selector} module returns a list containing the following
 #' reactives:
 #' \tabular{ll}{
-#'   \code{selected_node_r} \tab An object of class \code{\link{ExplorerNode}}, which
-#'   has been selected by the user.
+#'   \code{selected_node_r} \tab An object of class \code{\link{ExplorerNode}},
+#'   which has been selected by the user. If no node is selected, the computation
+#'   is stopped by \code{\link[shiny]{req}}. \cr
+#'   \code{selected_node_or_null_r} \tab An object of class \code{\link{ExplorerNode}},
+#'   which has been selected by the user or \code{\link[base]{NULL}}, if no node
+#'   is selected.
 #' }
 #'
 #' @export
@@ -272,7 +276,8 @@ explorer_selector <- function(
   return_list <- list(
     selected_node_r = shiny::reactive({
       shiny::req(rvs$selected_node)
-    })
+    }),
+    selected_node_or_null_r = shiny::reactive(rvs$selected_node)
   )
 
   return(return_list)
