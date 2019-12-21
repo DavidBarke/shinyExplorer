@@ -163,8 +163,39 @@ explorer_body <- function(
       )
     }
 
+    # Determine addable explorer classes
+    # Three cases for addable explorer classes are distinguished:
+    # 1. Addable inside the whole explorer
+    # 2. Addable as children to a certain explorer class
+    # 3. Addable as children to a certain node
+    current_node <- .explorer_rvs$current_node
+
+    # Case 1
+    explorer_addable_explorer_classes <- .addable_explorer_classes_r()
+
+    # Case 2
+    current_node_class_return <-
+      .explorer_class_returns[[current_node$get_explorer_class_id()]]
+    if (shiny::is.reactive(
+      current_node_class_return$addable_explorer_classes_r)
+    ) {
+      current_node_class_addable_explorer_classes <-
+        current_node_class_return$addable_explorer_classes_r()
+    } else {
+      current_node_class_addable_explorer_classes <- NULL
+    }
+
+    # Case 3
+    current_node_addable_explorer_classes <- current_node$get_addable_explorer_classes()
+
+    addable_explorer_classes <- unique(c(
+      explorer_addable_explorer_classes,
+      current_node_class_addable_explorer_classes,
+      current_node_addable_explorer_classes
+    ))
+
     add_explorer_class_contextmenu_items <- purrr::map(
-      .addable_explorer_classes_r(),
+      addable_explorer_classes,
       function(explorer_class_id) {
         explorer_class <- .explorer_classes[[explorer_class_id]]
         explorer_class$ui$contextmenu_item_ui(

@@ -46,7 +46,7 @@ ExplorerTree <- R6::R6Class(
         stop(
           paste(
             "ExplorerTree: There is no node with id", id,
-            "in the explorer tree with id", private$id
+            "in the explorer tree."
           )
         )
       }

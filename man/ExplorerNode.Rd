@@ -22,32 +22,15 @@ afterwards call \code{root$add_child()}.
 \section{Methods}{
 
 \describe{
-  \item{\code{new(id = NULL, node_storage = NULL, parent = NULL,
-  explorer_class_id = "__group__", object = NULL, removable = TRUE)}}{
-  Initialize a new node object.
+  \item{\code{add_child(addable_explorer_classes = NULL, id = NULL,
+    explorer_class_id = "__group__", object = Object$new(), removable = TRUE,
+    return = c("self", "child")}}{Initialize a new node object which is
+    attached to the current node object as a child, but only if this node is
+    a group node.
     \tabular{ll}{
-      \code{id} \tab Unique identifier of the node. If \code{\link[base:NULL]{NULL}},
-        this identifier is created internally. \cr
-      \code{node_storage} \tab Node storage of an object of class \code{\link{ExplorerTree}}.
-        This argument is the reason, you should not call \code{ExplorerNode$new} explicitly. \cr
-      \code{parent} \tab The parent node of this node, or
-        \code{\link[base:NULL]{NULL}}, if node is root node. \cr
-      \code{explorer_class_id} \tab Id of an object of class
-        \code{\link{ExplorerClass}}, which defines the behaviour of this node
-        in the \code{\link{explorer}}. This object must be passed to
-        \code{explorer} as an element of the \code{.explorer_classes} list.
-      \cr
-      \code{object} \tab An arbitrary object for storing information about the
-        node. \cr
-      \code{removable} \tab If \code{\link[base:logical]{TRUE}}, this node is
-       removable by the user, else not.
-    }
-  }
-  \item{\code{add_child(id = NULL, explorer_class_id = "__group__",
-    object = Object$new(), removable = TRUE, return = c("self", "child")}}{Initialize
-    a new node object which is attached to the current node object as a child,
-    but only if this node is a group node.
-    \tabular{ll}{
+      \code{addable_explorer_classes} \tab A \code{\link[base]{character}}
+      vector containing the ids of explorer classes, which are addable only
+      to this specific node. \cr
       \code{id} \tab Unique identifier of the node. If \code{\link[base:NULL]{NULL}},
         this identifier is created internally. \cr
       \code{explorer_class_id} \tab Id of an object of class
@@ -61,6 +44,11 @@ afterwards call \code{root$add_child()}.
       \code{return} \tab If \code{"self"}, this method returns the node, which
         adds a child; If \code{"child"}, the added node is returned.
     }
+  }
+  \item{\code{get_addable_explorer_classes()}}{Get the id of explorer classes,
+    which are explicitly addable to this children. Note: This does not include
+    the ids of explorer classes that are addable to the current explorer or
+    to all objects that share the same class with this node.
   }
   \item{\code{get_children()}}{Get an object of class \code{\link{ObjectStorage}}
     containing all children of this node. Each child is an object of class
@@ -86,10 +74,22 @@ afterwards call \code{root$add_child()}.
   }
   \item{\code{get_object()}}{Get the object associated with this node object.
   }
+  \item{\code{get_siblings()}}{Get an object of class \code{\link{ObjectStorage}}
+    containing all siblings of this node. Each sibling is an object of class
+    \code{ExplorerNode}.
+  }
   \item{\code{is_removable()}}{Returns a \code{\link[base:logical]{logical}}
     indicating whether this node is removable or not.
   }
   \item{\code{remove_child(id)}}{Remove the child with \code{id == id}.
+  }
+  \item{\code{set_addable_explorer_classes(addable_explorer_classes)}}{Set
+    the ids of the explorer classes, which are addable as children to this
+    node.
+    \tabular{ll}{
+      \code{addable_explorer_classes} \tab
+      \code{\link[base:character]{character}} vector \cr
+    }
   }
   \item{\code{set_explorer_class_id(explorer_class_id)}}{Set the id of the
     object of class \code{explorer_class} associated with this node object.
