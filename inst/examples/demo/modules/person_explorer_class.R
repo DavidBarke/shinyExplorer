@@ -26,7 +26,7 @@ person_explorer_class_server <- function(
 
     .explorer_rvs$current_node$add_child(
       explorer_class_id = "person",
-      object = Person$new(name$first_name, name$last_name)
+      object = Person$new(name$first_name, name$last_name, "user")
     )
   })
 
