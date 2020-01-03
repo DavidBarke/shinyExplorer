@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create Labels for Explorer Selector — label_explorer_selector • shinyExplorer</title>
+<title>Group Explorer Class — group_explorer_class • shinyExplorer</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,9 @@
 
 
 
-<meta property="og:title" content="Create Labels for Explorer Selector — label_explorer_selector" />
+<meta property="og:title" content="Group Explorer Class — group_explorer_class" />
 
-<meta property="og:description" content="Create Labels for Explorer Selector" />
+<meta property="og:description" content="Group Explorer Class" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -113,34 +113,28 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create Labels for Explorer Selector</h1>
+    <h1>Group Explorer Class</h1>
     
-    <div class="hidden name"><code>label_explorer_selector.Rd</code></div>
+    <div class="hidden name"><code>group_explorer_class.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Create Labels for Explorer Selector</p>
+    <p>Group Explorer Class</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>label_explorer_selector</span>(<span class='kw'>explorer_label</span> <span class='kw'>=</span> <span class='fu'><a href='label_explorer.html'>label_explorer</a></span>(),
-  <span class='kw'>confirm_selection</span> <span class='kw'>=</span> <span class='st'>"Confirm selection"</span>,
-  <span class='kw'>select_element</span> <span class='kw'>=</span> <span class='st'>"Select element"</span>,
-  <span class='kw'>selected_element</span> <span class='kw'>=</span> <span class='st'>"Selected element"</span>)</pre>
+    <pre class="usage"><span class='fu'>group_explorer_class</span>(<span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"__group__"</span>,
+  <span class='kw'>.label_list</span> <span class='kw'>=</span> <span class='fu'><a href='label_group_explorer_class.html'>label_group_explorer_class</a></span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>explorer_label</th>
-      <td><p>Output of <code><a href='label_explorer.html'>label_explorer</a></code>. <code><a href='explorer.html'>explorer</a></code> is used
-internally by <code>explorer_selector</code>.</p></td>
-    </tr>
-    <tr>
-      <th>confirm_selection, select_element, selected_element</th>
-      <td><p><code><a href='https://rdrr.io/r/base/character.html'>Character</a></code> strings that will appear on the corresponding
-labels.</p></td>
+      <th>.label_list</th>
+      <td><p>A <code><a href='https://rdrr.io/r/base/list.html'>list</a></code> created with
+<code><a href='label_group_explorer_class.html'>label_group_explorer_class</a></code> containing labels for all buttons
+used inside the group_explorer_class.</p></td>
     </tr>
     </table>
     

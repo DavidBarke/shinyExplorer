@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create Labels for Explorer Selector — label_explorer_selector • shinyExplorer</title>
+<title>Run shinyExplorer examples — run_example • shinyExplorer</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,9 +32,10 @@
 
 
 
-<meta property="og:title" content="Create Labels for Explorer Selector — label_explorer_selector" />
+<meta property="og:title" content="Run shinyExplorer examples — run_example" />
 
-<meta property="og:description" content="Create Labels for Explorer Selector" />
+<meta property="og:description" content="Launch a shinyExplorer example Shiny app thta shows how to use
+shinyExplorer in an app." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -113,36 +114,32 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create Labels for Explorer Selector</h1>
+    <h1>Run shinyExplorer examples</h1>
     
-    <div class="hidden name"><code>label_explorer_selector.Rd</code></div>
+    <div class="hidden name"><code>run_example.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Create Labels for Explorer Selector</p>
+    <p>Launch a <code>shinyExplorer</code> example Shiny app thta shows how to use
+<code>shinyExplorer</code> in an app.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>label_explorer_selector</span>(<span class='kw'>explorer_label</span> <span class='kw'>=</span> <span class='fu'><a href='label_explorer.html'>label_explorer</a></span>(),
-  <span class='kw'>confirm_selection</span> <span class='kw'>=</span> <span class='st'>"Confirm selection"</span>,
-  <span class='kw'>select_element</span> <span class='kw'>=</span> <span class='st'>"Select element"</span>,
-  <span class='kw'>selected_element</span> <span class='kw'>=</span> <span class='st'>"Selected element"</span>)</pre>
+    <pre class="usage"><span class='fu'>run_example</span>(<span class='no'>example</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>explorer_label</th>
-      <td><p>Output of <code><a href='label_explorer.html'>label_explorer</a></code>. <code><a href='explorer.html'>explorer</a></code> is used
-internally by <code>explorer_selector</code>.</p></td>
-    </tr>
-    <tr>
-      <th>confirm_selection, select_element, selected_element</th>
-      <td><p><code><a href='https://rdrr.io/r/base/character.html'>Character</a></code> strings that will appear on the corresponding
-labels.</p></td>
+      <th>example</th>
+      <td><p>The name of the example app to launch.</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Call this function without arguments to see a list of available example apps.</p>
     
 
   </div>
@@ -150,7 +147,9 @@ labels.</p></td>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#details">Details</a></li>
+          </ul>
 
   </div>
 </div>

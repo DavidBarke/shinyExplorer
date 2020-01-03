@@ -7,7 +7,7 @@
 #'
 #' @section Methods:
 #' \describe{
-#'   \item{\code{new(id, ui, server, is_group = FALSE)}}{Initialise a new object
+#'   \item{\code{new(id, ui, server)}}{Initialise a new object
 #'     of class \code{ExplorerClass}.
 #'     \tabular{ll}{
 #'       \code{id} \tab Unique id. \cr

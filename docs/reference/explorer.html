@@ -129,10 +129,11 @@ kinds and invoking actions on them.</p>
     <pre class="usage"><span class='fu'>explorer_ui</span>(<span class='no'>id</span>)
 
 <span class='fu'>explorer</span>(<span class='no'>input</span>, <span class='no'>output</span>, <span class='no'>session</span>, <span class='no'>.values</span>, <span class='no'>.root_node_r</span>,
-  <span class='kw'>.explorer_classes</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='kw'>.group_nodes_addable</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>.addable_explorer_classes_r</span> <span class='kw'>=</span> <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/reactive.html'>reactive</a></span>(<span class='kw'>NULL</span>),
-  <span class='kw'>.visible_explorer_classes_r</span> <span class='kw'>=</span> <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/reactive.html'>reactive</a></span>(<span class='kw'>NULL</span>),
-  <span class='kw'>.display_header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>.label_list</span> <span class='kw'>=</span> <span class='fu'><a href='label_explorer.html'>label_explorer</a></span>())</pre>
+  <span class='kw'>.explorer_classes</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
+  <span class='kw'>.addable_explorer_classes_r</span> <span class='kw'>=</span> <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/reactive.html'>reactive</a></span>(<span class='st'>"__group__"</span>),
+  <span class='kw'>.visible_explorer_classes_r</span> <span class='kw'>=</span> <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/reactive.html'>reactive</a></span>(<span class='st'>"__group__"</span>),
+  <span class='kw'>.display_header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>.label_list</span> <span class='kw'>=</span> <span class='fu'><a href='label_explorer.html'>label_explorer</a></span>(),
+  <span class='kw'>.state</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>())</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -161,11 +162,6 @@ root node of an object of class <code><a href='ExplorerTree.html'>ExplorerTree</
 <code><a href='ExplorerClass.html'>ExplorerClass</a></code>.</p></td>
     </tr>
     <tr>
-      <th>.group_nodes_addable</th>
-      <td><p><code><a href='https://rdrr.io/r/base/logical.html'>Logical</a></code> indicating
-whether group nodes are addable or not.</p></td>
-    </tr>
-    <tr>
       <th>.addable_explorer_classes_r</th>
       <td><p>A <code><a href='https://rdrr.io/pkg/shiny/man/reactive.html'>reactive</a></code>
 returning a <code><a href='https://rdrr.io/r/base/character.html'>character</a></code> vector containing the ids
@@ -187,6 +183,12 @@ header is displayed, otherwise it is not.</p></td>
       <th>.label_list</th>
       <td><p>A <code><a href='https://rdrr.io/r/base/list.html'>list</a></code> created with <code><a href='label_explorer.html'>label_explorer</a></code>
 containing labels for all buttons used inside the explorer module.</p></td>
+    </tr>
+    <tr>
+      <th>.state</th>
+      <td><p>A <code><a href='https://rdrr.io/r/base/list.html'>list</a></code> which is passed to every explorer
+class server function. Use this list to implement special behaviour of an
+explorer class dependent on conditions outside of the explorer.</p></td>
     </tr>
     </table>
     

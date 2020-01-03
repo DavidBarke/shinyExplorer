@@ -130,15 +130,11 @@
     
 
 <dl class='dl-horizontal'>
-  <dt><code>new(id, root_id = NULL)</code></dt><dd><p>Initialize a new explorer tree object.
+  <dt><code>new(root_id = NULL, root_object = Object$new("/"))</code></dt><dd><p>Initialize a new explorer tree object.
     <table class='table'>
-<tr><td><code>id</code></td><td>Unique <code><a href='https://rdrr.io/r/base/character.html'>character</a></code> string.</td></tr>
-<tr><td><code>root_id</code></td><td>Either unique <code><a href='https://rdrr.io/r/base/character.html'>character</a></code> string within this
-      explorer tree or <code><a href='https://rdrr.io/r/base/NULL.html'>NULL</a></code> for the root node of the explorer tree.
-      If <code>NULL</code> an id is chosen internally. You don't need to worry about the uniqueness
-      of <code>root_id</code> since you are just creating the first node of the tree.</td></tr>
-</table>    Return: <code><a href='ExplorerNode.html'>root node</a></code> of the explorer tree.</p></dd>
-  <dt><code>get_id()</code></dt><dd><p>Get the explorer tree's id.</p></dd>
+<tr><td><code>root_id</code></td><td>Identifier of the root node. If <code><a href='https://rdrr.io/r/base/NULL.html'>NULL</a></code>,
+      this identifier is created internally.</td></tr>
+</table>    Return: Object of class <code>ExplorerTree</code>.</p></dd>
   <dt><code>get_node(id)</code></dt><dd><p>Get the node of the explorer tree with <code>id == id</code>.</p></dd>
   <dt><code>get_node_ids()</code></dt><dd><p>Get the ids of all nodes of the explorer tree as a
     <code><a href='https://rdrr.io/r/base/character.html'>character</a></code> vector.</p></dd>

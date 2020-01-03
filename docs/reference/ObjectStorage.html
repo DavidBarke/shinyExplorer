@@ -35,7 +35,8 @@
 <meta property="og:title" content="ObjectStorage — ObjectStorage" />
 
 <meta property="og:description" content="R6Class for storing similar R6 objects. These objects all need to implement
-the method get_id(). The id of an object is unique in a storage." />
+the method get_id() and get_name(). The id of an object is
+unique in a storage whereas multiple objects can share the same name." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -122,7 +123,8 @@ the method get_id(). The id of an object is unique in a storage." />
     <div class="ref-description">
     
     <p>R6Class for storing similar R6 objects. These objects all need to implement
-the method get_id(). The id of an object is unique in a storage.</p>
+the method get_id() and get_name(). The id of an object is
+unique in a storage whereas multiple objects can share the same name.</p>
     
     </div>
 
@@ -157,6 +159,8 @@ storage$get_object(id)
   <dt><code>get_ids()</code></dt><dd><p>Get the ids of the stored objects as a character
     vector named with the object's names.</p></dd>
   <dt><code>get_length()</code></dt><dd><p>Get the length of the storage.</p></dd>
+  <dt><code>get_names()</code></dt><dd><p>Get the objects' names, which aren't necessarily
+    unique. See also <code>this$get_ids()</code>.</p></dd>
   <dt><code>get_nth_object(n)</code></dt><dd><p>Get the object with index <code>n</code> going
   from <code>1</code> to <code>this$get_length()</code>.</p></dd>
   <dt><code>get_object(id)</code></dt><dd><p>Get an object from the storage
@@ -168,8 +172,8 @@ storage$get_object(id)
     with <code>object$get_id() %in% ids</code>. If <code>ids</code> is missing get
     a list with all objects.
     <table class='table'>
-<tr><td><code>ids</code></td><td><code><a href='https://rdrr.io/r/base/character.html'>Character</a></code> vector. Each
-      element has to be a id of an object in the storage.</td></tr>
+<tr><td><code>ids</code></td><td>Character vector. Each element has to be a id of
+        an object in the storage.</td></tr>
 </table></p></dd>
 
 </dl>
