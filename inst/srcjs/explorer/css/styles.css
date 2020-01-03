@@ -1,3 +1,7 @@
+.explorer {
+  user-select: none;
+}
+
 .explorer-angle {
   padding: 0 2px;
 }

@@ -1,7 +1,7 @@
 #' Object
 #'
-#' \code{\link[R6]{R6Class}} representing the most primitive object having only
-#' an id and a name.
+#' \code{\link[R6]{R6Class}} representing the most primitive object possessing
+#' only an id and a name.
 #'
 #' @section Methods:
 #' \describe{
@@ -19,13 +19,12 @@
 #' @name Object
 NULL
 
+#' @export
 Object <- R6::R6Class(
   classname = "Object",
   public = list(
     initialize = function(name = "Object") {
-      QWUtils::handle_static_counter(private$static)
-      # prefix an underscore to get a valid column name for lm
-      private$id <- paste0("id_", as.character(private$static$counter))
+      private$id <- stringi::stri_rand_strings(1, 8)
 
       private$name <- QWUtils::reactive_member(name)
     },
@@ -47,9 +46,4 @@ Object <- R6::R6Class(
     name = NULL,
     static = new.env()
   )
-)
-
-GroupObject <- R6::R6Class(
-  classname = "GroupObject",
-  inherit = Object
 )

@@ -34,7 +34,7 @@ group_node_specific_contextmenu_items_ui_factory <- function(
 
 group_node_factory <- function(.label_list = label_group_explorer_class()) {
   function(
-    input, output, session, .values, .explorer_rvs
+    input, output, session, .values, .explorer_rvs, .state = list()
   ) {
 
     ns <- session$ns
@@ -42,7 +42,7 @@ group_node_factory <- function(.label_list = label_group_explorer_class()) {
     shiny::observeEvent(input$add, {
       .explorer_rvs$current_node$add_child(
         explorer_class_id = "__group__",
-        object = GroupObject$new(
+        object = Object$new(
           name = .label_list$new_group_name
         )
       )
@@ -87,6 +87,7 @@ group_node_factory <- function(.label_list = label_group_explorer_class()) {
     })
 
     return_list <- list(
+      is_group_r = shiny::reactive(TRUE)
     )
 
     return(return_list)

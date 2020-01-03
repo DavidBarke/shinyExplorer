@@ -2,17 +2,12 @@
 #'
 #' @section Methods:
 #' \describe{
-#'   \item{\code{new(id, root_id = NULL)}}{Initialize a new explorer tree object.
+#'   \item{\code{new(root_id = NULL, root_object = Object$new("/"))}}{Initialize a new explorer tree object.
 #'     \tabular{ll}{
-#'       \code{id} \tab Unique \code{\link[base]{character}} string. \cr
-#'       \code{root_id} \tab Either unique \code{\link[base]{character}} string within this
-#'       explorer tree or \code{\link[base]{NULL}} for the root node of the explorer tree.
-#'       If \code{NULL} an id is chosen internally. You don't need to worry about the uniqueness
-#'       of \code{root_id} since you are just creating the first node of the tree.
+#'       \code{root_id} \tab Identifier of the root node. If \code{\link[base]{NULL}},
+#'       this identifier is created internally.
 #'     }
 #'     Return: Object of class \code{ExplorerTree}.
-#'   }
-#'   \item{\code{get_id()}}{Get the explorer tree's id.
 #'   }
 #'   \item{\code{get_node(id)}}{Get the node of the explorer tree with \code{id == id}.
 #'   }
@@ -32,21 +27,7 @@ NULL
 ExplorerTree <- R6::R6Class(
   classname = "ExplorerTree",
   public = list(
-    initialize = function(id, root_id = NULL, root_object = GroupObject$new("root")) {
-      # private$static$ids holds the ids of all existing explorer trees
-      if (purrr::is_null(private$static$ids)) {
-        private$static$ids <- id
-      } else {
-        if (id %in% private$static$ids) {
-          print(private$static$ids)
-          stop(paste("ExplorerTree: there is already an explorer tree with id", id))
-        }
-
-        private$static$ids <- c(private$static$ids, id)
-      }
-
-      private$id <- id
-
+    initialize = function(root_id = NULL, root_object = Object$new("/")) {
       private$node_storage <- ObjectStorage$new(allowed_classes = "ExplorerNode")
 
       private$root <- ExplorerNode$new(
@@ -60,16 +41,12 @@ ExplorerTree <- R6::R6Class(
       return(self)
     },
 
-    get_id = function() {
-      private$id
-    },
-
     get_node = function(id) {
       if (!(id %in% private$node_storage$get_ids())) {
         stop(
           paste(
             "ExplorerTree: There is no node with id", id,
-            "in the explorer tree with id", private$id
+            "in the explorer tree."
           )
         )
       }
@@ -86,9 +63,7 @@ ExplorerTree <- R6::R6Class(
     }
   ),
   private = list(
-    id = character(),
     node_storage = NULL,
-    root = NULL,
-    static = new.env()
+    root = NULL
   )
 )

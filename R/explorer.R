@@ -17,13 +17,16 @@ explorer_ui <- function(id) {
       stylesheet = "css/styles.css"
     ),
     use_contextmenu(),
-    # Header contains links to all ancestor nodes of the current node
-    shiny::uiOutput(
-      outputId = ns("header")
-    ),
-    # Body contains links to all child nodes of the current node
-    explorer_body_ui(
-      id = ns("id_explorer_body")
+    htmltools::div(
+      class = "explorer",
+      # Header contains links to all ancestor nodes of the current node
+      shiny::uiOutput(
+        outputId = ns("header")
+      ),
+      # Body contains links to all child nodes of the current node
+      explorer_body_ui(
+        id = ns("id_explorer_body")
+      )
     )
   )
 }
@@ -51,6 +54,9 @@ explorer_ui <- function(id) {
 #' header is displayed, otherwise it is not.
 #' @param .label_list A \code{\link[base]{list}} created with \code{\link{label_explorer}}
 #' containing labels for all buttons used inside the explorer module.
+#' @param .state A \code{\link[base]{list}} which is passed to every explorer
+#' class server function. Use this list to implement special behaviour of an
+#' explorer class dependent on conditions outside of the explorer.
 #'
 #' @return The \code{explorer} module returns a list containing the following reactives, that
 #' you may access in the calling server function.
@@ -68,7 +74,7 @@ explorer <- function(
   input, output, session, .values, .root_node_r, .explorer_classes = list(),
   .addable_explorer_classes_r = shiny::reactive("__group__"),
   .visible_explorer_classes_r = shiny::reactive("__group__"),
-  .display_header = TRUE, .label_list = label_explorer()
+  .display_header = TRUE, .label_list = label_explorer(), .state = list()
 ) {
 
   ns <- session$ns
@@ -129,25 +135,38 @@ explorer <- function(
   })
 
   # HANDLE EXPLORER CLASSES ----------------------------------------------------
-
-  purrr::walk(.explorer_classes, function(explorer_class) {
+  # Explorer class returns is a list. Each element is a return list of an
+  # explorer class server function.
+  explorer_class_returns <- purrr::map(.explorer_classes, function(explorer_class) {
     # Call explorer_classes' server functions and store their return list in the
     # explorer_class as well as the namespaced module id, so that the UI functions
     # may be called in nested modules
     module_id = "explorer_class" %_% explorer_class$id
-
-    explorer_class$server_return <- shiny::callModule(
-      module = explorer_class$server,
-      id = module_id,
-      .values = .values,
-      .explorer_rvs = rvs
-    )
 
     # Store module_id in .explorer_rvs. .explorer_rvs is made available in all
     # explorer_xxx modules and in the server functions of the explorer_classes.
     shiny::isolate({
       rvs$module_ids[explorer_class$id] <- ns(module_id)
     })
+
+    explorer_class_return <- shiny::callModule(
+      module = explorer_class$server,
+      id = module_id,
+      .values = .values,
+      .explorer_rvs = rvs,
+      .state = .state
+    )
+
+    # If not implementen in server return list is_group_r defaults to FALSE
+    if (purrr::is_null(explorer_class_return$is_group_r)) {
+      explorer_class_return$is_group_r <- shiny::reactive(FALSE)
+    }
+
+    explorer_class_return
+  })
+
+  names(explorer_class_returns) <- purrr::map_chr(.explorer_classes, function(explorer_class) {
+    explorer_class$id
   })
 
   # CALL MODULES AND HANDLING OF RETURNS ---------------------------------------
@@ -156,6 +175,7 @@ explorer <- function(
     id = "id_explorer_header",
     .values = .values,
     .explorer_classes = .explorer_classes,
+    .explorer_class_returns = explorer_class_returns,
     .explorer_rvs = rvs,
     .root_node_r = .root_node_r
   )
@@ -167,6 +187,7 @@ explorer <- function(
     .children_r = children_r,
     .root_node_r = .root_node_r,
     .explorer_classes = .explorer_classes,
+    .explorer_class_returns = explorer_class_returns,
     .explorer_rvs = rvs,
     .addable_explorer_classes_r = .addable_explorer_classes_r,
     .visible_explorer_classes_r = .visible_explorer_classes_r,
@@ -179,7 +200,8 @@ explorer <- function(
     current_node_r = shiny::reactive(rvs$current_node),
     # Selected means, that user clicked this node, but didn't dblclick it, to be
     # the new current node
-    selected_child_node_r = explorer_body_return$selected_node_r
+    selected_child_node_r = explorer_body_return$selected_node_r,
+    explorer_class_returns = explorer_class_returns
   )
 
   return(return_list)

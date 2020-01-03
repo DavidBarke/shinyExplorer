@@ -9,14 +9,15 @@ explorer_header_ui <- function(id) {
 }
 
 explorer_header <- function(
-  input, output, session, .values, .explorer_classes, .explorer_rvs, .root_node_r
+  input, output, session, .values, .explorer_classes, .explorer_class_returns,
+  .explorer_rvs, .root_node_r
 ) {
 
   ns <- session$ns
 
   rvs <- shiny::reactiveValues(
     ancestor_counter = -1,
-    siblings_contextmenu_item_used_ids = list()
+    children_contextmenu_item_used_ids = list()
   )
 
   node_to_name <- function(node) {
@@ -29,9 +30,9 @@ explorer_header <- function(
     get_node_distance(.explorer_rvs$current_node, .root_node_r())
   })
 
-  # Header contains links to all direct descendents of the current displayed
+  # Header contains links to all direct ancestors of the current displayed
   # children in the body (like Windows Explorer). After a link is clicked, a
-  # context menu opens up, in which links to all siblings of this descendent are
+  # context menu opens up, in which links to all children of this ancestor are
   # displayed
   output$header <- shiny::renderUI({
     indices <- c(0, seq_len(generation_r()))
@@ -40,28 +41,37 @@ explorer_header <- function(
       node <- get_ancestor_node(.explorer_rvs$current_node, i)
 
       if (rvs$ancestor_counter < i) {
+        # This code chunk is only called one for every index so that each
+        # observer is just assigned once
+
+        # Increment counter
         rvs$ancestor_counter <- rvs$ancestor_counter + 1
-        # Initialise character vector, which stores all ids of siblings, which
+
+        # Initialise character vector, which stores all ids of children, which
         # are observed by a context menu item
-        rvs$siblings_contextmenu_item_used_ids[[i + 1]] <- character()
+        rvs$children_contextmenu_item_used_ids[[i + 1]] <- character()
 
         shiny::observeEvent(input[["child_link" %_% i]], {
           .explorer_rvs$current_node <- get_ancestor_node(.explorer_rvs$current_node, i)
         })
 
-        shiny::observeEvent(input[["siblings_link" %_% i]], {
-          shiny::req(input[["siblings_link" %_% i]] > 0)
+        shiny::observeEvent(input[["children_link" %_% i]], {
+          shiny::req(input[["children_link" %_% i]] > 0)
 
           node <- get_ancestor_node(.explorer_rvs$current_node, i)
 
-          sibling_nodes <- node$siblings()
+          children <- node$get_children()$get_objects()
 
-          is_group_node <- purrr::map_lgl(sibling_nodes, function(node) {
-            explorer_class <- .explorer_classes[[node$get_explorer_class_id()]]
-            explorer_class$is_group
+          is_group_node <- purrr::map_lgl(children, function(node) {
+            explorer_class_id <- node$get_explorer_class_id()
+            .explorer_class_returns[[explorer_class_id]]$is_group_r()
           })
 
-          sibling_group_nodes <- sibling_nodes[is_group_node]
+          sibling_group_nodes <- children[is_group_node]
+
+          # If node has no children, that are group nodes, no contextmenu is
+          # displayed
+          if (!length(sibling_group_nodes)) return()
 
           # Only create contextmenu_items for group nodes
           contextmenu_items <- purrr::map(sibling_group_nodes, function(node) {
@@ -71,7 +81,7 @@ explorer_header <- function(
 
             node_object_class <- class(node_object)
 
-            if ("GroupObject" %in% node_object_class) {
+            if ("Object" %in% node_object_class) {
               icon <- shiny::icon("folder")
             } else if ("DatasetObject" %in% node_object_class) {
               icon <- shiny::icon("table")
@@ -80,14 +90,14 @@ explorer_header <- function(
             }
 
             # Use of i + 1, since index starts with zero
-            if (!(node_id %in% rvs$siblings_contextmenu_item_used_ids[[i + 1]])) {
-              rvs$siblings_contextmenu_item_used_ids[[i + 1]] <- c(
-                rvs$siblings_contextmenu_item_used_ids[[i + 1]],
+            if (!(node_id %in% rvs$children_contextmenu_item_used_ids[[i + 1]])) {
+              rvs$children_contextmenu_item_used_ids[[i + 1]] <- c(
+                rvs$children_contextmenu_item_used_ids[[i + 1]],
                 node_id
               )
 
               shiny::observeEvent(
-                input[["siblings_contextmenu" %_% i %_% "item" %_% node_id]],
+                input[["children_contextmenu" %_% i %_% "item" %_% node_id]],
                 {
                   .explorer_rvs$current_node <- .root_node_r()$get_node(node_id)
                 }
@@ -97,7 +107,7 @@ explorer_header <- function(
             # Return context menu item. If clicked, the current node is set
             # to the sibling node represented by this item.
             contextmenu_item(
-              inputId = ns("siblings_contextmenu" %_% i %_% "item" %_% node_id),
+              inputId = ns("children_contextmenu" %_% i %_% "item" %_% node_id),
               label = node_to_name(node),
               icon = icon
             )
@@ -105,8 +115,8 @@ explorer_header <- function(
 
           show_contextmenu(
             contextmenu(
-              x = input[["siblings_link" %_% i %_% "position"]]$left,
-              y = input[["siblings_link" %_% i %_% "position"]]$bottom,
+              x = input[["children_link" %_% i %_% "position"]]$left,
+              y = input[["children_link" %_% i %_% "position"]]$bottom,
               contextmenu_items
             ),
             session = session
@@ -129,7 +139,7 @@ explorer_header <- function(
         htmltools::div(
           class = "wide-icon explorer-angle",
           positional_input(
-            inputId = ns("siblings_link" %_% i),
+            inputId = ns("children_link" %_% i),
             label = "",
             icon = shiny::icon("angle-right")
           )

@@ -8,8 +8,8 @@
 explorer_body_ui(id)
 
 explorer_body(input, output, session, .values, .children_r, .root_node_r,
-  .explorer_classes, .explorer_rvs, .addable_explorer_classes_r,
-  .visible_explorer_classes_r, .label_list)
+  .explorer_classes, .explorer_class_returns, .explorer_rvs,
+  .addable_explorer_classes_r, .visible_explorer_classes_r, .label_list)
 }
 \arguments{
 \item{id}{Module id.}

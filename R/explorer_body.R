@@ -34,8 +34,8 @@ explorer_body_ui <- function(id) {
 #' @importFrom stats runif
 explorer_body <- function(
   input, output, session, .values, .children_r, .root_node_r, .explorer_classes,
-  .explorer_rvs, .addable_explorer_classes_r, .visible_explorer_classes_r,
-  .label_list
+  .explorer_class_returns, .explorer_rvs, .addable_explorer_classes_r,
+  .visible_explorer_classes_r, .label_list
 ) {
 
   ns <- session$ns
@@ -67,19 +67,20 @@ explorer_body <- function(
     })
 
     icon_col <- purrr::map_chr(visible_children, function(child_node) {
-      child_explorer_class <- .explorer_classes[[child_node$get_explorer_class_id()]]
+      child_explorer_class_id <- child_node$get_explorer_class_id()
+      child_return <- .explorer_class_returns[[child_explorer_class_id]]
 
       # If child node is group, the node has explorer_class NULL
-      if (child_explorer_class$is_group) {
+      if (child_return$is_group_r()) {
         return(as.character(shiny::icon("folder")))
       }
 
       # Else the explorer_class' server function might return the reactive
       # icon_r, which returns an icon
-      if (purrr::is_null(child_explorer_class$server_return$icon_r)) {
+      if (purrr::is_null(child_return$icon_r)) {
         return("")
       } else {
-        return(as.character(child_explorer_class$server_return$icon_r()))
+        return(as.character(child_return$icon_r()))
       }
     })
 
@@ -162,8 +163,39 @@ explorer_body <- function(
       )
     }
 
+    # Determine addable explorer classes
+    # Three cases for addable explorer classes are distinguished:
+    # 1. Addable inside the whole explorer
+    # 2. Addable as children to a certain explorer class
+    # 3. Addable as children to a certain node
+    current_node <- .explorer_rvs$current_node
+
+    # Case 1
+    explorer_addable_explorer_classes <- .addable_explorer_classes_r()
+
+    # Case 2
+    current_node_class_return <-
+      .explorer_class_returns[[current_node$get_explorer_class_id()]]
+    if (shiny::is.reactive(
+      current_node_class_return$addable_explorer_classes_r)
+    ) {
+      current_node_class_addable_explorer_classes <-
+        current_node_class_return$addable_explorer_classes_r()
+    } else {
+      current_node_class_addable_explorer_classes <- NULL
+    }
+
+    # Case 3
+    current_node_addable_explorer_classes <- current_node$get_addable_explorer_classes()
+
+    addable_explorer_classes <- unique(c(
+      explorer_addable_explorer_classes,
+      current_node_class_addable_explorer_classes,
+      current_node_addable_explorer_classes
+    ))
+
     add_explorer_class_contextmenu_items <- purrr::map(
-      .addable_explorer_classes_r(),
+      addable_explorer_classes,
       function(explorer_class_id) {
         explorer_class <- .explorer_classes[[explorer_class_id]]
         explorer_class$ui$contextmenu_item_ui(
@@ -172,25 +204,36 @@ explorer_body <- function(
       }
     )
 
-    # Only show hr if content is present before it
+    # Only show hr if content is present before it and after it
     possible_contextmenu_hr <- if (
-      length(c(class_specific_contextmenu_items, remove_contextmenu_item))
+      length(c(class_specific_contextmenu_items, remove_contextmenu_item)) &&
+      length(add_explorer_class_contextmenu_items)
     ) {
       contextmenu_hr()
     } else {
       NULL
     }
 
-    show_contextmenu(
-      contextmenu(
-        x = input$selector_table_row_contextmenued$mouse$x,
-        y = input$selector_table_row_contextmenued$mouse$y,
+    # Only show contextmenu if it contains any elements
+    if (
+      length(c(
         class_specific_contextmenu_items,
         remove_contextmenu_item,
         possible_contextmenu_hr,
         add_explorer_class_contextmenu_items
+      ))
+    ) {
+      show_contextmenu(
+        contextmenu(
+          x = input$selector_table_row_contextmenued$mouse$x,
+          y = input$selector_table_row_contextmenued$mouse$y,
+          class_specific_contextmenu_items,
+          remove_contextmenu_item,
+          possible_contextmenu_hr,
+          add_explorer_class_contextmenu_items
+        )
       )
-    )
+    }
   })
 
   shiny::observeEvent(input$remove_node, {
@@ -215,11 +258,12 @@ explorer_body <- function(
     # If "No data available in table", nothing shall happen
     id <- shiny::req(input$selector_table_row_dblclicked$data[[1]])
 
-    explorer_class <- .explorer_classes[[
-      .root_node_r()$get_node(id)$get_explorer_class_id()
-    ]]
+    explorer_class_id <- .root_node_r()$get_node(id)$get_explorer_class_id()
+
+    explorer_class_return <- .explorer_class_returns[[explorer_class_id]]
+
     # Only nodes of group explorer class may have children
-    if (explorer_class$is_group) {
+    if (explorer_class_return$is_group_r()) {
       # First column of selector table contains child node's id
       .explorer_rvs$current_node <- .explorer_rvs$current_node$get_child(id)
     }
@@ -231,7 +275,7 @@ explorer_body <- function(
 
       id <- selector_table_r()[row_index, 1, drop = TRUE]
 
-      .explorer_rvs$current_node$get_child(id)
+      .explorer_rvs$current_node$get_child(shiny::req(id))
     })
   )
 

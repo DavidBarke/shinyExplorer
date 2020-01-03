@@ -12,7 +12,8 @@ explorer_selector(input, output, session, .values, .root_node_r,
   .selectable_explorer_classes_r = shiny::reactive(character()),
   .addable_explorer_classes_r = .selectable_explorer_classes_r,
   .visible_explorer_classes_r = .selectable_explorer_classes_r,
-  .label_list = label_explorer_selector())
+  .label_list = label_explorer_selector(), ui = c("default",
+  "minimal"))
 }
 \arguments{
 \item{id}{Module id.}
@@ -44,13 +45,22 @@ displayed.}
 
 \item{.label_list}{A \code{\link[base]{list}} created with \code{\link{label_explorer}}
 containing labels for all buttons used inside the explorer module.}
+
+\item{ui}{If \code{default}, the UI consists of an actionButton for selecting
+an element and an \code{\link{explorer}}, in which the selected element is
+shown. If \code{minimal}, only an actionButton showing the name of the selected
+element as label is shown.}
 }
 \value{
 The \code{explorer_selector} module returns a list containing the following
 reactives:
 \tabular{ll}{
-  \code{selected_node_r} \tab An object of class \code{\link{ExplorerNode}}, which
-  has been selected by the user.
+  \code{selected_node_r} \tab An object of class \code{\link{ExplorerNode}},
+  which has been selected by the user. If no node is selected, the computation
+  is stopped by \code{\link[shiny]{req}}. \cr
+  \code{selected_node_or_null_r} \tab An object of class \code{\link{ExplorerNode}},
+  which has been selected by the user or \code{\link[base]{NULL}}, if no node
+  is selected.
 }
 }
 \description{

@@ -3,6 +3,7 @@
 export(ExplorerClass)
 export(ExplorerNode)
 export(ExplorerTree)
+export(Object)
 export(ObjectStorage)
 export(contextmenu)
 export(contextmenu_hr)

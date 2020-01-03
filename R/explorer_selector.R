@@ -6,13 +6,8 @@
 explorer_selector_ui <- function(id) {
   ns <- shiny::NS(id)
 
-  htmltools::tagList(
-    shiny::uiOutput(
-      outputId = ns("caption")
-    ),
-    DT::dataTableOutput(
-      outputId = ns("selected_node")
-    )
+  shiny::uiOutput(
+    outputId = ns("module_ui")
   )
 }
 
@@ -26,12 +21,20 @@ explorer_selector_ui <- function(id) {
 #' of selectable explorer_classes. If \code{character()}, only group nodes are
 #' selectible (if \code{.group_nodes_selectable = TRUE})
 #' @inheritParams explorer
+#' @param ui If \code{default}, the UI consists of an actionButton for selecting
+#' an element and an \code{\link{explorer}}, in which the selected element is
+#' shown. If \code{minimal}, only an actionButton showing the name of the selected
+#' element as label is shown.
 #'
 #' @return The \code{explorer_selector} module returns a list containing the following
 #' reactives:
 #' \tabular{ll}{
-#'   \code{selected_node_r} \tab An object of class \code{\link{ExplorerNode}}, which
-#'   has been selected by the user.
+#'   \code{selected_node_r} \tab An object of class \code{\link{ExplorerNode}},
+#'   which has been selected by the user. If no node is selected, the computation
+#'   is stopped by \code{\link[shiny]{req}}. \cr
+#'   \code{selected_node_or_null_r} \tab An object of class \code{\link{ExplorerNode}},
+#'   which has been selected by the user or \code{\link[base]{NULL}}, if no node
+#'   is selected.
 #' }
 #'
 #' @export
@@ -40,8 +43,21 @@ explorer_selector <- function(
   .selectable_explorer_classes_r = shiny::reactive(character()),
   .addable_explorer_classes_r = .selectable_explorer_classes_r,
   .visible_explorer_classes_r = .selectable_explorer_classes_r,
-  .label_list = label_explorer_selector()
+  .label_list = label_explorer_selector(), ui = c("default", "minimal")
 ) {
+  if (!shiny::is.reactive(.root_node_r)) {
+    stop(".root_node_r must be a reactive.")
+  }
+
+  if (!all(c(
+    shiny::is.reactive(.selectable_explorer_classes_r),
+    shiny::is.reactive(.addable_explorer_classes_r),
+    shiny::is.reactive(.visible_explorer_classes_r)
+  ))) {
+    stop("At least one of [.selectable/.addable/.visible]_explorer_classes_r is not a reactive.")
+  }
+
+  ui <- match.arg(ui)
 
   ns <- session$ns
 
@@ -49,7 +65,43 @@ explorer_selector <- function(
     selected_node = NULL
   )
 
-  # SELECTED NODE DATATABLE ----------------------------------------------------
+  output$module_ui <- shiny::renderUI({
+    if (ui == "default") {
+      ui <- htmltools::tagList(
+        shiny::uiOutput(
+          outputId = ns("caption")
+        ),
+        DT::dataTableOutput(
+          outputId = ns("selected_node")
+        )
+      )
+    } else {
+      ui <- htmltools::tagList(
+        shiny::uiOutput(
+          outputId = ns("minimal")
+        )
+      )
+    }
+
+    ui
+  })
+
+  # MINIMAL UI -----------------------------------------------------------------
+  output$minimal <- shiny::renderUI({
+    if (purrr::is_null(rvs$selected_node)) {
+      label <- .label_list$select_element
+    } else {
+      label <- rvs$selected_node$get_object()$get_name()
+    }
+
+    QWUtils::actionButtonQW(
+      inputId = ns("select_node"),
+      label = label,
+      icon = shiny::icon("search")
+    )
+  })
+
+  # DEFAULT UI -----------------------------------------------------------------
 
   selected_node_datatable <- shiny::reactive({
     if (purrr::is_null(rvs$selected_node)) {
@@ -62,13 +114,15 @@ explorer_selector <- function(
     name_col <- rvs$selected_node$get_object()$get_name()
 
     explorer_class <- .explorer_classes[[rvs$selected_node$get_explorer_class_id()]]
+    id <- explorer_class$id
+    explorer_class_return <- explorer_return$explorer_class_returns[[id]]
 
-    icon_col <- if (explorer_class$is_group) {
+    icon_col <- if (explorer_class_return$is_group_r()) {
       as.character(shiny::icon("folder"))
-    } else if (purrr::is_null(explorer_class$server_return$icon_r)) {
+    } else if (purrr::is_null(explorer_class_return$icon_r)) {
       ""
     } else {
-      as.character(explorer_class$server_return$icon_r())
+      as.character(explorer_class_return$icon_r())
     }
 
     data <- tibble::tibble(
@@ -222,7 +276,8 @@ explorer_selector <- function(
   return_list <- list(
     selected_node_r = shiny::reactive({
       shiny::req(rvs$selected_node)
-    })
+    }),
+    selected_node_or_null_r = shiny::reactive(rvs$selected_node)
   )
 
   return(return_list)

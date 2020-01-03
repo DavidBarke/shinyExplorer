@@ -15,10 +15,6 @@
 #'       \code{server} \tab Module server function. See 'Server function' for return list
 #'         elements that get handled by \code{\link{explorer}} and \code{\link{explorer_body}}.
 #'         \cr
-#'       \code{is_group} \tab \code{\link[base:logical]{Logical}} indicating
-#'       whether nodes of this class behave like folders or not. That means
-#'       they can have children, which are displayed in the \code{explorer}
-#'       after dblclick.
 #'     }
 #'   }
 #' }
@@ -63,16 +59,14 @@ NULL
 ExplorerClass <- R6::R6Class(
   classname = "ExplorerClass",
   public = list(
-    initialize = function(id, ui, server, is_group = FALSE) {
+    initialize = function(id, ui, server) {
       stopifnot(length(id) == 1, purrr::is_list(ui), purrr::is_function(server))
 
       self$id <- id
       self$ui <- ui
       self$server <- server
-      self$is_group <- is_group
     },
     id = character(),
-    is_group = FALSE,
     module_id = character(),
     server = NULL,
     server_return = list(),

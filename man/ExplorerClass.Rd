@@ -20,10 +20,6 @@ creating your own explorer class see the explorer class vignette:
       \code{server} \tab Module server function. See 'Server function' for return list
         elements that get handled by \code{\link{explorer}} and \code{\link{explorer_body}}.
         \cr
-      \code{is_group} \tab \code{\link[base:logical]{Logical}} indicating
-      whether nodes of this class behave like folders or not. That means
-      they can have children, which are displayed in the \code{explorer}
-      after dblclick.
     }
   }
 }
