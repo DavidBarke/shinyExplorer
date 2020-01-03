@@ -15,21 +15,21 @@
 #'
 #' @section Methods:
 #' \describe{
-#'   \item{\code{add_child(addable_explorer_classes = NULL, id = NULL,
-#'     explorer_class_id = "__group__", object = Object$new(), removable = TRUE,
+#'   \item{\code{add_child(addable_explorer_classes = NULL, explorer_class_id = "__group__",
+#'     id = NULL, object = Object$new(), removable = TRUE,
 #'     return = c("self", "child")}}{Initialize a new node object which is
 #'     attached to the current node object as a child, but only if this node is
 #'     a group node.
 #'     \tabular{ll}{
 #'       \code{addable_explorer_classes} \tab A \code{\link[base]{character}}
-#'       vector containing the ids of explorer classes, which are addable only
-#'       to this specific node. \cr
-#'       \code{id} \tab Unique identifier of the node. If \code{\link[base:NULL]{NULL}},
-#'         this identifier is created internally. \cr
+#'         vector containing the ids of explorer classes, which are addable only
+#'         to this specific node. \cr
 #'       \code{explorer_class_id} \tab Id of an object of class
 #'         \code{\link{ExplorerClass}}, which defines the behaviour of the child
 #'         node in the \code{\link{explorer}}. This object must be passed to
 #'         \code{explorer} as an element of the \code{.explorer_classes} list. \cr
+#'       \code{id} \tab Unique identifier of the node. If \code{\link[base:NULL]{NULL}},
+#'         this identifier is created internally. \cr
 #'       \code{object} \tab An arbitrary object for storing information about the
 #'         child node.\cr
 #'       \code{removable} \tab If \code{\link[base:logical]{TRUE}}, this node is
@@ -101,8 +101,8 @@ ExplorerNode <- R6::R6Class(
   classname = "ExplorerNode",
   public = list(
     initialize = function(
-      addable_explorer_classes = NULL, id = NULL, node_storage = NULL,
-      parent = NULL, explorer_class_id = "__group__", object = Object$new("Group"),
+      addable_explorer_classes = NULL, explorer_class_id = "__group__", id = NULL,
+      node_storage = NULL, parent = NULL, object = Object$new("Group"),
       removable = TRUE
     ) {
       # Handle id
@@ -139,7 +139,7 @@ ExplorerNode <- R6::R6Class(
     },
 
     add_child = function(
-      addable_explorer_classes = NULL, id = NULL, explorer_class_id = "__group__",
+      addable_explorer_classes = NULL, explorer_class_id = "__group__", id = NULL,
       object = Object$new("Group"), removable = TRUE, return = c("self", "child")
     ) {
       return <- match.arg(return)

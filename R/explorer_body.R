@@ -63,6 +63,15 @@ explorer_body <- function(
 
     name_col <- purrr::map_chr(visible_children, function(child_node) {
       child_object <- child_node$get_object()
+
+      if (!purrr::is_function(child_object$get_name)) {
+        msg <- paste0(
+          "explorer: Object of class ", class(child_object), " must possess a method
+          with name 'get_name'. Explorer class id: ", child_node$get_explorer_class_id()
+        )
+        stop(msg)
+      }
+
       child_object$get_name()
     })
 

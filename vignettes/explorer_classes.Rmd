@@ -14,6 +14,95 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
-library(shinyExplorer)
+The shinyExplorer package provides you with only one explorer class, the group explorer class, whose nodes behave like folders. For further functionality you can implement your own explorer classes. This vignette will lead you through all necessary steps.
+
+Imagine you want to store the names of some persons. You might define the following R6Class: 
+
+```{r}
+Person <- R6::R6Class(
+  classname = "Person",
+  public = list(
+    initialise = function(name) {
+      private$name <- name
+    },
+    
+    get_name = function() {
+      private$name
+    },
+    
+    set_name = function(name) {
+      private$name <- name
+    }
+  ),
+  private = list(
+    name = character()
+  )
+)
+```
+
+For this simple purpose this might look a little bit inflated, but the explorer module requires a node's object to possess the method `get_name`.
+
+A node with a person object should provide the functionality for renaming this person. Furthermore it should behave like a file, that means there are no children to such a node.
+
+An explorer class consists of two UI functions, that return contextmenu items and a server function, which handles the response upon clicking a contextmenu item. The first UI function returns exactly one contextmenu item. This contextmenu item is displayed upon right-clicking a node, if this node's explorer classes include this particular explorer class. Clicking this contextmenu item usually adds a node with this particular explorer class as a child node to the formerly right-clicked node. The second UI function returns an arbitrary number of contextmenu items, which are displayed upon right-clicking a node of this explorer class.
+
+For our purposes a definition of both these UI functions might look as follows:
+
+```{r}
+person_explorer_class_contextmenu_item_ui <- function(id) {
+  ns <- NS(id)
+  
+  contextmenu_item(ns("add"), "Add person")
+}
+
+person_explorer_class_specific_contextmenu_items_ui <- function(id) {
+  ns <- NS(id)
+  
+  htmltools::tagList(
+    contextmenu_item(ns("rename"), "Rename")
+  )
+}
+```
+
+The server function defines the behaviour upon clicking these contextmenu items.
+
+```{r}
+person_explorer_class <- function(input, output, session, .values, .explorer_rvs) {
+  
+  shiny::observeEvent(input$add, {
+    .explorer_rvs$current_node$add_child(
+      explorer_class_id = "person",
+      object = Person$new("Name")
+    )
+  })
+  
+  shiny::observeEvent(input$rename, {
+    person <- .explorer_rvs$current_node$get_object()
+    
+    shiny::showModal(shiny::modalDialog(
+      title = "Rename",
+      shiny::textInput(
+        inputId = ns("name"),
+        label = NULL,
+        value = person$get_name()
+      ),
+      footer = shiny::actionButton(
+        inputId = ns("confirm"),
+        label = "Confirm"
+      )
+    ))
+  })
+  
+  shiny::observeEvent(input$confirm, {
+    person <- .explorer_rvs$current_node$get_object()
+    
+    person$set_name(input$name)
+  })
+  
+  return_list <- list(
+    is_group_r = shiny::reactive(FALSE)
+  )
+  
+  return(return_list)
+}
 ```
