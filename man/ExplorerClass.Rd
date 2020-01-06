@@ -12,7 +12,7 @@ creating your own explorer class see the explorer class vignette:
 \section{Methods}{
 
 \describe{
-  \item{\code{new(id, ui, server, is_group = FALSE)}}{Initialise a new object
+  \item{\code{new(id, ui, server)}}{Initialise a new object
     of class \code{ExplorerClass}.
     \tabular{ll}{
       \code{id} \tab Unique id. \cr
@@ -58,7 +58,10 @@ The following (and only these) return list elements are handled by
   all \code{explorer_classes}. If the server function does not return this
   reactive, all \code{explorer_classes} are selectable. \cr
   \code{icon_r} \tab \code{\link[shiny:reactive]{Reactive}} returning a
-  \code{\link[shiny:icon]{icon}}, which is displayed in the \code{explorer_body}.
+  \code{\link[shiny:icon]{icon}}, which is displayed in the \code{explorer_body}. \cr
+  \code{on_remove} \tab \code{\link[base:function]{Function}}, which is called
+  just before a node of this explorer class is removed from a tree. This
+  function receives the target node as the only argument.
 }
 }
 

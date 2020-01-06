@@ -49,7 +49,10 @@
 #'   all \code{explorer_classes}. If the server function does not return this
 #'   reactive, all \code{explorer_classes} are selectable. \cr
 #'   \code{icon_r} \tab \code{\link[shiny:reactive]{Reactive}} returning a
-#'   \code{\link[shiny:icon]{icon}}, which is displayed in the \code{explorer_body}.
+#'   \code{\link[shiny:icon]{icon}}, which is displayed in the \code{explorer_body}. \cr
+#'   \code{on_remove} \tab \code{\link[base:function]{Function}}, which is called
+#'   just before a node of this explorer class is removed from a tree. This
+#'   function receives the target node as the only argument.
 #' }
 #'
 #' @name ExplorerClass
@@ -59,15 +62,17 @@ NULL
 ExplorerClass <- R6::R6Class(
   classname = "ExplorerClass",
   public = list(
-    initialize = function(id, ui, server) {
+    initialize = function(id, ui, server, on_remove = function(node) NULL) {
       stopifnot(length(id) == 1, purrr::is_list(ui), purrr::is_function(server))
 
       self$id <- id
       self$ui <- ui
       self$server <- server
+      self$on_remove <- on_remove
     },
     id = character(),
     module_id = character(),
+    on_remove = NULL,
     server = NULL,
     server_return = list(),
     ui = list()

@@ -51,6 +51,10 @@
 #'         an object in the storage.
 #'     }
 #'   }
+#'   \item{\code{remove_object(id)}}{Remove an object with \code{id == id}.
+#'   }
+#'   \item{\code{remove_objects(ids)}}{Remove objects with \code{id %in% ids}.
+#'   }
 #' }
 #'
 #' @name ObjectStorage
@@ -148,15 +152,6 @@ ObjectStorage <- R6::R6Class(
 
       objects
     },
-
-    # # names of the ids are the current names
-    # get_object_ids = function() {
-    #   ids <- map_chr(private$storage(), function(object) {
-    #     object$get_id()
-    #   })
-    #   names(ids) <- private$storage_names()
-    #   unlist(ids)
-    # },
 
     remove_object = function(id) {
       storage <- private$storage()

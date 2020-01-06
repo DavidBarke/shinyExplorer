@@ -251,15 +251,23 @@ explorer_body <- function(
       footer = shiny::actionButton(
         inputId = ns("confirm_remove"),
         label = .label_list$confirm_delete
-      )
+      ),
+      easyClose = TRUE
     ))
   })
 
   shiny::observeEvent(input$confirm_remove, {
+    shiny::removeModal()
+
+    target_node <- .explorer_rvs$contextmenued_node
+
+    explorer_class <- .explorer_classes[[target_node$get_explorer_class_id()]]
+
+    explorer_class$on_remove(target_node)
+
     .explorer_rvs$current_node$remove_child(
       id = .explorer_rvs$contextmenued_node$get_id()
     )
-    shiny::removeModal()
   })
 
   shiny::observeEvent(input$selector_table_row_dblclicked, {
