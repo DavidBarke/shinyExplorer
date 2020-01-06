@@ -85,7 +85,83 @@
 
     
     
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(shinyExplorer)</code></pre></div>
+<p>The shinyExplorer package provides you with only one explorer class, the group explorer class, whose nodes behave like folders. For further functionality you can implement your own explorer classes. This vignette will lead you through all necessary steps.</p>
+<p>Imagine you want to store the names of some persons. You might define the following R6Class:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Person &lt;-<span class="st"> </span>R6<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/R6/man/R6Class.html">R6Class</a></span>(
+  <span class="dt">classname =</span> <span class="st">"Person"</span>,
+  <span class="dt">public =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
+    <span class="dt">initialise =</span> <span class="cf">function</span>(name) {
+      private<span class="op">$</span>name &lt;-<span class="st"> </span>name
+    },
+    
+    <span class="dt">get_name =</span> <span class="cf">function</span>() {
+      private<span class="op">$</span>name
+    },
+    
+    <span class="dt">set_name =</span> <span class="cf">function</span>(name) {
+      private<span class="op">$</span>name &lt;-<span class="st"> </span>name
+    }
+  ),
+  <span class="dt">private =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
+    <span class="dt">name =</span> <span class="kw"><a href="https://rdrr.io/r/base/character.html">character</a></span>()
+  )
+)</code></pre></div>
+<p>For this simple purpose this might look a little bit inflated, but the explorer module requires a node’s object to possess the method <code>get_name</code>.</p>
+<p>A node with a person object should provide the functionality for renaming this person. Furthermore it should behave like a file, that means there are no children to such a node.</p>
+<p>An explorer class consists of two UI functions, that return contextmenu items and a server function, which handles the response upon clicking a contextmenu item. The first UI function returns exactly one contextmenu item. This contextmenu item is displayed upon right-clicking a node, if this node’s explorer classes include this particular explorer class. Clicking this contextmenu item usually adds a node with this particular explorer class as a child node to the formerly right-clicked node. The second UI function returns an arbitrary number of contextmenu items, which are displayed upon right-clicking a node of this explorer class.</p>
+<p>For our purposes a definition of both these UI functions might look as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">person_explorer_class_contextmenu_item_ui &lt;-<span class="st"> </span><span class="cf">function</span>(id) {
+  ns &lt;-<span class="st"> </span><span class="kw">NS</span>(id)
+  
+  <span class="kw"><a href="../reference/contextmenu_item.html">contextmenu_item</a></span>(<span class="kw">ns</span>(<span class="st">"add"</span>), <span class="st">"Add person"</span>)
+}
+
+person_explorer_class_specific_contextmenu_items_ui &lt;-<span class="st"> </span><span class="cf">function</span>(id) {
+  ns &lt;-<span class="st"> </span><span class="kw">NS</span>(id)
+  
+  htmltools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/htmltools/man/tag.html">tagList</a></span>(
+    <span class="kw"><a href="../reference/contextmenu_item.html">contextmenu_item</a></span>(<span class="kw">ns</span>(<span class="st">"rename"</span>), <span class="st">"Rename"</span>)
+  )
+}</code></pre></div>
+<p>The server function defines the behaviour upon clicking these contextmenu items.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">person_explorer_class &lt;-<span class="st"> </span><span class="cf">function</span>(input, output, session, .values, .explorer_rvs) {
+  
+  shiny<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html">observeEvent</a></span>(input<span class="op">$</span>add, {
+    .explorer_rvs<span class="op">$</span>current_node<span class="op">$</span><span class="kw">add_child</span>(
+      <span class="dt">explorer_class_id =</span> <span class="st">"person"</span>,
+      <span class="dt">object =</span> Person<span class="op">$</span><span class="kw">new</span>(<span class="st">"Name"</span>)
+    )
+  })
+  
+  shiny<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html">observeEvent</a></span>(input<span class="op">$</span>rename, {
+    person &lt;-<span class="st"> </span>.explorer_rvs<span class="op">$</span>current_node<span class="op">$</span><span class="kw">get_object</span>()
+    
+    shiny<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/showModal.html">showModal</a></span>(shiny<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/modalDialog.html">modalDialog</a></span>(
+      <span class="dt">title =</span> <span class="st">"Rename"</span>,
+      shiny<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/textInput.html">textInput</a></span>(
+        <span class="dt">inputId =</span> <span class="kw">ns</span>(<span class="st">"name"</span>),
+        <span class="dt">label =</span> <span class="ot">NULL</span>,
+        <span class="dt">value =</span> person<span class="op">$</span><span class="kw">get_name</span>()
+      ),
+      <span class="dt">footer =</span> shiny<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/actionButton.html">actionButton</a></span>(
+        <span class="dt">inputId =</span> <span class="kw">ns</span>(<span class="st">"confirm"</span>),
+        <span class="dt">label =</span> <span class="st">"Confirm"</span>
+      )
+    ))
+  })
+  
+  shiny<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/observeEvent.html">observeEvent</a></span>(input<span class="op">$</span>confirm, {
+    person &lt;-<span class="st"> </span>.explorer_rvs<span class="op">$</span>current_node<span class="op">$</span><span class="kw">get_object</span>()
+    
+    person<span class="op">$</span><span class="kw">set_name</span>(input<span class="op">$</span>name)
+  })
+  
+  return_list &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
+    <span class="dt">is_group_r =</span> shiny<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/shiny/man/reactive.html">reactive</a></span>(<span class="ot">FALSE</span>)
+  )
+  
+  <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span>(return_list)
+}</code></pre></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
