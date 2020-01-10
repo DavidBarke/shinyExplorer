@@ -21,10 +21,11 @@ explorer_selector_ui <- function(id) {
 #' of selectable explorer_classes. If \code{character()}, only group nodes are
 #' selectible (if \code{.group_nodes_selectable = TRUE})
 #' @inheritParams explorer
-#' @param ui If \code{default}, the UI consists of an actionButton for selecting
-#' an element and an \code{\link{explorer}}, in which the selected element is
-#' shown. If \code{minimal}, only an actionButton showing the name of the selected
-#' element as label is shown.
+#' @param ui If \code{"modal_default"}, the UI consists of an actionButton for
+#' selecting an element and an \code{\link{explorer}}, in which the selected
+#' element is shown. If \code{"modal_minimal"}, only an actionButton showing the
+#' name of the selected element as label is shown. If \code{"in_place"} the
+#' selection is done in place.
 #'
 #' @return The \code{explorer_selector} module returns a list containing the following
 #' reactives:
@@ -43,7 +44,8 @@ explorer_selector <- function(
   .selectable_explorer_classes_r = shiny::reactive(character()),
   .addable_explorer_classes_r = .selectable_explorer_classes_r,
   .visible_explorer_classes_r = .selectable_explorer_classes_r,
-  .label_list = label_explorer_selector(), ui = c("default", "minimal")
+  .label_list = label_explorer_selector(), ui = c("default", "minimal"),
+  mode = c("modal", "in_place")
 ) {
   if (!shiny::is.reactive(.root_node_r)) {
     stop(".root_node_r must be a reactive.")
@@ -58,36 +60,77 @@ explorer_selector <- function(
   }
 
   ui <- match.arg(ui)
+  mode <- match.arg(mode)
 
   ns <- session$ns
 
   rvs <- shiny::reactiveValues(
-    selected_node = NULL
+    selected_node = NULL,
+    show_in_place = FALSE
   )
 
   output$module_ui <- shiny::renderUI({
     if (ui == "default") {
-      ui <- htmltools::tagList(
-        shiny::uiOutput(
-          outputId = ns("caption")
-        ),
-        DT::dataTableOutput(
-          outputId = ns("selected_node")
-        )
+      ui <- shiny::uiOutput(
+        outputId = ns("default_ui")
       )
     } else {
-      ui <- htmltools::tagList(
-        shiny::uiOutput(
-          outputId = ns("minimal")
-        )
+      ui <- shiny::uiOutput(
+        outputId = ns("minimal_ui")
       )
     }
 
+    ui <- htmltools::tagList(
+      ui,
+      shiny::uiOutput(
+        outputId = ns("in_place_ui")
+      )
+    )
+  })
+
+  # IN PLACE UI
+  output$in_place_ui <- shiny::renderUI({
+    if (rvs$show_in_place) {
+      ui <- htmltools::tagList(
+        explorer_ui(
+          id = ns("id_explorer")
+        ),
+        shiny::uiOutput(
+          outputId = ns("confirm_in_place_selection")
+        )
+      )
+    } else {
+      ui <- NULL
+    }
+    ui
+  })
+
+  output$confirm_in_place_selection <- shiny::renderUI({
+    if (is_selectable_r()) {
+      ui <- QWUtils::actionButtonQW(
+        inputId = ns("confirm_selection"),
+        label = .label_list$confirm_selection
+      )
+    } else {
+      ui <- NULL
+    }
     ui
   })
 
   # MINIMAL UI -----------------------------------------------------------------
-  output$minimal <- shiny::renderUI({
+  output$default_ui <- shiny::renderUI({
+    htmltools::tagList(
+      shiny::uiOutput(
+        outputId = ns("caption")
+      ),
+      DT::dataTableOutput(
+        outputId = ns("selected_node")
+      )
+    )
+  })
+
+  # DEFAULT UI -----------------------------------------------------------------
+  output$minimal_ui <- shiny::renderUI({
     if (purrr::is_null(rvs$selected_node)) {
       label <- .label_list$select_element
     } else {
@@ -99,41 +142,6 @@ explorer_selector <- function(
       label = label,
       icon = shiny::icon("search")
     )
-  })
-
-  # DEFAULT UI -----------------------------------------------------------------
-
-  selected_node_datatable <- shiny::reactive({
-    if (purrr::is_null(rvs$selected_node)) {
-      data <- tibble::tibble(id = character(), icon = character(), name = character())
-      names(data) <- c("id", "", "Name")
-      return(data)
-    }
-
-    id_col <- rvs$selected_node$get_id()
-    name_col <- rvs$selected_node$get_object()$get_name()
-
-    explorer_class <- .explorer_classes[[rvs$selected_node$get_explorer_class_id()]]
-    id <- explorer_class$id
-    explorer_class_return <- explorer_return$explorer_class_returns[[id]]
-
-    icon_col <- if (explorer_class_return$is_group_r()) {
-      as.character(shiny::icon("folder"))
-    } else if (purrr::is_null(explorer_class_return$icon_r)) {
-      ""
-    } else {
-      as.character(explorer_class_return$icon_r())
-    }
-
-    data <- tibble::tibble(
-      id = id_col,
-      icon = icon_col,
-      name = name_col
-    )
-
-    names(data) <- c("id", "", "Name")
-
-    data
   })
 
   output$caption <- shiny::renderUI({
@@ -172,6 +180,40 @@ explorer_selector <- function(
     )
   })
 
+  selected_node_datatable <- shiny::reactive({
+    if (purrr::is_null(rvs$selected_node)) {
+      data <- tibble::tibble(id = character(), icon = character(), name = character())
+      names(data) <- c("id", "", "Name")
+      return(data)
+    }
+
+    id_col <- rvs$selected_node$get_id()
+    name_col <- rvs$selected_node$get_object()$get_name()
+
+    explorer_class <- .explorer_classes[[rvs$selected_node$get_explorer_class_id()]]
+    id <- explorer_class$id
+    explorer_class_return <- explorer_return$explorer_class_returns[[id]]
+
+    icon_col <- if (explorer_class_return$is_group_r()) {
+      as.character(shiny::icon("folder"))
+    } else if (purrr::is_null(explorer_class_return$icon_r)) {
+      ""
+    } else {
+      as.character(explorer_class_return$icon_r())
+    }
+
+    data <- tibble::tibble(
+      id = id_col,
+      icon = icon_col,
+      name = name_col
+    )
+
+    names(data) <- c("id", "", "Name")
+
+    data
+  })
+
+  # CREATION OF CONTEXTMENU ----------------------------------------------------
   shiny::observeEvent(input$selected_node_row_contextmenued, {
     # The implementation of this observer is based on the contextmenu of the
     # explorer_body module. But since the selected_node datatable will always
@@ -213,19 +255,21 @@ explorer_selector <- function(
     )
   })
 
-  # MODAL DIALOG ---------------------------------------------------------------
-
   shiny::observeEvent(input$select_node, {
-    shiny::showModal(shiny::modalDialog(
-      size = "s",
-      easyClose = TRUE,
-      explorer_ui(
-        id = ns("id_explorer")
-      ),
-      footer = shiny::uiOutput(
-        outputId = ns("footer")
-      )
-    ))
+    if (mode == "modal") {
+      shiny::showModal(shiny::modalDialog(
+        size = "s",
+        easyClose = TRUE,
+        explorer_ui(
+          id = ns("id_explorer")
+        ),
+        footer = shiny::uiOutput(
+          outputId = ns("footer")
+        )
+      ))
+    } else {
+      rvs$show_in_place = TRUE
+    }
   })
 
   is_selectable_r <- shiny::reactive({
@@ -256,8 +300,13 @@ explorer_selector <- function(
   })
 
   shiny::observeEvent(input$confirm_selection, {
+    if (mode == "modal") {
+      shiny::removeModal()
+    } else {
+      rvs$show_in_place <- FALSE
+    }
+
     rvs$selected_node <- explorer_return$selected_child_node_r()
-    shiny::removeModal()
   })
 
   # CALL MODULES ---------------------------------------------------------------
