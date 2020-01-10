@@ -132,9 +132,12 @@ ObjectStorage <- R6::R6Class(
       private$storage()[[n]]
     },
 
-    get_object = function(id) {
+    get_object = function(id, warn = FALSE) {
       if (!(id %in% self$get_ids())) {
-        stop(paste0("There are either no or multiple objects with id ", id))
+        if (warn) {
+          warning(paste0("There are either no or multiple objects with id ", id))
+        }
+        return()
       }
       private$storage()[[id]]
     },
