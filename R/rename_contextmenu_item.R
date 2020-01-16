@@ -21,10 +21,13 @@ rename_contextmenu_item_ui <- function(id, .label_list = label_rename_contextmen
 #' @inheritParams explorer_body
 #' @param .label_list A list created with \code{\link{label_rename_contextmenu_item}}
 #' containing labels for all UI elements used inside this module.
+#' @param action_button_fun A \code{\link[base]{function}} returning an HTML button,
+#' which is connected with shiny.
 #'
 #' @export
 rename_contextmenu_item <- function(
-  input, output, session, .values, .explorer_rvs, .label_list = label_rename_contextmenu_item()
+  input, output, session, .values, .explorer_rvs, .label_list = label_rename_contextmenu_item(),
+  action_button_fun = shiny::actionButton
 ) {
 
   ns <- session$ns
@@ -50,7 +53,7 @@ rename_contextmenu_item <- function(
     if (length(input$new_name) == 0 || !nzchar(input$new_name)) {
       ui <- NULL
     } else {
-      ui <- QWUtils::actionButtonQW(
+      ui <- action_button_fun(
         inputId = ns("confirm_rename"),
         label = .label_list$confirm_rename
       )

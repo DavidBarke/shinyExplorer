@@ -26,6 +26,8 @@ explorer_selector_ui <- function(id) {
 #' element is shown. If \code{"modal_minimal"}, only an actionButton showing the
 #' name of the selected element as label is shown. If \code{"in_place"} the
 #' selection is done in place.
+#' @param action_button_fun A \code{\link[base]{function}} returning an HTML button,
+#' which is connected with shiny.
 #'
 #' @return The \code{explorer_selector} module returns a list containing the following
 #' reactives:
@@ -45,7 +47,7 @@ explorer_selector <- function(
   .addable_explorer_classes_r = .selectable_explorer_classes_r,
   .visible_explorer_classes_r = .selectable_explorer_classes_r,
   .label_list = label_explorer_selector(), ui = c("default", "minimal"),
-  mode = c("modal", "in_place")
+  mode = c("modal", "in_place"), action_button_fun = shiny::actionButton
 ) {
   if (!shiny::is.reactive(.root_node_r)) {
     stop(".root_node_r must be a reactive.")
@@ -107,7 +109,7 @@ explorer_selector <- function(
 
   output$confirm_in_place_selection <- shiny::renderUI({
     if (is_selectable_r()) {
-      ui <- QWUtils::actionButtonQW(
+      ui <- action_button_fun(
         inputId = ns("confirm_selection"),
         label = .label_list$confirm_selection
       )
@@ -137,7 +139,7 @@ explorer_selector <- function(
       label <- rvs$selected_node$get_object()$get_name()
     }
 
-    QWUtils::actionButtonQW(
+    action_button_fun(
       inputId = ns("select_node"),
       label = label,
       icon = shiny::icon("search")
@@ -153,7 +155,7 @@ explorer_selector <- function(
 
     ui <- htmltools::tagList(
       htmltools::tags$span(text),
-      QWUtils::actionButtonQW(
+      action_button_fun(
         inputId = ns("select_node"),
         label = NULL,
         icon = shiny::icon("search"),
@@ -268,7 +270,7 @@ explorer_selector <- function(
         )
       ))
     } else {
-      rvs$show_in_place = TRUE
+      rvs$show_in_place = !rvs$show_in_place
     }
   })
 

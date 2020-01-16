@@ -16,13 +16,10 @@ Imports:
     DT,
     tibble,
     purrr,
-    glue,
-    QWUtils
+    glue
 Suggests: 
     testthat,
     covr,
     knitr,
     rmarkdown
-Remotes:
-    github::DavidBarke/QWUtils
 VignetteBuilder: knitr

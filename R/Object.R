@@ -26,7 +26,7 @@ Object <- R6::R6Class(
     initialize = function(name = "Object") {
       private$id <- stringi::stri_rand_strings(1, 8)
 
-      private$name <- QWUtils::reactive_member(name)
+      private$name <- shiny::reactiveVal(name)
     },
 
     get_id = function() {

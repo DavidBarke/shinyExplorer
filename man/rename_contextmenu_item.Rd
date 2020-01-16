@@ -9,7 +9,8 @@ rename_contextmenu_item_ui(id,
   .label_list = label_rename_contextmenu_item())
 
 rename_contextmenu_item(input, output, session, .values, .explorer_rvs,
-  .label_list = label_rename_contextmenu_item())
+  .label_list = label_rename_contextmenu_item(),
+  action_button_fun = shiny::actionButton)
 }
 \arguments{
 \item{id}{Module id.}
@@ -22,6 +23,9 @@ containing labels for all UI elements used inside this module.}
 \item{.values}{The \code{.values} list.}
 
 \item{.explorer_rvs}{\code{\link[shiny:reactiveValues]{ReactiveValues}}.}
+
+\item{action_button_fun}{A \code{\link[base]{function}} returning an HTML button,
+which is connected with shiny.}
 }
 \description{
 Clicking on this contextmenu item starts the renaming process for the

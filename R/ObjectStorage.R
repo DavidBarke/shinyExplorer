@@ -53,7 +53,7 @@
 #'   }
 #'   \item{\code{remove_object(id)}}{Remove an object with \code{id == id}.
 #'   }
-#'   \item{\code{remove_objects(ids)}}{Remove objects with \code{id %in% ids}.
+#'   \item{\code{remove_objects(ids)}}{Remove objects with \code{id \%in\% ids}.
 #'   }
 #' }
 #'
