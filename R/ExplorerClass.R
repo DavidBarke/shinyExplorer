@@ -7,7 +7,8 @@
 #'
 #' @section Methods:
 #' \describe{
-#'   \item{\code{new(id, ui, server)}}{Initialise a new object
+#'   \item{\code{new(id, ui, server, label = NULL, on_remove = function(node) NULL)}}{
+#'     Initialise a new object
 #'     of class \code{ExplorerClass}.
 #'     \tabular{ll}{
 #'       \code{id} \tab Unique id. \cr
@@ -15,6 +16,10 @@
 #'       \code{server} \tab Module server function. See 'Server function' for return list
 #'         elements that get handled by \code{\link{explorer}} and \code{\link{explorer_body}}.
 #'         \cr
+#'       \code{label} \tab \code{\link[base:character]{Character}} vector of labels
+#'         associated with this class. The \code{id} is always treated as a label
+#'         as well. Different explorer classes can't share the same ids but they
+#'         can have common labels.
 #'     }
 #'   }
 #' }
@@ -62,19 +67,30 @@ NULL
 ExplorerClass <- R6::R6Class(
   classname = "ExplorerClass",
   public = list(
-    initialize = function(id, ui, server, on_remove = function(node) NULL) {
+    initialize = function(
+      id, ui, server, label = NULL, on_remove = function(node) NULL
+    ) {
       stopifnot(length(id) == 1, purrr::is_list(ui), purrr::is_function(server))
 
       self$id <- id
+      private$label <- label
       self$ui <- ui
       self$server <- server
       self$on_remove <- on_remove
     },
+
+    get_label = function() {
+      unique(c(self$id, private$label))
+    },
+
     id = character(),
     module_id = character(),
     on_remove = NULL,
     server = NULL,
     server_return = list(),
     ui = list()
+  ),
+  private = list(
+    label = NULL
   )
 )

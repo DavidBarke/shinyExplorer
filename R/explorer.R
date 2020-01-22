@@ -189,8 +189,8 @@ explorer <- function(
     .explorer_classes = .explorer_classes,
     .explorer_class_returns = explorer_class_returns,
     .explorer_rvs = rvs,
-    .addable_explorer_classes_r = .addable_explorer_classes_r,
-    .visible_explorer_classes_r = .visible_explorer_classes_r,
+    addable_r = .addable_explorer_classes_r,
+    visible_r = .visible_explorer_classes_r,
     .label_list = .label_list
   )
 

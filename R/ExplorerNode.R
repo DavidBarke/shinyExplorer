@@ -172,8 +172,8 @@ ExplorerNode <- R6::R6Class(
       }
     },
 
-    get_addable_explorer_classes = function() {
-      private$addable_explorer_classes()
+    get_addable = function() {
+      private$addable()
     },
 
     get_children = function() {
@@ -233,6 +233,10 @@ ExplorerNode <- R6::R6Class(
       }
     },
 
+    get_visible = function() {
+      private$visible()
+    },
+
     is_removable = function() {
       private$removable
     },
@@ -246,8 +250,8 @@ ExplorerNode <- R6::R6Class(
       private$node_storage$remove_object(id)
     },
 
-    set_addable_explorer_classes = function(addable_explorer_classes) {
-      private$addable_explorer_classes(addable_explorer_classes)
+    set_addable = function(labels) {
+      private$addable(labels)
     },
 
     set_explorer_class_id = function(explorer_class_id) {
@@ -256,10 +260,14 @@ ExplorerNode <- R6::R6Class(
 
     set_object = function(object) {
       private$object(object)
+    },
+
+    set_visible = function(labels) {
+      private$visible(labels)
     }
   ),
   private = list(
-    addable_explorer_classes = NULL,
+    addable = NULL,
     child_objects = NULL,
     children = NULL,
     explorer_class_id = "__group__",
@@ -267,6 +275,7 @@ ExplorerNode <- R6::R6Class(
     node_storage = NULL,
     object = NULL,
     parent = NULL,
-    removable = TRUE
+    removable = TRUE,
+    visible = NULL
   )
 )
