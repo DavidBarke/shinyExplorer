@@ -130,7 +130,8 @@ associated object of the contextmenued object of class <code><a href='ExplorerNo
   <span class='kw'>.label_list</span> <span class='kw'>=</span> <span class='fu'><a href='label_rename_contextmenu_item.html'>label_rename_contextmenu_item</a></span>())
 
 <span class='fu'>rename_contextmenu_item</span>(<span class='no'>input</span>, <span class='no'>output</span>, <span class='no'>session</span>, <span class='no'>.values</span>, <span class='no'>.explorer_rvs</span>,
-  <span class='kw'>.label_list</span> <span class='kw'>=</span> <span class='fu'><a href='label_rename_contextmenu_item.html'>label_rename_contextmenu_item</a></span>())</pre>
+  <span class='kw'>.label_list</span> <span class='kw'>=</span> <span class='fu'><a href='label_rename_contextmenu_item.html'>label_rename_contextmenu_item</a></span>(),
+  <span class='kw'>action_button_fun</span> <span class='kw'>=</span> <span class='kw pkg'>shiny</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/pkg/shiny/man/actionButton.html'>actionButton</a></span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,6 +156,11 @@ containing labels for all UI elements used inside this module.</p></td>
     <tr>
       <th>.explorer_rvs</th>
       <td><p><code><a href='https://rdrr.io/pkg/shiny/man/reactiveValues.html'>ReactiveValues</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>action_button_fun</th>
+      <td><p>A <code><a href='https://rdrr.io/r/base/function.html'>function</a></code> returning an HTML button,
+which is connected with shiny.</p></td>
     </tr>
     </table>
     

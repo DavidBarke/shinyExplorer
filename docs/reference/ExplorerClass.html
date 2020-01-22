@@ -136,7 +136,7 @@ creating your own explorer class see the explorer class vignette:
     
 
 <dl class='dl-horizontal'>
-  <dt><code>new(id, ui, server, is_group = FALSE)</code></dt><dd><p>Initialise a new object
+  <dt><code>new(id, ui, server)</code></dt><dd><p>Initialise a new object
     of class <code>ExplorerClass</code>.
     <table class='table'>
 <tr><td><code>id</code></td><td>Unique id.</td></tr>
@@ -183,6 +183,9 @@ be implemented in the server function.</p>
   reactive, all <code>explorer_classes</code> are selectable.</td></tr>
 <tr><td><code>icon_r</code></td><td><code><a href='https://rdrr.io/pkg/shiny/man/reactive.html'>Reactive</a></code> returning a
   <code><a href='https://rdrr.io/pkg/shiny/man/icon.html'>icon</a></code>, which is displayed in the <code>explorer_body</code>.</td></tr>
+<tr><td><code>on_remove</code></td><td><code><a href='https://rdrr.io/r/base/function.html'>Function</a></code>, which is called
+  just before a node of this explorer class is removed from a tree. This
+  function receives the target node as the only argument.</td></tr>
 </table>
 
 
