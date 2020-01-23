@@ -86,6 +86,10 @@ explorer <- function(
     module_ids = character()
   )
 
+  names(.explorer_classes) <- purrr::map_chr(.explorer_classes, function(class) {
+    class$id
+  })
+
   # Establish reactive conntection between .root_node_r() and rvs$current_node
   shiny::observe({
     rvs$current_node <- .root_node_r()
@@ -190,7 +194,7 @@ explorer <- function(
     .explorer_class_returns = explorer_class_returns,
     .explorer_rvs = rvs,
     explorer_addable_r = addable_r,
-    explorer_visible_r = .visible_explorer_classes_r,
+    explorer_visible_r = visible_r,
     .label_list = .label_list
   )
 

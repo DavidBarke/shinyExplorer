@@ -9,9 +9,9 @@ explorer_selector_ui(id)
 
 explorer_selector(input, output, session, .values, .root_node_r,
   .explorer_classes = list(),
-  .selectable_explorer_classes_r = shiny::reactive(character()),
-  .addable_explorer_classes_r = .selectable_explorer_classes_r,
-  .visible_explorer_classes_r = .selectable_explorer_classes_r,
+  selectable_r = shiny::reactive(character()),
+  addable_r = shiny::reactive(character()),
+  visible_r = shiny::reactive(character()),
   .label_list = label_explorer_selector(), ui = c("default",
   "minimal"), mode = c("modal", "in_place"),
   action_button_fun = shiny::actionButton)
@@ -30,19 +30,17 @@ root node of an object of class \code{\link{ExplorerTree}}.}
 \item{.explorer_classes}{A \code{\link[base]{list}} of objects of class
 \code{\link{ExplorerClass}}.}
 
-\item{.selectable_explorer_classes_r}{A \code{\link[shiny:reactive]{reactive}}
-returning a \code{\link[base:character]{character}} vector containing the ids
-of selectable explorer_classes. If \code{character()}, only group nodes are
-selectible (if \code{.group_nodes_selectable = TRUE})}
+\item{selectable_r}{A \code{\link[shiny:reactive]{reactive}}
+returning a \code{\link[base:character]{character}} vector containing labels
+of selectable explorer_classes.}
 
-\item{.addable_explorer_classes_r}{A \code{\link[shiny:reactive]{reactive}}
-returning a \code{\link[base:character]{character}} vector containing the ids
+\item{addable_r}{A \code{\link[shiny:reactive]{reactive}}
+returning a \code{\link[base:character]{character}} vector containing the labels
 of explorer classes that are addable to the explorer.}
 
-\item{.visible_explorer_classes_r}{A \code{\link[shiny:reactive]{reactive}}
-returning a \code{\link[base:character]{character}} vector containing the ids
-of explorer classes that are displayed to the user. Group nodes are always
-displayed.}
+\item{visible_r}{A \code{\link[shiny:reactive]{reactive}}
+returning a \code{\link[base:character]{character}} vector containing the labels
+of explorer classes that are displayed to the user.}
 
 \item{.label_list}{A \code{\link[base]{list}} created with \code{\link{label_explorer}}
 containing labels for all buttons used inside the explorer module.}

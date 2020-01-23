@@ -45,7 +45,7 @@ explorer_body <- function(
   )
 
   current_node_class_return_r <- shiny::reactive({
-    .explorer_class_returns[[current_node$get_explorer_class_id()]]
+    .explorer_class_returns[[.explorer_rvs$current_node$get_explorer_class_id()]]
   })
 
   addable_label_r <- shiny::reactive({
@@ -110,23 +110,17 @@ explorer_body <- function(
     ))
   })
 
-  explorer_class_ids_r <- shiny::reactive({
-    purrr::map_chr(.explorer_classes, function(explorer_class) {
-      explorer_class$id()
-    })
-  })
-
   addable_explorer_class_ids_r <- shiny::reactive({
-    is_addable <- purrr::map(.explorer_classes, function(explorer_class) {
+    is_addable <- purrr::map_lgl(.explorer_classes, function(explorer_class) {
       any(explorer_class$get_labels() %in% addable_label_r())
     })
 
-    explorer_class_ids_r()[is_addable]
+    names(.explorer_classes)[is_addable]
   })
 
   visible_children_r <- shiny::reactive({
     is_visible <- purrr::map_lgl(.children_r(), function(child_node) {
-      explorer_class <- .explorer_classes[child_node$get_explorer_class_id()]
+      explorer_class <- .explorer_classes[[child_node$get_explorer_class_id()]]
 
       if (any(explorer_class$get_labels() %in% visible_label_r())) {
         return(TRUE)

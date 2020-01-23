@@ -12,7 +12,8 @@ creating your own explorer class see the explorer class vignette:
 \section{Methods}{
 
 \describe{
-  \item{\code{new(id, ui, server)}}{Initialise a new object
+  \item{\code{new(id, ui, server, label = NULL, on_remove = function(node) NULL)}}{
+    Initialise a new object
     of class \code{ExplorerClass}.
     \tabular{ll}{
       \code{id} \tab Unique id. \cr
@@ -20,6 +21,10 @@ creating your own explorer class see the explorer class vignette:
       \code{server} \tab Module server function. See 'Server function' for return list
         elements that get handled by \code{\link{explorer}} and \code{\link{explorer_body}}.
         \cr
+      \code{label} \tab \code{\link[base:character]{Character}} vector of labels
+        associated with this class. The \code{id} is always treated as a label
+        as well. Different explorer classes can't share the same ids but they
+        can have common labels.
     }
   }
 }

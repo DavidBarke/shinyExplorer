@@ -9,7 +9,7 @@ explorer_body_ui(id)
 
 explorer_body(input, output, session, .values, .children_r, .root_node_r,
   .explorer_classes, .explorer_class_returns, .explorer_rvs,
-  .addable_explorer_classes_r, .visible_explorer_classes_r, .label_list)
+  explorer_addable_r, explorer_visible_r, .label_list)
 }
 \arguments{
 \item{id}{Module id.}
@@ -29,15 +29,6 @@ root node of an object of class \code{\link{ExplorerTree}}.}
 \code{\link{ExplorerClass}}.}
 
 \item{.explorer_rvs}{\code{\link[shiny:reactiveValues]{ReactiveValues}}.}
-
-\item{.addable_explorer_classes_r}{A \code{\link[shiny:reactive]{reactive}}
-returning a \code{\link[base:character]{character}} vector containing the ids
-of explorer classes that are addable to the explorer.}
-
-\item{.visible_explorer_classes_r}{A \code{\link[shiny:reactive]{reactive}}
-returning a \code{\link[base:character]{character}} vector containing the ids
-of explorer classes that are displayed to the user. Group nodes are always
-displayed.}
 
 \item{.label_list}{A \code{\link[base]{list}} created with \code{\link{label_explorer}}
 containing labels for all buttons used inside the explorer module.}

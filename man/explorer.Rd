@@ -8,11 +8,9 @@
 explorer_ui(id)
 
 explorer(input, output, session, .values, .root_node_r,
-  .explorer_classes = list(),
-  .addable_explorer_classes_r = shiny::reactive("__group__"),
-  .visible_explorer_classes_r = shiny::reactive("__group__"),
-  .display_header = TRUE, .label_list = label_explorer(),
-  .state = list())
+  .explorer_classes = list(), addable_r = shiny::reactive("__group__"),
+  visible_r = shiny::reactive("__group__"), .display_header = TRUE,
+  .label_list = label_explorer(), .state = list())
 }
 \arguments{
 \item{id}{The module's id.}
@@ -28,14 +26,13 @@ root node of an object of class \code{\link{ExplorerTree}}.}
 \item{.explorer_classes}{A \code{\link[base]{list}} of objects of class
 \code{\link{ExplorerClass}}.}
 
-\item{.addable_explorer_classes_r}{A \code{\link[shiny:reactive]{reactive}}
-returning a \code{\link[base:character]{character}} vector containing the ids
+\item{addable_r}{A \code{\link[shiny:reactive]{reactive}}
+returning a \code{\link[base:character]{character}} vector containing the labels
 of explorer classes that are addable to the explorer.}
 
-\item{.visible_explorer_classes_r}{A \code{\link[shiny:reactive]{reactive}}
-returning a \code{\link[base:character]{character}} vector containing the ids
-of explorer classes that are displayed to the user. Group nodes are always
-displayed.}
+\item{visible_r}{A \code{\link[shiny:reactive]{reactive}}
+returning a \code{\link[base:character]{character}} vector containing the labels
+of explorer classes that are displayed to the user.}
 
 \item{.display_header}{If \code{\link[base:logical]{TRUE}}, the navigation
 header is displayed, otherwise it is not.}

@@ -22,15 +22,16 @@ afterwards call \code{root$add_child()}.
 \section{Methods}{
 
 \describe{
-  \item{\code{add_child(addable_explorer_classes = NULL, explorer_class_id = "__group__",
-    id = NULL, object = Object$new(), removable = TRUE,
-    return = c("self", "child")}}{Initialize a new node object which is
-    attached to the current node object as a child, but only if this node is
-    a group node.
+  \item{\code{add_addable(labels)}}{Add \code{labels} to the addable labels.
+  }
+  \item{\code{add_child(addable = NULL, explorer_class_id = "__group__",
+    id = NULL, object = Object$new(), removable = TRUE, return = c("self", "child"),
+    visible = NULL}}{Initialize a new node object which is attached to the
+    current node object as a child, but only if this node is a group node.
     \tabular{ll}{
-      \code{addable_explorer_classes} \tab A \code{\link[base]{character}}
-        vector containing the ids of explorer classes, which are addable only
-        to this specific node. \cr
+      \code{addable} \tab A \code{\link[base]{character}} vector of labels.
+        Nodes of every explorer class that has one of these labels are addable
+        as child nodes to this particular node. \cr
       \code{explorer_class_id} \tab Id of an object of class
         \code{\link{ExplorerClass}}, which defines the behaviour of the child
         node in the \code{\link{explorer}}. This object must be passed to
@@ -42,13 +43,18 @@ afterwards call \code{root$add_child()}.
       \code{removable} \tab If \code{\link[base:logical]{TRUE}}, this node is
        removable by the user, else not. \cr
       \code{return} \tab If \code{"self"}, this method returns the node, which
-        adds a child; If \code{"child"}, the added node is returned.
+        adds a child; If \code{"child"}, the added node is returned. \cr
+      \code{visible} \tab A \code{\link[base]{character}} vector of labels.
+        Nodes of every explorer class that has one of these labels are visible
+        as child nodes to this particular node.
     }
   }
-  \item{\code{get_addable_explorer_classes()}}{Get the id of explorer classes,
-    which are explicitly addable to this children. Note: This does not include
-    the ids of explorer classes that are addable to the current explorer or
-    to all objects that share the same class with this node.
+  \item{\code{add_visible(labels)}}{Add \code{labels} to the visible labels.
+  }
+  \item{\code{get_addable()}}{Get a \code{\link[base]{character}} vector of
+    labels. Note: This does not include the labels of explorer classes that
+    are addable to the current explorer or to all objects that share the same
+    class with this node.
   }
   \item{\code{get_children()}}{Get an object of class \code{\link{ObjectStorage}}
     containing all children of this node. Each child is an object of class
@@ -80,10 +86,20 @@ afterwards call \code{root$add_child()}.
     containing all siblings of this node. Each sibling is an object of class
     \code{ExplorerNode}.
   }
+  \item{\code{get_visible()}}{Get a \code{\link[base]{character}} vector of
+    labels. Note: This does not include the labels of explorer classes that
+    are visible to the current explorer or to all objects that share the same
+    class with this node.}
   \item{\code{is_removable()}}{Returns a \code{\link[base:logical]{logical}}
     indicating whether this node is removable or not.
   }
+  \item{\code{remove_addable(labels)}}{Remove \code{labels} from the addable
+    labels.
+  }
   \item{\code{remove_child(id)}}{Remove the child with \code{id == id}.
+  }
+  \item{\code{remove_visible(labels)}}{Remove \code{labels} from the visible
+    labels.
   }
   \item{\code{set_addable_explorer_classes(addable_explorer_classes)}}{Set
     the ids of the explorer classes, which are addable as children to this
