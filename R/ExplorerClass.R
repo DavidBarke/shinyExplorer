@@ -79,7 +79,7 @@ ExplorerClass <- R6::R6Class(
       self$on_remove <- on_remove
     },
 
-    get_label = function() {
+    get_labels = function() {
       unique(c(self$id, private$label))
     },
 

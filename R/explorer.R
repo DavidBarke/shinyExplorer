@@ -43,13 +43,12 @@ explorer_ui <- function(id) {
 #' root node of an object of class \code{\link{ExplorerTree}}.
 #' @param .explorer_classes A \code{\link[base]{list}} of objects of class
 #' \code{\link{ExplorerClass}}.
-#' @param .addable_explorer_classes_r A \code{\link[shiny:reactive]{reactive}}
-#' returning a \code{\link[base:character]{character}} vector containing the ids
+#' @param addable_r A \code{\link[shiny:reactive]{reactive}}
+#' returning a \code{\link[base:character]{character}} vector containing the labels
 #' of explorer classes that are addable to the explorer.
-#' @param .visible_explorer_classes_r A \code{\link[shiny:reactive]{reactive}}
-#' returning a \code{\link[base:character]{character}} vector containing the ids
-#' of explorer classes that are displayed to the user. Group nodes are always
-#' displayed.
+#' @param visible_r A \code{\link[shiny:reactive]{reactive}}
+#' returning a \code{\link[base:character]{character}} vector containing the labels
+#' of explorer classes that are displayed to the user.
 #' @param .display_header If \code{\link[base:logical]{TRUE}}, the navigation
 #' header is displayed, otherwise it is not.
 #' @param .label_list A \code{\link[base]{list}} created with \code{\link{label_explorer}}
@@ -72,8 +71,8 @@ explorer_ui <- function(id) {
 #' @export
 explorer <- function(
   input, output, session, .values, .root_node_r, .explorer_classes = list(),
-  .addable_explorer_classes_r = shiny::reactive("__group__"),
-  .visible_explorer_classes_r = shiny::reactive("__group__"),
+  addable_r = shiny::reactive("__group__"),
+  visible_r = shiny::reactive("__group__"),
   .display_header = TRUE, .label_list = label_explorer(), .state = list()
 ) {
 
@@ -110,27 +109,28 @@ explorer <- function(
     ui
   })
 
-  # CHECK IF ALL NEEDED EXPLORER CLASSES ARE PRESENT
+  # CHECK IF ALL NEEDED LABELS ARE PRESENT
   shiny::observeEvent(TRUE, {
-    needed_classes <- base::union(
-      .addable_explorer_classes_r(),
-      .visible_explorer_classes_r()
+    needed_labels <- base::union(
+      addable_r(),
+      visible_r()
     )
 
-    present_classes <- purrr::map_chr(.explorer_classes, function(class) {
-      class$id
+    labels_list <- purrr::map(.explorer_classes, function(class) {
+      class$get_labels()
     })
+    present_labels <- unique(purrr::flatten(labels_list))
 
-    missing_classes <- base::setdiff(needed_classes, present_classes)
+    missing_labels <- base::setdiff(needed_labels, present_labels)
 
-    if (length(missing_classes) > 0) {
+    if (length(missing_labels) > 0) {
       msg <- paste(
         "Explorer: explorer classes are requested to be addable or visible, but
         .explorer_classes is missing explorer classes with the following ids:",
-        paste(missing_classes, collapse = ", ")
+        paste(missing_labels, collapse = ", ")
       )
 
-      stop(msg)
+      warning(msg)
     }
   })
 
@@ -189,8 +189,8 @@ explorer <- function(
     .explorer_classes = .explorer_classes,
     .explorer_class_returns = explorer_class_returns,
     .explorer_rvs = rvs,
-    addable_r = .addable_explorer_classes_r,
-    visible_r = .visible_explorer_classes_r,
+    explorer_addable_r = addable_r,
+    explorer_visible_r = .visible_explorer_classes_r,
     .label_list = .label_list
   )
 

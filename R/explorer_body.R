@@ -34,8 +34,8 @@ explorer_body_ui <- function(id) {
 #' @importFrom stats runif
 explorer_body <- function(
   input, output, session, .values, .children_r, .root_node_r, .explorer_classes,
-  .explorer_class_returns, .explorer_rvs, addable_r,
-  visible_r, .label_list
+  .explorer_class_returns, .explorer_rvs, explorer_addable_r,
+  explorer_visible_r, .label_list
 ) {
 
   ns <- session$ns
@@ -45,79 +45,90 @@ explorer_body <- function(
   )
 
   current_node_class_return_r <- shiny::reactive({
-    current_node_class_return <-
-      .explorer_class_returns[[current_node$get_explorer_class_id()]]
+    .explorer_class_returns[[current_node$get_explorer_class_id()]]
   })
 
-  addable_explorer_classes_r <- shiny::reactive({
-    # Determine addable explorer classes
-    # Three cases for addable explorer classes are distinguished:
+  addable_label_r <- shiny::reactive({
+    # Determine addable labels
+    # Three cases for addable labels are distinguished:
     # 1. Addable inside the whole explorer
     # 2. Addable as children to a certain explorer class
     # 3. Addable as children to a certain node
 
     # Case 1
-    explorer_addable_explorer_classes <- addable_r()
+    explorer_addable <- explorer_addable_r()
 
     # Case 2
     if (shiny::is.reactive(
-      current_node_class_return_r()$addable_explorer_classes_r)
+      current_node_class_return_r()$addable_r)
     ) {
-      current_node_class_addable_explorer_classes <-
-        current_node_class_return_r()$addable_explorer_classes_r()
+      current_node_class_addable <- current_node_class_return_r()$addable_r()
     } else {
-      current_node_class_addable_explorer_classes <- NULL
+      current_node_class_addable <- NULL
     }
 
     # Case 3
     current_node <- .explorer_rvs$current_node
 
-    current_node_addable_explorer_classes <- current_node$get_addable()
+    current_node_addable <- current_node$get_addable()
 
     unique(c(
-      explorer_addable_explorer_classes,
-      current_node_class_addable_explorer_classes,
-      current_node_addable_explorer_classes
+      explorer_addable,
+      current_node_class_addable,
+      current_node_addable
     ))
   })
 
-  visible_explorer_classes_r <- shiny::reactive({
-    # Determine visible explorer classes
-    # Three cases for visible explorer classes are distinguished:
+  visible_label_r <- shiny::reactive({
+    # Determine visible labels
+    # Three cases for visible labels are distinguished:
     # 1. Visible inside the whole explorer
     # 2. Visible as children to a certain explorer class
     # 3. Visible as children to a certain node
 
     # Case 1
-    explorer_visible_explorer_classes <- visible_r()
+    explorer_visible <- explorer_visible_r()
 
     # Case 2
     if (shiny::is.reactive(
       current_node_class_return_r()$visible_r)
     ) {
-      current_node_class_visible_explorer_classes <-
-        current_node_class_return_r()$visible_r()
+      current_node_class_visible <- current_node_class_return_r()$visible_r()
     } else {
-      current_node_class_visible_explorer_classes <- NULL
+      current_node_class_visible <- NULL
     }
 
     # Case 3
     current_node <- .explorer_rvs$current_node
 
-    current_node_visible_explorer_classes <- current_node$get_visible()
+    current_node_visible <- current_node$get_visible()
 
     unique(c(
-      explorer_visible_explorer_classes,
-      current_node_class_visible_explorer_classes,
-      current_node_visible_explorer_classes
+      explorer_visible,
+      current_node_class_visible,
+      current_node_visible
     ))
+  })
+
+  explorer_class_ids_r <- shiny::reactive({
+    purrr::map_chr(.explorer_classes, function(explorer_class) {
+      explorer_class$id()
+    })
+  })
+
+  addable_explorer_class_ids_r <- shiny::reactive({
+    is_addable <- purrr::map(.explorer_classes, function(explorer_class) {
+      any(explorer_class$get_labels() %in% addable_label_r())
+    })
+
+    explorer_class_ids_r()[is_addable]
   })
 
   visible_children_r <- shiny::reactive({
     is_visible <- purrr::map_lgl(.children_r(), function(child_node) {
       explorer_class <- .explorer_classes[child_node$get_explorer_class_id()]
 
-      if (any(explorer_class$get_label() %in% visible_explorer_classes_r())) {
+      if (any(explorer_class$get_labels() %in% visible_label_r())) {
         return(TRUE)
       }
 
@@ -128,13 +139,11 @@ explorer_body <- function(
   })
 
   selector_table_r <- shiny::reactive({
-    visible_children <- visible_children_r()
-
-    id_col <- purrr::map_chr(visible_children, function(child_node) {
+    id_col <- purrr::map_chr(visible_children_r(), function(child_node) {
       child_node$get_id()
     })
 
-    name_col <- purrr::map_chr(visible_children, function(child_node) {
+    name_col <- purrr::map_chr(visible_children_r(), function(child_node) {
       child_object <- child_node$get_object()
 
       if (!purrr::is_function(child_object$get_name)) {
@@ -148,7 +157,7 @@ explorer_body <- function(
       child_object$get_name()
     })
 
-    icon_col <- purrr::map_chr(visible_children, function(child_node) {
+    icon_col <- purrr::map_chr(visible_children_r(), function(child_node) {
       child_explorer_class_id <- child_node$get_explorer_class_id()
       child_return <- .explorer_class_returns[[child_explorer_class_id]]
 
@@ -245,10 +254,8 @@ explorer_body <- function(
       )
     }
 
-    addable_explorer_classes <- addable_explorer_classes_r()
-
     add_explorer_class_contextmenu_items <- purrr::map(
-      addable_explorer_classes,
+      addable_explorer_class_ids_r(),
       function(explorer_class_id) {
         explorer_class <- .explorer_classes[[explorer_class_id]]
         explorer_class$ui$contextmenu_item_ui(

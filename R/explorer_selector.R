@@ -16,10 +16,9 @@ explorer_selector_ui <- function(id) {
 #' Use the \code{\link{explorer}} module to select a node.
 #'
 #' @param input,output,session Called by \code{\link[shiny:callModule]{callModule}}.
-#' @param .selectable_explorer_classes_r A \code{\link[shiny:reactive]{reactive}}
-#' returning a \code{\link[base:character]{character}} vector containing the ids
-#' of selectable explorer_classes. If \code{character()}, only group nodes are
-#' selectible (if \code{.group_nodes_selectable = TRUE})
+#' @param selectable_r A \code{\link[shiny:reactive]{reactive}}
+#' returning a \code{\link[base:character]{character}} vector containing labels
+#' of selectable explorer_classes.
 #' @inheritParams explorer
 #' @param ui If \code{"modal_default"}, the UI consists of an actionButton for
 #' selecting an element and an \code{\link{explorer}}, in which the selected
@@ -43,9 +42,9 @@ explorer_selector_ui <- function(id) {
 #' @export
 explorer_selector <- function(
   input, output, session, .values, .root_node_r, .explorer_classes = list(),
-  .selectable_explorer_classes_r = shiny::reactive(character()),
-  .addable_explorer_classes_r = .selectable_explorer_classes_r,
-  .visible_explorer_classes_r = .selectable_explorer_classes_r,
+  selectable_r = shiny::reactive(character()),
+  addable_r = shiny::reactive(character()),
+  visible_r = shiny::reactive(character()),
   .label_list = label_explorer_selector(), ui = c("default", "minimal"),
   mode = c("modal", "in_place"), action_button_fun = shiny::actionButton
 ) {
@@ -54,11 +53,11 @@ explorer_selector <- function(
   }
 
   if (!all(c(
-    shiny::is.reactive(.selectable_explorer_classes_r),
-    shiny::is.reactive(.addable_explorer_classes_r),
-    shiny::is.reactive(.visible_explorer_classes_r)
+    shiny::is.reactive(selectable_r),
+    shiny::is.reactive(addable_r),
+    shiny::is.reactive(visible_r)
   ))) {
-    stop("At least one of [.selectable/.addable/.visible]_explorer_classes_r is not a reactive.")
+    stop("At least one of [selectable|addable|visible]_r is not a reactive.")
   }
 
   ui <- match.arg(ui)
@@ -279,7 +278,7 @@ explorer_selector <- function(
 
     current_explorer_class_id <- selected_child_node$get_explorer_class_id()
 
-    if (current_explorer_class_id %in% .selectable_explorer_classes_r()) {
+    if (current_explorer_class_id %in% selectable_r()) {
       return(TRUE)
     }
 
@@ -319,8 +318,8 @@ explorer_selector <- function(
     .values = .values,
     .root_node_r = .root_node_r,
     .explorer_classes = .explorer_classes,
-    .addable_explorer_classes_r = .addable_explorer_classes_r,
-    .visible_explorer_classes_r = .visible_explorer_classes_r,
+    addable_r = addable_r,
+    visible_r = visible_r,
     .label_list = .label_list$explorer_label
   )
 
