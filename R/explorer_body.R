@@ -211,6 +211,19 @@ explorer_body <- function(
     )
   })
 
+  insert_contextmenu_hr <- function(...) {
+    l <- purrr::compact(...)
+    x <- list()
+    size_x <- 0
+    for (i in seq_along(l[-1])) {
+      x[[size_x + 1]] <- l[[i]]
+      x[[size_x + 2]] <- contextmenu_hr()
+     size_x <- size_x + 2
+    }
+    x[[size_x + 1]] <- l[[length(l)]]
+    x
+  }
+
   shiny::observeEvent(input$selector_table_row_contextmenued, {
     id <- input$selector_table_row_contextmenued$data[[1]]
 
@@ -258,14 +271,15 @@ explorer_body <- function(
       }
     )
 
-    # Only show hr if content is present before it and after it
-    possible_contextmenu_hr <- if (
-      length(c(class_specific_contextmenu_items, remove_contextmenu_item)) &&
-      length(add_explorer_class_contextmenu_items)
-    ) {
-      contextmenu_hr()
+    if (getOption("shinyExplorer.debug", FALSE)) {
+      debug_menu_items <- htmltools::tagList(
+        contextmenu_item(
+          inputId = ns("print_node_info"),
+          label = "Print node info"
+        )
+      )
     } else {
-      NULL
+      debug_menu_items <- NULL
     }
 
     # Only show contextmenu if it contains any elements
@@ -274,20 +288,33 @@ explorer_body <- function(
         class_specific_contextmenu_items,
         remove_contextmenu_item,
         possible_contextmenu_hr,
-        add_explorer_class_contextmenu_items
+        add_explorer_class_contextmenu_items,
+        debug_menu_items
       ))
     ) {
       show_contextmenu(
         contextmenu(
           x = input$selector_table_row_contextmenued$mouse$x,
           y = input$selector_table_row_contextmenued$mouse$y,
-          class_specific_contextmenu_items,
-          remove_contextmenu_item,
-          possible_contextmenu_hr,
-          add_explorer_class_contextmenu_items
+          insert_contextmenu_hr(
+            class_specific_contextmenu_items,
+            remove_contextmenu_item,
+            add_explorer_class_contextmenu_items,
+            debug_menu_items
+          )
         )
       )
     }
+  })
+
+  shiny::observeEvent(input$print_node_info, {
+    node <- .explorer_rvs$current_node
+
+    print("Node Info")
+    print(paste("Id:", node$get_id()))
+    print(paste("Explorer class id:", node$get_explorer_class_id()))
+    print(paste("Addable:", node$get_addable()))
+    print(paste("Visible:", node$get_visible()))
   })
 
   shiny::observeEvent(input$remove_node, {
