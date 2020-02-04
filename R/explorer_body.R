@@ -287,7 +287,6 @@ explorer_body <- function(
       length(c(
         class_specific_contextmenu_items,
         remove_contextmenu_item,
-        possible_contextmenu_hr,
         add_explorer_class_contextmenu_items,
         debug_menu_items
       ))
