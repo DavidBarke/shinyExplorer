@@ -1,0 +1,5 @@
+.fill-available {
+  height: -webkit-fill-available;
+  height: -moz-available;
+  height: inherit;
+}

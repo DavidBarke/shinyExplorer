@@ -2,6 +2,7 @@ library(shiny)
 library(shinyExplorer)
 
 ui <- shiny::fluidPage(
+  shiny::includeCSS("www/css/styles.css"),
   shiny::sidebarLayout(
     shiny::sidebarPanel(
       htmltools::p(
@@ -12,7 +13,7 @@ ui <- shiny::fluidPage(
       ),
       shiny::checkboxInput(
         inputId = "group_nodes_addable",
-        label = "Group Nodes Addable",
+        label = "If selected, group nodes are addable. Group nodes behave like folders.",
         value = TRUE
       )
     ),
