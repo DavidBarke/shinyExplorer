@@ -212,7 +212,7 @@ explorer_body <- function(
   })
 
   insert_contextmenu_hr <- function(...) {
-    l <- purrr::compact(...)
+    l <- purrr::compact(list(...))
     x <- list()
     size_x <- 0
     for (i in seq_along(l[-1])) {
