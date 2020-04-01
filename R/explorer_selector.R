@@ -288,7 +288,7 @@ explorer_selector <- function(
   output$footer <- shiny::renderUI({
     if (is_selectable_r()) {
       ui <- htmltools::tagList(
-        shiny::actionButton(
+        action_button_fun(
           inputId = ns("confirm_selection"),
           label = .label_list$confirm_selection
         )
