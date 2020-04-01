@@ -4,9 +4,13 @@
 \alias{label_group_explorer_class}
 \title{Create Labels for Group Node Explorer Class}
 \usage{
-label_group_explorer_class(add = "New group",
-  confirm_rename = "Rename", new_group_name = "New group",
-  open = "Open", rename = "Rename")
+label_group_explorer_class(
+  add = "New group",
+  confirm_rename = "Rename",
+  new_group_name = "New group",
+  open = "Open",
+  rename = "Rename"
+)
 }
 \arguments{
 \item{add, confirm_rename, new_group_name, open, rename}{\code{\link[base:character]{Character}}

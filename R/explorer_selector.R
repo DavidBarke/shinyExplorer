@@ -20,11 +20,12 @@ explorer_selector_ui <- function(id) {
 #' returning a \code{\link[base:character]{character}} vector containing labels
 #' of selectable explorer_classes.
 #' @inheritParams explorer
-#' @param ui If \code{"modal_default"}, the UI consists of an actionButton for
+#' @param ui If \code{"default"}, the UI consists of an actionButton for
 #' selecting an element and an \code{\link{explorer}}, in which the selected
-#' element is shown. If \code{"modal_minimal"}, only an actionButton showing the
-#' name of the selected element as label is shown. If \code{"in_place"} the
-#' selection is done in place.
+#' element is shown. If \code{"minimal"}, only an actionButton showing the
+#' name of the selected element as label is shown.
+#' @param mode If \code{"modal"} a modal is opened for selecting an element. If
+#' \code{"in_place"} an explorer is opened in place for selecting an element.
 #' @param action_button_fun A \code{\link[base]{function}} returning an HTML button,
 #' which is connected with shiny.
 #'
@@ -259,7 +260,6 @@ explorer_selector <- function(
   shiny::observeEvent(input$select_node, {
     if (mode == "modal") {
       shiny::showModal(shiny::modalDialog(
-        size = "s",
         easyClose = TRUE,
         explorer_ui(
           id = ns("id_explorer")

@@ -4,8 +4,7 @@
 \alias{show_contextmenu}
 \title{Show Contextmenu}
 \usage{
-show_contextmenu(contextmenu,
-  session = shiny::getDefaultReactiveDomain())
+show_contextmenu(contextmenu, session = shiny::getDefaultReactiveDomain())
 }
 \arguments{
 \item{contextmenu}{A \code{\link{contextmenu}}.}

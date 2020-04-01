@@ -4,10 +4,12 @@
 \alias{label_explorer_selector}
 \title{Create Labels for Explorer Selector}
 \usage{
-label_explorer_selector(explorer_label = label_explorer(),
+label_explorer_selector(
+  explorer_label = label_explorer(),
   confirm_selection = "Confirm selection",
   select_element = "Select element",
-  selected_element = "Selected element")
+  selected_element = "Selected element"
+)
 }
 \arguments{
 \item{explorer_label}{Output of \code{\link{label_explorer}}. \code{\link{explorer}} is used

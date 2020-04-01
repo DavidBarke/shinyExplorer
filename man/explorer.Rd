@@ -7,10 +7,19 @@
 \usage{
 explorer_ui(id)
 
-explorer(input, output, session, .values, .root_node_r,
-  .explorer_classes = list(), addable_r = shiny::reactive("__group__"),
-  visible_r = shiny::reactive("__group__"), .display_header = TRUE,
-  .label_list = label_explorer(), .state = list())
+explorer(
+  input,
+  output,
+  session,
+  .values,
+  .root_node_r,
+  .explorer_classes = list(),
+  addable_r = shiny::reactive("__group__"),
+  visible_r = shiny::reactive("__group__"),
+  .display_header = TRUE,
+  .label_list = label_explorer(),
+  .state = list()
+)
 }
 \arguments{
 \item{id}{The module's id.}

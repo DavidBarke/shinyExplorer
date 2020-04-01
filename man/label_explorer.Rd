@@ -4,9 +4,12 @@
 \alias{label_explorer}
 \title{Create Labels for Explorer}
 \usage{
-label_explorer(add_group = "New group",
+label_explorer(
+  add_group = "New group",
   ask_delete = "Are you sure you want to delete the selected item?",
-  confirm_delete = "Confirm", delete_node = "Delete")
+  confirm_delete = "Confirm",
+  delete_node = "Delete"
+)
 }
 \arguments{
 \item{add_group, ask_delete, confirm_delete, delete_node}{\code{\link[base:character]{Character}}

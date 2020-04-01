@@ -7,14 +7,21 @@
 \usage{
 explorer_selector_ui(id)
 
-explorer_selector(input, output, session, .values, .root_node_r,
+explorer_selector(
+  input,
+  output,
+  session,
+  .values,
+  .root_node_r,
   .explorer_classes = list(),
   selectable_r = shiny::reactive(character()),
   addable_r = shiny::reactive(character()),
   visible_r = shiny::reactive(character()),
-  .label_list = label_explorer_selector(), ui = c("default",
-  "minimal"), mode = c("modal", "in_place"),
-  action_button_fun = shiny::actionButton)
+  .label_list = label_explorer_selector(),
+  ui = c("default", "minimal"),
+  mode = c("modal", "in_place"),
+  action_button_fun = shiny::actionButton
+)
 }
 \arguments{
 \item{id}{Module id.}
@@ -45,11 +52,13 @@ of explorer classes that are displayed to the user.}
 \item{.label_list}{A \code{\link[base]{list}} created with \code{\link{label_explorer}}
 containing labels for all buttons used inside the explorer module.}
 
-\item{ui}{If \code{"modal_default"}, the UI consists of an actionButton for
+\item{ui}{If \code{"default"}, the UI consists of an actionButton for
 selecting an element and an \code{\link{explorer}}, in which the selected
-element is shown. If \code{"modal_minimal"}, only an actionButton showing the
-name of the selected element as label is shown. If \code{"in_place"} the
-selection is done in place.}
+element is shown. If \code{"minimal"}, only an actionButton showing the
+name of the selected element as label is shown.}
+
+\item{mode}{If \code{"modal"} a modal is opened for selecting an element. If
+\code{"in_place"} an explorer is opened in place for selecting an element.}
 
 \item{action_button_fun}{A \code{\link[base]{function}} returning an HTML button,
 which is connected with shiny.}

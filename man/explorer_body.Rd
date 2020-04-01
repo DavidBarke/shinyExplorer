@@ -7,9 +7,20 @@
 \usage{
 explorer_body_ui(id)
 
-explorer_body(input, output, session, .values, .children_r, .root_node_r,
-  .explorer_classes, .explorer_class_returns, .explorer_rvs,
-  explorer_addable_r, explorer_visible_r, .label_list)
+explorer_body(
+  input,
+  output,
+  session,
+  .values,
+  .children_r,
+  .root_node_r,
+  .explorer_classes,
+  .explorer_class_returns,
+  .explorer_rvs,
+  explorer_addable_r,
+  explorer_visible_r,
+  .label_list
+)
 }
 \arguments{
 \item{id}{Module id.}

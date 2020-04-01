@@ -4,8 +4,11 @@
 \alias{label_rename_contextmenu_item}
 \title{Create Labels for the Rename Contextmenu Item}
 \usage{
-label_rename_contextmenu_item(confirm_rename = "Confirm",
-  start_rename = "Rename", title_rename = "Rename")
+label_rename_contextmenu_item(
+  confirm_rename = "Confirm",
+  start_rename = "Rename",
+  title_rename = "Rename"
+)
 }
 \arguments{
 \item{confirm_rename, start_rename, title_rename}{\code{\link[base:character]{Character}}

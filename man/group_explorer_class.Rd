@@ -4,8 +4,10 @@
 \alias{group_explorer_class}
 \title{Group Explorer Class}
 \usage{
-group_explorer_class(id = "__group__",
-  .label_list = label_group_explorer_class())
+group_explorer_class(
+  id = "__group__",
+  .label_list = label_group_explorer_class()
+)
 }
 \arguments{
 \item{.label_list}{A \code{\link[base]{list}} created with
