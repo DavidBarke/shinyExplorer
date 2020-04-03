@@ -196,17 +196,10 @@ explorer_body <- function(
         scrollY = "250px",
         paging = FALSE
       ),
-      class = "display fill-available",
       rownames = FALSE,
       escape = FALSE,
       callback = datatable_callback(ns("selector_table")),
-      selection = "single",
-      # editable = list(
-      #   target = "cell",
-      #   disable = list(
-      #     columns = 1
-      #   )
-      # )
+      # selection = "single",
       editable = FALSE
     )
   })

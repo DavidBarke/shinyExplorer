@@ -41,3 +41,8 @@
   background-color: rgb(204, 232, 255);
   border: 1px solid rgb(153, 209, 255);
 }
+
+.explorer .dataTables_scrollBody {
+  max-height: 250px;
+  height: auto !important;
+}
