@@ -24,7 +24,8 @@ Object <- R6::R6Class(
   classname = "Object",
   public = list(
     initialize = function(name = "Object") {
-      private$id <- stringi::stri_rand_strings(1, 8)
+      # Always start with letter as names shouldn't start with digits
+      private$id <- paste0("x", stringi::stri_rand_strings(1, 15))
 
       private$name <- shiny::reactiveVal(name)
     },
